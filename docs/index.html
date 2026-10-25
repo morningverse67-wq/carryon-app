@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CarryOn</title>
+<meta name="description" content="See how full every AI agent session is, and back up and compact the full ones before they run out of room.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="img/favicon.png">
+<style>
+:root{color-scheme:light dark;
+--bg:#F7F7F5;--surface:#FFFFFF;--sunken:#F0F1F3;--line:#E2E3E7;--text:#111317;--muted:#3E4350;--faint:#585E6B;--accent:#1652C4;
+--btn:#1A5BD0;--btn-hover:#1450BC;--toc-on:rgba(215,221,229,.7);--fill:#D3E2FF;--orange:#B23E0B;--ring-o:#EA6A1F;--green:#1C8C43;--neutral:#7A808C;--track:#E4E6EA;
+--glow:rgba(26,91,208,.16);--shadow:0 1px 2px rgba(17,19,23,.05),0 28px 56px -28px rgba(17,19,23,.32);--bar-bg:rgba(247,247,245,.84);
+--bar:60px;--tocbar:62px;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{
+--bg:#0C0D10;--surface:#15171B;--sunken:#1B1D22;--line:#2A2D34;--text:#F2F3F5;--muted:#C3C7CF;--faint:#A2A8B3;--accent:#86AEFF;
+--btn:#2563EB;--btn-hover:#1D4ED8;--toc-on:rgba(130,145,170,.2);--fill:#1C3A72;--orange:#FF9A52;--ring-o:#F97316;--green:#3DD068;--neutral:#9AA0AB;--track:#2A2D34;
+--glow:rgba(59,116,240,.24);--shadow:0 1px 2px rgba(0,0,0,.4),0 28px 56px -28px rgba(0,0,0,.8);--bar-bg:rgba(12,13,16,.82)}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--text);font:400 18px/1.7 var(--sans);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+[lang|=ko]{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif}
+[lang|=ja]{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif}
+[lang|=zh]{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
+:lang(ko){word-break:keep-all}
+:lang(ja),:lang(zh){line-break:strict}
+:lang(ja){word-break:auto-phrase}
+:lang(zh) :is(h1,h2,h3){word-break:keep-all}
+h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
+a{color:var(--accent)}
+img{max-width:100%}
+main{overflow-x:clip}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+::selection{background:var(--fill);color:var(--text)}
+.wrap{width:min(1280px,100% - 64px);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--bar-bg);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.bar-in{height:var(--bar);display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;color:inherit;text-decoration:none;font-weight:700;font-size:19px;letter-spacing:-.01em}
+.brand img{border-radius:7px}
+#lang{display:flex;gap:2px;padding:3px;background:var(--sunken);border-radius:10px}
+#lang button{border:0;background:none;color:var(--muted);font:inherit;font-size:14px;font-weight:550;line-height:1.2;padding:6px 10px;border-radius:7px;cursor:pointer}
+#lang button:hover{color:var(--text)}
+#lang button[aria-pressed=true]{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--btn);color:#fff;text-decoration:none;font-weight:650;border-radius:12px;transition:background-color .15s}
+.btn:hover{background:var(--btn-hover)}
+.btn svg{width:19px;height:19px;flex:none}
+.btn-s{font-size:15px;padding:8px 15px 8px 13px;border-radius:10px}
+.btn-s svg{width:16px;height:16px}
+.btn-l{font-size:18px;padding:16px 28px 16px 24px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:56px;align-items:center;padding-block:72px 104px}
+.eyebrow{margin:0 0 18px;font-size:15px;font-weight:650;color:var(--accent);letter-spacing:.01em}
+h1{font-size:clamp(40px,4.1vw,58px);line-height:1.08;letter-spacing:-.035em;font-weight:760;margin:0 0 24px}
+h1 span{display:block}
+h1 .h1b{color:var(--faint)}
+:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(34px,3.6vw,50px);line-height:1.25;letter-spacing:-.02em}
+.lede{font-size:clamp(18px,1.5vw,20px);color:var(--muted);margin:0 0 32px;max-width:32em}
+.meta{margin:14px 0 0;font-size:15px;color:var(--faint)}
+.also{margin:28px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:16px}
+.also a,.foot a{color:var(--muted);text-decoration:none}
+.also a:hover,.foot a:hover{color:var(--text);text-decoration:underline}
+.hero-shot{position:relative;isolation:isolate}
+.hero-shot::before{content:"";position:absolute;inset:-14% -10%;z-index:-1;background:radial-gradient(closest-side,var(--glow),transparent);pointer-events:none}
+.hero-shot img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:var(--shadow)}
+@media (prefers-reduced-motion:no-preference){.hero-shot img{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+
+/* table of contents + sections */
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;align-items:start}
+.toc{position:sticky;top:calc(var(--bar) + 32px)}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.toc a{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 11px;border-radius:11px;color:var(--text);text-decoration:none;font-size:15px;font-weight:500;line-height:1.3}
+.toc a:hover{background:var(--sunken);transition-duration:.15s}
+.toc a[aria-current]{background:var(--toc-on)}
+.toc svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* the fill: a blue copy of the icon and label over the item, shown from the left as far as the section has been read */
+.toc .fill{position:absolute;inset:0;display:flex;align-items:center;gap:inherit;padding:inherit;border-radius:inherit;background:var(--btn);color:#fff;pointer-events:none;visibility:hidden;clip-path:inset(0 calc(100% - var(--p,0)*100%) 0 0)}
+.toc .read .fill{visibility:visible}
+@media (prefers-reduced-motion:no-preference){.toc a{transition:background-color .5s}.toc .fill{transition:clip-path .2s}}
+/* tall enough that, reached from the table of contents, the next section starts below the middle of the window (the baseline) */
+section{margin-bottom:120px;scroll-margin-top:calc(var(--bar) + 32px);min-height:calc(50vh - var(--bar) - 148px)}
+section:last-child{margin-bottom:88px}
+h2{font-size:clamp(28px,3vw,40px);line-height:1.18;letter-spacing:-.028em;font-weight:730;margin:0 0 14px}
+:is(:lang(ko),:lang(ja),:lang(zh)) h2{line-height:1.32;letter-spacing:-.015em}
+h3{font-size:20px;line-height:1.35;letter-spacing:-.01em;font-weight:680;margin:0 0 6px}
+.intro{margin:0 0 36px;color:var(--muted);max-width:34em}
+:is(:lang(ko),:lang(ja),:lang(zh)) .intro{max-width:36em}
+
+/* screenshots: the hero's own window image, cropped (--x --y --w --h in its 1640 px) */
+.shot{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--sunken);box-shadow:0 1px 2px rgba(17,19,23,.05),0 18px 40px -26px rgba(17,19,23,.35)}
+.shot img{display:block;width:100%;height:auto}
+.crop{position:relative;aspect-ratio:var(--w)/var(--h)}
+.crop img{position:absolute;max-width:none;width:calc(1640/var(--w)*100%);left:calc(var(--x)/var(--w)*-100%);top:calc(var(--y)/var(--h)*-100%)}
+.c-list{--x:16;--y:128;--w:790;--h:982;max-width:440px}
+.dark-shot{max-width:440px;border-color:#2A2D34;background:#282828}
+.crop-free{max-width:460px}
+
+.duo{display:grid;grid-template-columns:minmax(0,460px) minmax(0,1fr);gap:24px;align-items:start}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:48px;align-items:center}
+.split .intro{margin-bottom:0}
+.stack{display:grid;gap:24px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px}
+.tile p{margin:0;color:var(--muted);font-size:17px;line-height:1.65}
+.viz{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;min-height:132px;margin-bottom:20px;padding:20px;border-radius:14px;background:var(--sunken)}
+.bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+
+/* rings, as the app draws them */
+.ring{display:block;width:64px;height:64px}
+.ring svg{display:block;width:100%;height:100%}
+.ring .trk{fill:none;stroke:var(--track);stroke-width:4.5}
+.ring .arc{fill:none;stroke:var(--neutral);stroke-width:4.5;stroke-linecap:round}
+.ring text{font:700 13px var(--sans);fill:var(--text);letter-spacing:-.02em}
+.ring tspan{font-size:8px}
+.o .arc{stroke:var(--ring-o)}
+.g .arc{stroke:var(--green)}
+.legend{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.legend li{display:flex;align-items:center;gap:14px;font-size:17px;line-height:1.45;color:var(--muted)}
+.legend li.o{color:var(--orange);font-weight:600}
+.legend .ring{width:56px;height:56px;flex:none}
+.ba-ring{width:84px;height:84px}
+.viz>svg{width:26px;height:26px;fill:none;stroke:var(--faint);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile .ba-label{color:var(--text);font-weight:650;margin-bottom:6px}
+.notes{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.notes li{position:relative;padding-left:22px;color:var(--muted);font-size:17px;line-height:1.65}
+.notes li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.chips li{padding:6px 13px;border-radius:999px;background:var(--sunken);border:1px solid var(--line);font-size:15px;font-weight:550;color:var(--text);white-space:nowrap}
+.search{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);color:var(--faint);font-size:16px}
+.search svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.allrow{display:flex;justify-content:space-between;width:100%;font-size:15px;color:var(--muted)}
+kbd{font:inherit;color:var(--faint)}
+.notif{display:flex;gap:12px;align-items:flex-start;width:100%;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 8px 24px -14px rgba(0,0,0,.4);font-size:15px;line-height:1.45}
+.notif img{border-radius:8px;flex:none}
+.notif b{display:block;color:var(--text)}
+.notif span{color:var(--muted)}
+.langs{display:grid;grid-template-columns:repeat(2,auto);gap:6px 28px;font-size:22px;font-weight:650;letter-spacing:-.01em}
+
+/* install */
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:20px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;color:var(--muted)}
+.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--sunken);border:1px solid var(--line);color:var(--text);font-size:15px;font-weight:700;line-height:1;margin-top:-1px}
+b{color:var(--text);font-weight:650}
+.alt{margin:0 0 12px;color:var(--muted)}
+.term{border-radius:14px;overflow:hidden;background:#15171B;color:#E8EAED;border:1px solid #2A2D34}
+.term-top{display:flex;align-items:center;justify-content:space-between;padding:9px 10px 9px 16px;border-bottom:1px solid #2A2D34;font-size:14px;color:#A2A8B3}
+.term button{border:1px solid #3A3F48;background:#22252C;color:#F2F3F5;font:inherit;font-size:14px;font-weight:600;padding:5px 14px;border-radius:8px;cursor:pointer}
+.term button:hover{background:#2C3038}
+.term code{display:block;padding:16px;font:15px/1.65 var(--mono);overflow-wrap:anywhere}
+.after{margin-top:36px}
+.after li{display:flex;gap:10px}
+.after svg{width:18px;height:18px;flex:none;margin-top:.3em;fill:currentColor;color:var(--accent)}
+.after .no-dot::before{content:none}
+.after .no-dot{padding-left:0}
+
+/* privacy */
+.checks{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:14px}
+.pnote{margin-bottom:24px;max-width:44em}
+.checks li{position:relative;padding-left:40px;font-size:19px;font-weight:650;line-height:1.5}
+.checks li::before{content:"";position:absolute;left:0;top:.12em;width:26px;height:26px;border-radius:50%;background:var(--fill)}
+.checks li::after{content:"";position:absolute;left:10px;top:.32em;width:6px;height:11px;border:solid var(--accent);border-width:0 2.4px 2.4px 0;transform:rotate(45deg)}
+details{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:0 22px;max-width:44em}
+summary{cursor:pointer;padding:16px 0;font-weight:650}
+details p{margin:0 0 20px;color:var(--muted);font-size:17px}
+
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 28px;padding-block:32px 48px;border-top:1px solid var(--line);color:var(--faint);font-size:15px}
+.foot p{margin:0}
+.foot .made{display:flex;align-items:center;gap:10px}
+.foot img{border-radius:5px}
+.foot .count{flex-basis:100%}
+
+@media (max-width:1080px){
+.hero{grid-template-columns:minmax(0,1fr);gap:48px;padding-block:56px 80px}
+.hero-text{max-width:640px}
+h1{font-size:clamp(40px,6.4vw,60px)}
+:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(34px,5.4vw,50px)}
+.hero-shot{max-width:820px}
+.docs{grid-template-columns:204px minmax(0,1fr);gap:36px}
+.duo,.split{grid-template-columns:minmax(0,1fr)}
+.split{gap:28px}
+}
+@media (max-width:900px){.bento{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){
+:root{--bar:56px}
+body{font-size:17.5px}
+.wrap{width:calc(100% - 32px)}
+.bar .btn{display:none}
+#lang button{padding:6px 8px}
+.hero{padding-block:36px 56px;gap:36px}
+h1{font-size:clamp(34px,10vw,40px)}
+.btn-l{width:100%}
+.hero-shot img{border-radius:18px}
+.docs{display:block}
+.toc{z-index:15;top:var(--bar);margin:0 -16px 36px;padding:10px 16px;background:var(--bar-bg);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+.toc::-webkit-scrollbar{display:none}
+.toc ol{display:flex;gap:8px;width:max-content}
+.toc a{min-height:40px;padding:0 14px;gap:8px;white-space:nowrap;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line)}
+.toc a[aria-current]{box-shadow:none}
+.toc svg{width:18px;height:18px}
+section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 16px);min-height:calc(50vh - var(--bar) - var(--tocbar) - 108px)}
+.tile{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap bar-in">
+<a class="brand" href="#"><img src="img/icon.png" width="28" height="28" alt=""><span>CarryOn</span></a>
+<nav id="lang" data-a="langLabel"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="ko" lang="ko">한국어</button><button type="button" data-l="ja" lang="ja">日本語</button><button type="button" data-l="zh" lang="zh">中文</button></nav>
+<!-- /download counts the download, then sends it on to the newest GitHub release; its dmg asset must be named CarryOn.dmg -->
+<a class="btn btn-s" href="/download"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dlShort"></span></a>
+</div></header>
+<main>
+<div class="wrap hero">
+<div class="hero-text">
+<p class="eyebrow" data-i="eyebrow"></p>
+<h1><span data-i="h1a"></span><span class="h1b" data-i="h1b"></span></h1>
+<p class="lede" data-i="sub"></p>
+<a class="btn btn-l" href="/download"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dl"></span></a>
+<p class="meta" data-i="meta"></p>
+<p class="also"><a href="https://github.com/morningverse67-wq/carryon-app" data-i="gh"></a></p>
+</div>
+<!-- img/<lang>-<shot>.webp: screenshots of the app with made-up demo data -->
+<div class="hero-shot"><picture>
+<source media="(max-width:760px) and (prefers-color-scheme:dark)" data-s="narrow-dark" width="880" height="1464">
+<source media="(max-width:760px)" data-s="narrow-light" width="880" height="1464">
+<source media="(prefers-color-scheme:dark)" data-s="wide-dark" width="1640" height="1464">
+<img data-s="wide-light" width="1640" height="1464" alt="" data-a="heroAlt" fetchpriority="high">
+</picture></div>
+</div>
+
+<div class="wrap docs">
+<nav class="toc" id="toc" data-a="tocLabel"><ol>
+<li><a href="#glance"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" opacity=".35"/><path d="M10 3a7 7 0 0 1 5.7 11"/></svg><span data-i="t1"></span></a></li>
+<li><a href="#compact"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 8.5h5v-5M16.5 11.5h-5v5M8.5 8.5 3 3M11.5 11.5 17 17"/></svg><span data-i="t2"></span></a></li>
+<li><a href="#cleanup"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 3.5 10 10M7 9.5l3.5 3.5M7 9.5c-2 1-3.5 3.5-3.5 7 3.5 0 6-1.5 7-3.5"/></svg><span data-i="tC"></span></a></li>
+<li><a href="#todos"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 5.5 1.5 1.5L7 4.5M3 13.5 4.5 15 7 12.5M10 6h7M10 14h7"/></svg><span data-i="t3"></span></a></li>
+<li><a href="#more"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5.5" height="5.5" rx="1.5"/><rect x="11.5" y="3" width="5.5" height="5.5" rx="1.5"/><rect x="3" y="11.5" width="5.5" height="5.5" rx="1.5"/><rect x="11.5" y="11.5" width="5.5" height="5.5" rx="1.5"/></svg><span data-i="t5"></span></a></li>
+<li><a href="#install"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="t6"></span></a></li>
+<li><a href="#privacy"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8.5" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg><span data-i="t7"></span></a></li>
+</ol></nav>
+<div class="secs">
+
+<section id="glance">
+<div class="split">
+<div><h2 data-i="g1h"></h2>
+<p class="intro" data-i="g1p"></p>
+<ul class="legend">
+<li><span class="ring" data-ring="41"></span><span data-i="lg1"></span></li>
+<li><span class="ring" data-ring="74"></span><span data-i="lg2"></span></li>
+<li class="o"><span class="ring" data-ring="92"></span><span data-i="lg3"></span></li>
+</ul></div>
+<figure class="shot crop c-list"><picture><source media="(prefers-color-scheme:dark)" data-s="wide-dark"><img data-s="wide-light" alt="" data-a="listAlt" loading="lazy"></picture></figure>
+</div>
+</section>
+
+<section id="compact">
+<h2 data-i="c1h"></h2>
+<p class="intro" data-i="c1p"></p>
+<div class="duo">
+<figure class="shot dark-shot"><img data-s="tidy" width="782" height="964" alt="" data-a="tidyAlt" loading="lazy"></figure>
+<div class="stack">
+<div class="tile"><div class="viz"><span class="ring ba-ring o" data-ring="92"></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M12 6l4 4-4 4"/></svg><span class="ring ba-ring" data-ring="18"></span></div>
+<p class="ba-label" data-i="c2l"></p><p data-i="c2t"></p></div>
+<div class="tile"><ul class="notes"><li data-i="c3"></li><li data-i="c5"></li><li data-i="c4"></li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="cleanup">
+<h2 data-i="cuh"></h2>
+<p class="intro" data-i="cup"></p>
+<div class="duo">
+<figure class="shot crop-free"><picture><source media="(prefers-color-scheme:dark)" data-s="cleanup-dark"><img data-s="cleanup-light" width="880" height="1464" alt="" data-a="cleanAlt" loading="lazy"></picture></figure>
+<div class="tile"><ul class="notes"><li data-i="cu1"></li><li data-i="cu2"></li><li data-i="cu3"></li><li data-i="cu4"></li></ul></div>
+</div>
+</section>
+
+<section id="todos">
+<div class="split">
+<div><h2 data-i="d1h"></h2><p class="intro" data-i="d1p"></p></div>
+<figure class="shot dark-shot"><img data-s="todo" width="782" height="416" alt="" data-a="todoAlt" loading="lazy"></figure>
+</div>
+</section>
+
+<section id="more">
+<h2 data-i="f0h"></h2>
+<div class="bento">
+<div class="tile"><div class="viz" aria-hidden="true"><div class="search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg><span data-i="sPrompt"></span></div><div class="allrow"><span data-i="sAll"></span><kbd>⌘O</kbd></div></div><h3 data-i="f2h"></h3><p data-i="f2p"></p></div>
+<div class="tile"><div class="viz" aria-hidden="true"><div class="notif"><img src="img/icon.png" width="36" height="36" alt=""><div><b>CarryOn</b><span data-i="nText"></span></div></div></div><h3 data-i="f3h"></h3><p data-i="f3p"></p></div>
+<div class="tile"><div class="viz" aria-hidden="true"><ul class="chips"><li data-i="ch1"></li><li data-i="ch2"></li><li data-i="ch3"></li><li data-i="ch4"></li></ul></div><h3 data-i="e2h"></h3><p data-i="e2p"></p></div>
+<div class="tile"><div class="viz" aria-hidden="true"><div class="langs"><span lang="en">English</span><span lang="ko">한국어</span><span lang="ja">日本語</span><span lang="zh">中文</span></div></div><h3 data-i="f4h"></h3><p data-i="f4p"></p></div>
+</div>
+</section>
+
+<section id="install">
+<h2 data-i="ih"></h2>
+<p class="intro" data-i="iIntro"></p>
+<div class="duo">
+<ol class="steps"><li><span data-h="s1"></span></li><li><span data-h="s2"></span></li><li><span data-h="s3"></span></li></ol>
+<div><p class="alt" data-i="alt"></p>
+<div class="term"><div class="term-top"><span data-i="term"></span><button id="copy" type="button" aria-describedby="copy-status"></button></div><code id="cmd">xattr -dr com.apple.quarantine "/Applications/CarryOn.app"</code></div>
+<span id="copy-status" class="sr-only" role="status"></span></div>
+</div>
+<ul class="notes after"><li data-i="m14"></li><li class="no-dot"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 1.5l1.5 4.2 4.2 1.5-4.2 1.5L8 12.9 6.5 8.7 2.3 7.2l4.2-1.5zM14.5 11l.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8z"/></svg><span data-i="bar"></span></li></ul>
+</section>
+
+<section id="privacy">
+<h2 data-i="ph"></h2>
+<p class="intro" data-i="p0"></p>
+<ul class="checks"><li data-i="p1"></li><li data-i="p2"></li></ul>
+<div class="tile pnote"><p data-i="pNote"></p></div>
+<details><summary data-i="pMore"></summary><p data-i="pDetail"></p></details>
+</section>
+
+</div>
+</div>
+</main>
+<footer class="wrap foot"><p class="made"><img src="img/icon.png" width="20" height="20" alt=""><span data-i="foot"></span></p><p class="ver">CarryOn <span data-v></span> · macOS 14+ · <a href="https://github.com/morningverse67-wq/carryon-app">GitHub</a></p><p class="count" data-i="siteCount"></p></footer>
+<script>
+const I18N={
+en:{langLabel:"Language",tocLabel:"On this page",dlShort:"Download",dl:"Download for Mac",eyebrow:"Free menu-bar app for macOS",
+cleanAlt:"Clean Up Sessions with demo data: idle Claude Code sessions with the memory each holds and a button to close the selected ones, then the sessions that read the most tokens in 24 hours.",
+cu4:"Compacting starts none of the session’s MCP servers, for Codex as for Claude Code, so it needs less memory.",
+cu3:"Token-heavy sessions show the tokens they read in 24 hours, with Back up & compact one tap away: each turn reads the whole conversation again, so compacting makes every turn lighter.",
+cu2:"Only Claude Code sessions started in a terminal can be closed, and one whose command still runs in the background is not selected for you.",
+cu1:"Idle sessions are closed only after you confirm. Right before, each one is checked again, then gets a normal quit signal (SIGTERM), never a forced one. The conversation stays: resume it any time from All Sessions.",
+cup:"Clean Up Sessions lists the Claude Code sessions left open in a terminal and unused for a while, with the memory each one holds, and the sessions that read the most tokens in the last 24 hours. Its line shows under Show All Sessions only when there is something to do.",
+cuh:"Clean up idle and heavy sessions",
+tC:"Clean Up Sessions",
+listAlt:"The home lists: Waiting for you 1, Needs continuing 4 with a Compact button on each, and Running 5 (demo data).",
+pNote:"Only when you press Back up & compact (or Back up & start fresh) does CarryOn copy that one session’s log, with a readable .md, to ~/.carryon/backups/, and then run the tool’s own /compact (claude or codex). As when you type /compact in the session, the compaction is added to that session’s log and the conversation goes to your model provider to be summarized.",
+c5:"A session that is working has no button until it stops, so its work is never cut off.",
+gh:"View on GitHub ★",
+h1a:"Every AI session at a glance.",h1b:"Carry on before it fills up.",
+sub:"CarryOn shows how full each Claude Code, Codex and Aside session is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.",
+meta:"Version {v} · macOS 14 or later · Apple silicon & Intel · Free",
+heroAlt:"The CarryOn window with demo data: a session at 92%, almost full, with its Back up & compact button and the rings of its group, and the lists of sessions waiting for you, needing continuing and running.",
+t1:"At a glance",t2:"Back up & compact",t3:"To-dos",t5:"More",t6:"Install",t7:"Privacy",
+g1h:"See what needs you",g1p:"The home lists the sessions waiting for your answer, those that need continuing (60% or more) and the running ones, each once. Pick one to see it big with its ring; if it handed work to other sessions or took work from them, its card shows that group as rings. A wide window puts the lists and that session side by side.",
+
+lg1:"Under 60%: room to spare",lg2:"60% and up: needs continuing",lg3:"85% and up: almost full, with a notification",
+c1h:"Make room with one button",c1p:"Back up & compact saves the conversation, then compacts it so the session’s own % drops. The Mac app runs it for you in a panel and shows each step and how long it took.",
+tidyAlt:"The session at 92%, Almost full, and under it the Back up & compact panel: each step listed, ending at 92% → 18% (demo data).",
+c2l:"Just compacted · 92% → 18%",c2t:"A compacted session stays on the home screen for an hour, so it doesn’t vanish the moment it drops.",
+c3:"The backup takes under a second. The wait is the model writing its summary: 30 s to 2 min for a long conversation.",c4:"Claude Code and Codex sessions are compacted in place. An Aside session goes on in a fresh one.",
+d1h:"Your to-dos come along",d1p:"Keep a numbered to-do list for each session. With Send along on, the open ones follow the first message after a compaction, or go first into a fresh session.",
+todoAlt:"My to-dos: a numbered list with one item done, and Send along switched on (demo data).",
+
+
+e2h:"Which tool, and where it runs",e2p:"Every row says it, like Claude Code · Warp, even after the session ends. Sub-agents get no rows of their own: their session says “2 staff”.",
+ch1:"Claude Code · Warp",ch2:"Codex · app",ch3:"Claude Code · VS Code",ch4:"Codex · CLI",
+f0h:"Also in the app",
+f2h:"Search every session",f2p:"Find any session by name or project. Right-click a row to compact it or copy its resume command.",sPrompt:"Find by name or project",sAll:"Show All Sessions…",
+f3h:"A heads-up at 85%",f3p:"You get one notification when a session is almost full, in time to compact it.",nText:"결제 API 리팩터 is at 92% — compact it (Back up & compact, or /compact)",
+f4h:"In four languages",f4p:"English, Korean, Japanese and Simplified Chinese. Pick one on first launch and change it any time.",
+ih:"First launch",iIntro:"CarryOn isn’t notarized by Apple yet, so macOS asks you once before it opens.",
+s1:"Open the <b>.dmg</b> and drag <b>CarryOn</b> into <b>Applications</b>.",
+s2:"Open the app. macOS says it can’t verify it. That’s expected for now: click <b>Done</b>.",
+s3:"Go to <b>System Settings → Privacy &amp; Security</b>, scroll down, click <b>Open Anyway</b> and confirm.",
+alt:"Prefer Terminal? This line does the same:",term:"Terminal",copy:"Copy",copied:"Copied",copyFailed:"Select and copy the command manually.",
+m14:"On macOS 14 Sonoma you can also right-click the app and choose Open.",bar:"There’s no Dock icon: CarryOn lives in the menu bar.",
+ph:"Everything is read on your Mac",p0:"CarryOn reads the session logs already on your Mac and shows what it finds on this Mac only.",
+p1:"CarryOn itself makes no network connections.",p2:"Message bodies are never shown in full, stored or sent anywhere.",
+pMore:"What exactly it reads",pDetail:"The session logs in ~/.claude, ~/.codex and ~/.aside (Claude Code, Codex, Aside), line by line, for metadata: session ids, names, titles, working folder, token counts, times and who handed work to whom. A title can be the first ~60 characters of a session’s first message. Each session’s last request (one line) and, for the session at the top, its last 3 requests, the end of its last reply and its plan are read from its log and shown on this Mac only: CarryOn stores none of it and sends it nowhere. It also reads your to-dos, the process list (which sessions run, and in which app) and, for Back up & compact, your login shell’s PATH once.",
+foot:"Made for people who run many AI agents at once.",siteCount:"This site counts visits and downloads without cookies."},
+ko:{langLabel:"언어",tocLabel:"목차",dlShort:"다운로드",dl:"Mac용 다운로드",eyebrow:"macOS 메뉴 막대 앱 · 무료",
+cleanAlt:"데모 데이터로 띄운 세션 정리 화면: 쉬는 Claude Code 세션이 메모리 사용량과 함께 있고 선택한 세션을 끄는 버튼, 그 아래 24시간 동안 토큰을 많이 읽은 세션.",
+cu4:"메모리를 정리할 때는 그 세션의 MCP 서버를 하나도 켜지 않아요. Claude Code도 Codex도 마찬가지라 메모리를 덜 써요.",
+cu3:"토큰을 많이 쓰는 세션은 24시간 동안 읽은 토큰 수와 함께 보이고, 바로 ‘백업하고 메모리 정리’를 할 수 있어요. 세션은 매번 대화 전체를 다시 읽으니, 정리하면 한 번에 읽는 양이 줄어요.",
+cu2:"끌 수 있는 건 터미널에서 시작한 Claude Code 세션뿐이고, 띄운 명령이 아직 돌고 있는 세션은 미리 선택해 두지 않아요.",
+cu1:"쉬는 세션은 확인을 받은 뒤에만 꺼요. 끄기 직전에 하나씩 다시 살피고, 강제 종료가 아닌 일반 종료 신호(SIGTERM)를 보내요. 대화는 그대로 남아서 ‘모든 세션’에서 언제든 이어 갈 수 있어요.",
+cup:"‘세션 정리’는 터미널에 열어 둔 채 한동안 안 쓴 Claude Code 세션과 세션마다 차지한 메모리, 그리고 최근 24시간 동안 토큰을 가장 많이 읽은 세션을 보여 줘요. 정리할 게 있을 때만 ‘모든 세션 보기’ 아래에 나타나요.",
+cuh:"쉬는 세션, 무거운 세션 정리",
+tC:"세션 정리",
+listAlt:"홈 목록: 답 기다림 1, 이어가기 필요 4(행마다 메모리 정리 버튼), 실행 중 5(데모 데이터).",
+pNote:"‘백업하고 메모리 정리’(또는 ‘백업하고 새 세션으로’)를 누를 때만 그 세션 하나의 기록을 읽기 쉬운 .md와 함께 ~/.carryon/backups/에 복사하고, 그 도구의 /compact(claude 또는 codex)를 실행해요. 세션에서 /compact를 직접 입력할 때처럼 정리 결과가 그 세션 기록에 더해지고, 대화는 요약을 위해 모델 제공자에게 보내져요.",
+c5:"일하는 중인 세션은 일이 멈출 때까지 버튼이 없어요. 하던 일이 끊기지 않게요.",
+gh:"GitHub에서 보기 ★",
+h1a:"모든 AI 세션을 한눈에.",h1b:"꽉 차기 전에 이어 가세요.",
+sub:"Claude Code, Codex, Aside 세션이 저마다 얼마나 찼는지 보여 줘요. 거의 다 찬 세션은 버튼 하나로 백업하고 메모리를 정리해서, 하던 일을 그 자리에서 이어 갈 수 있어요.",
+meta:"버전 {v} · macOS 14 이상 · Apple 칩·인텔 · 무료",
+heroAlt:"데모 데이터로 띄운 CarryOn 창: 92%로 곧 대화가 꽉 차는 세션이 ‘백업하고 메모리 정리’ 버튼, 같은 그룹 세션의 링과 함께 보이고, 답 기다림·이어가기 필요·실행 중 세션 목록이 있어요.",
+t1:"한눈에 보기",t2:"메모리 정리",t3:"할 일 메모",t5:"그 밖에",t6:"설치",t7:"개인정보",
+g1h:"챙길 세션만 한눈에",g1p:"홈 화면에는 답 기다림, 이어가기 필요(60% 이상), 실행 중 세션이 한 번씩만 나와요. 하나를 고르면 링과 함께 크게 보이고, 그 세션과 일을 주고받은 세션이 있으면 카드 안에 같은 그룹 세션이 링으로 보여요. 창이 넓으면 목록과 그 세션이 나란히 놓여요.",
+
+lg1:"60% 미만: 아직 여유 있음",lg2:"60% 이상: 이어가기 필요",lg3:"85% 이상: 곧 꽉 참, 알림이 와요",
+c1h:"버튼 하나로 메모리 정리",c1p:"‘백업하고 메모리 정리’는 대화를 백업한 뒤 압축해서 그 세션의 %를 줄여요. Mac 앱이 패널에서 직접 실행하고, 단계마다 걸린 시간을 보여 줘요.",
+tidyAlt:"92% ‘곧 대화가 꽉 차요’ 세션과 그 아래 ‘백업하고 메모리 정리’ 패널: 단계가 차례로 나오고 92% → 18%로 줄어든 결과로 끝나요(데모 데이터).",
+c2l:"방금 메모리 정리 · 92% → 18%",c2t:"정리한 세션은 한 시간 동안 홈 화면에 남아 있어서, %가 줄자마자 사라지지 않아요.",
+c3:"백업은 1초도 안 걸려요. 기다리는 건 모델이 요약을 쓰는 시간이고, 긴 대화라면 30초에서 2분 정도예요.",c4:"Claude Code와 Codex 세션은 그 자리에서 정리하고, Aside 세션은 새 세션에서 이어 가요.",
+d1h:"할 일 메모도 함께 넘어가요",d1p:"세션마다 번호 붙은 할 일을 적어 둘 수 있어요. ‘이어 갈 때 같이 보내기’를 켜 두면 메모리 정리 뒤 첫 메시지에 남은 할 일이 붙고, 새 세션에서는 맨 앞에 들어가요.",
+todoAlt:"할 일 메모: 번호 붙은 목록 가운데 하나가 끝났고, ‘이어 갈 때 같이 보내기’가 켜져 있어요(데모 데이터).",
+
+
+e2h:"어떤 도구로, 어디서 도는지",e2p:"행마다 ‘Claude Code · Warp’처럼 적혀 있고, 세션이 끝난 뒤에도 남아요. 하위 에이전트는 따로 행을 차지하지 않고, 그 세션에 ‘직원 2’처럼 붙어요.",
+ch1:"Claude Code · Warp",ch2:"Codex · 앱",ch3:"Claude Code · VS Code",ch4:"Codex · CLI",
+f0h:"그 밖에 이런 것도 돼요",
+f2h:"모든 세션 검색",f2p:"이름이나 프로젝트로 어떤 세션이든 찾아요. 행을 오른쪽 클릭하면 메모리를 정리하거나 재개 명령을 복사할 수 있어요.",sPrompt:"이름이나 프로젝트로 찾기",sAll:"모든 세션 보기…",
+f3h:"85%가 되면 알림",f3p:"세션이 거의 다 차면 알림이 한 번 와요. 늦기 전에 정리할 수 있어요.",nText:"결제 API 리팩터 대화량 92% — 메모리를 정리해 주세요 (백업하고 메모리 정리 또는 /compact)",
+f4h:"4개 언어",f4p:"영어, 한국어, 일본어, 중국어(간체)를 지원해요. 처음 열 때 고르고, 언제든 바꿀 수 있어요.",
+ih:"처음 실행할 때",iIntro:"CarryOn은 아직 Apple 공증을 받지 않아서, 처음 열 때 macOS가 한 번 확인해요.",
+s1:"<b>.dmg</b>를 열고 <b>CarryOn</b>을 <b>응용 프로그램</b> 폴더로 끌어다 놓으세요.",
+s2:"앱을 열면 macOS가 확인할 수 없다고 안내해요. 지금은 정상이니 <b>완료</b>를 누르세요.",
+s3:"<b>시스템 설정 → 개인정보 보호 및 보안</b>에서 아래로 스크롤해 <b>그래도 열기</b>를 누르고 확인하세요.",
+alt:"터미널이 편하다면 이 한 줄로 끝나요.",term:"터미널",copy:"복사",copied:"복사됨",copyFailed:"명령을 선택해 직접 복사하세요.",
+m14:"macOS 14 Sonoma에서는 앱을 오른쪽 클릭하고 ‘열기’를 눌러도 돼요.",bar:"Dock 아이콘은 없어요. 메뉴 막대에서 찾으세요.",
+ph:"기록은 이 Mac 안에서만 읽어요",p0:"CarryOn은 Mac에 이미 있는 세션 기록을 읽고, 찾은 내용을 이 Mac에서만 보여 줘요.",
+p1:"CarryOn 자체는 네트워크에 연결하지 않아요.",p2:"메시지 본문은 전체를 보여 주지도, 저장하거나 보내지도 않아요.",
+pMore:"정확히 무엇을 읽나요",pDetail:"~/.claude, ~/.codex, ~/.aside의 세션 기록(Claude Code, Codex, Aside)을 한 줄씩 읽어 메타데이터(세션 ID, 이름, 제목, 작업 폴더, 토큰 수, 시각, 누가 누구에게 일을 넘겼는지)를 뽑아요. 제목은 첫 메시지의 앞 60자 정도일 수 있어요. 각 세션의 마지막 요청(한 줄)과, 맨 위에 보이는 세션의 최근 요청 3개·마지막 답의 끝·계획은 그 세션 기록에서 읽어 이 Mac에서만 보여 주고, 저장하거나 어디로 보내지 않아요. 그 밖에 할 일 메모, 프로세스 목록(어떤 세션이 어느 앱에서 실행 중인지), 그리고 ‘백업하고 메모리 정리’를 위해 로그인 셸의 PATH를 한 번 읽어요.",
+foot:"AI 에이전트를 여러 개 동시에 돌리는 사람을 위해 만들었어요.",siteCount:"이 사이트는 쿠키 없이 방문 수와 다운로드 수를 세요."},
+ja:{langLabel:"言語",tocLabel:"目次",dlShort:"ダウンロード",dl:"Mac版をダウンロード",eyebrow:"macOS のメニューバーアプリ · 無料",
+cleanAlt:"デモデータの「セッションの整理」画面：休止中の Claude Code セッションとそれぞれのメモリ、選んだセッションを終了するボタン、その下に 24 時間でトークンを多く読んだセッション。",
+cu4:"圧縮のときはセッションの MCP サーバーをひとつも起動しません。Claude Code も Codex も同じなので、メモリの使用が少なくなります。",
+cu3:"トークンの多いセッションは 24 時間に読んだトークン数とともに表示され、すぐ「バックアップして圧縮」できます。セッションは毎回会話全体を読み直すので、圧縮すると 1 回に読む量が減ります。",
+cu2:"終了できるのはターミナルで始めた Claude Code のセッションだけで、起動したコマンドがまだ動いているセッションはあらかじめ選びません。",
+cu1:"休止中のセッションは、確認してからだけ終了します。直前にひとつずつもう一度確かめ、強制終了ではなく通常の終了シグナル（SIGTERM）を送ります。会話は残り、「すべてのセッション」からいつでも再開できます。",
+cup:"「セッションの整理」は、ターミナルで開いたまましばらく使っていない Claude Code のセッションとそれぞれのメモリ、そして直近 24 時間でトークンをいちばん多く読んだセッションを表示します。整理するものがあるときだけ「すべてのセッションを表示」の下に出ます。",
+cuh:"休んでいるセッション、重いセッションを整理",
+tC:"セッションの整理",
+listAlt:"ホームの一覧：返事待ち 1、続きが必要 4（各行に圧縮ボタン）、実行中 5（デモデータ）。",
+pNote:"「バックアップして圧縮」（または「バックアップして新しいセッションへ」）を押したときだけ、そのセッション一つのログを読みやすい .md と一緒に ~/.carryon/backups/ にコピーし、そのツール自身の /compact（claude または codex）を実行します。セッションで /compact と入力したときと同じく、圧縮がそのセッションのログに追加され、会話は要約のためにモデルの提供元に送られます。",
+c5:"作業中のセッションには、止まるまでボタンが出ません。作業を途中で切らないためです。",
+gh:"GitHub で見る ★",
+h1a:"AIセッションを、ひと目で。",h1b:"あふれる前に、そのまま続けよう。",
+sub:"Claude Code・Codex・Aside の各セッションが、どれだけ埋まっているかを表示します。いっぱいに近づいたらボタンひとつでバックアップして圧縮。中断したところからそのまま続けられます。",
+meta:"バージョン {v} · macOS 14以降 · Appleシリコン・Intel · 無料",
+heroAlt:"デモデータの CarryOn ウィンドウ：92% でもうすぐいっぱいになるセッションが「バックアップと圧縮」ボタンと同じグループのリング付きで表示され、返事待ち・続きが必要・実行中のセッション一覧が並びます。",
+t1:"ひと目で",t2:"バックアップと圧縮",t3:"やることメモ",t5:"そのほか",t6:"インストール",t7:"プライバシー",
+g1h:"対応が必要なセッションをひと目で",g1p:"ホームには、返事待ち・続きが必要（60% 以上）・実行中のセッションが 1 回ずつ並びます。選んだセッションはリング付きで大きく表示され、仕事をやり取りしたセッションがあれば、同じグループのセッションがカードの中にリングで並びます。広いウィンドウでは一覧と横に並びます。",
+
+lg1:"60% 未満：まだ余裕あり",lg2:"60% 以上：続きが必要",lg3:"85% 以上：もうすぐいっぱい、通知あり",
+c1h:"ボタンひとつで空きをつくる",c1p:"「バックアップして圧縮」は会話をバックアップしてから圧縮し、そのセッション自体の % を下げます。Mac アプリがパネルで実行し、各ステップとかかった時間を表示します。",
+tidyAlt:"92%「もうすぐ会話がいっぱいです」のセッションと、その下の「バックアップして圧縮」パネル：各ステップが並び、最後に 92% → 18% に下がった結果が出ます（デモデータ）。",
+c2l:"圧縮したばかり · 92% → 18%",c2t:"圧縮したセッションは 1 時間ホーム画面に残るので、% が下がった途端に消えることはありません。",
+c3:"バックアップは 1 秒もかかりません。待つのはモデルが要約を書く時間で、長い会話なら 30 秒〜2 分ほどです。",c4:"Claude Code と Codex のセッションはその場で圧縮し、Aside のセッションは新しいセッションで続けます。",
+d1h:"やることメモも一緒に引き継ぐ",d1p:"セッションごとに番号付きのやることを書いておけます。「続けるときに一緒に送る」をオンにすると、圧縮後の最初のメッセージに残りが付き、新しいセッションでは先頭に入ります。",
+todoAlt:"やることメモ：番号付きリストのうち 1 件が完了し、「続けるときに一緒に送る」がオン（デモデータ）。",
+
+
+e2h:"どのツールで、どこで動いているか",e2p:"各行に「Claude Code · Warp」のように表示され、セッションが終わったあとも残ります。サブエージェントは行を持たず、そのセッションに「スタッフ 2」のように付きます。",
+ch1:"Claude Code · Warp",ch2:"Codex · アプリ",ch3:"Claude Code · VS Code",ch4:"Codex · CLI",
+f0h:"ほかにもこんなこと",
+f2h:"すべてのセッションを検索",f2p:"名前やプロジェクトでどのセッションでも探せます。行を右クリックすると、圧縮したり再開コマンドをコピーしたりできます。",sPrompt:"名前やプロジェクトで検索",sAll:"すべてのセッションを表示…",
+f3h:"85% で通知",f3p:"セッションがいっぱいに近づくと通知が 1 回届くので、間に合ううちに圧縮できます。",nText:"결제 API 리팩터 の会話量 92% — 圧縮してください（バックアップして圧縮、または /compact）",
+f4h:"4 つの言語",f4p:"英語・韓国語・日本語・中国語（簡体字）に対応。最初の起動で選べて、いつでも変えられます。",
+ih:"はじめて起動するとき",iIntro:"CarryOn はまだ Apple の公証を受けていないため、最初の 1 回だけ macOS が確認します。",
+s1:"<b>.dmg</b> を開き、<b>CarryOn</b> を <b>アプリケーション</b> にドラッグします。",
+s2:"アプリを開くと、macOS が確認できないと表示します。今は想定どおりなので <b>完了</b> を押してください。",
+s3:"<b>システム設定 → プライバシーとセキュリティ</b> で下にスクロールし、<b>このまま開く</b> を押して確認します。",
+alt:"ターミナル派なら、この 1 行で同じことができます。",term:"ターミナル",copy:"コピー",copied:"コピーしました",copyFailed:"コマンドを選択して手動でコピーしてください。",
+m14:"macOS 14 Sonoma では、アプリを右クリックして「開く」を選んでも起動できます。",bar:"Dock アイコンはありません。アプリはメニューバーにいます。",
+ph:"記録はこの Mac の中だけで読みます",p0:"CarryOn は Mac にすでにあるセッション記録を読み、見つけた内容をこの Mac の中だけで表示します。",
+p1:"CarryOn 自体はネットワークに接続しません。",p2:"メッセージ本文は全文を表示せず、保存も送信もしません。",
+pMore:"何を読み取るのか、くわしく",pDetail:"~/.claude、~/.codex、~/.aside のセッション記録（Claude Code、Codex、Aside）を 1 行ずつ読み、メタデータ（セッション ID、名前、タイトル、作業フォルダ、トークン数、時刻、誰が誰に仕事を渡したか）を取り出します。タイトルは最初のメッセージの先頭約 60 文字になることがあります。各セッションの最後の依頼（1 行）と、いちばん上に表示中のセッションの最近の依頼 3 件・最後の返答の末尾・計画は、そのログから読んでこの Mac の中だけで表示し、保存も送信もしません。ほかに、やることメモ、プロセス一覧（どのセッションがどのアプリで実行中か）、そして「バックアップして圧縮」のためにログインシェルの PATH を一度だけ読みます。",
+foot:"たくさんの AI エージェントを同時に動かす人のために。",siteCount:"このサイトは Cookie を使わずに訪問数とダウンロード数を数えています。"},
+zh:{langLabel:"语言",tocLabel:"目录",dlShort:"下载",dl:"下载 Mac 版",eyebrow:"macOS 菜单栏应用 · 免费",
+cleanAlt:"使用演示数据的“整理会话”界面：空闲的 Claude Code 会话及其占用的内存、关闭所选会话的按钮，下方是 24 小时内读取 token 最多的会话。",
+cu4:"压缩时不会启动该会话的任何 MCP 服务器，Claude Code 和 Codex 都一样，所以占用的内存更少。",
+cu3:"token 用量大的会话会显示 24 小时内读取的 token 数，一点就能“备份并压缩”。会话每次都会重新读取整段对话，压缩后每次读取的量会减少。",
+cu2:"只能关闭在终端里启动的 Claude Code 会话；它启动的命令仍在运行的会话不会被预先选中。",
+cu1:"空闲会话只有在你确认后才会关闭。关闭前会逐个再检查一次，发送普通的退出信号（SIGTERM），绝不强制结束。对话会保留，随时可以在“所有会话”里接着打开。",
+cup:"“整理会话”会列出在终端里一直开着、有一阵子没用的 Claude Code 会话及其各自占用的内存，以及最近 24 小时读取 token 最多的会话。只有需要整理时，它才会出现在“显示所有会话”下方。",
+cuh:"整理空闲和吃资源的会话",
+tC:"整理会话",
+listAlt:"主屏幕列表：等你回复 1、需要接续 4（每行有压缩按钮）、运行中 5（演示数据）。",
+pNote:"只有点击“备份并压缩”（或“备份并开新会话”）时，才会把那一个会话的日志连同一份易读的 .md 复制到 ~/.carryon/backups/，然后运行该工具自己的 /compact（claude 或 codex）。和在会话中输入 /compact 一样，压缩结果会追加到该会话的日志，对话会发送给你的模型提供商进行总结。",
+c5:"正在工作的会话在停下之前没有这个按钮，以免打断它的工作。",
+gh:"在 GitHub 上查看 ★",
+h1a:"所有 AI 会话，一目了然。",h1b:"快满之前，接着往下做。",
+sub:"CarryOn 显示每个 Claude Code、Codex 和 Aside 会话的上下文用了多少。快满时，一个按钮就能备份并压缩，从停下的地方接着做。",
+meta:"版本 {v} · macOS 14 或更高版本 · Apple 芯片与 Intel · 免费",
+heroAlt:"使用演示数据的 CarryOn 窗口：92%、快满的会话带着“备份并压缩”按钮和同组会话的圆环显示，还有等你回复、需要接续和正在运行的会话列表。",
+t1:"一目了然",t2:"备份并压缩",t3:"待办备忘",t5:"更多",t6:"安装",t7:"隐私",
+g1h:"需要你处理的会话，一目了然",g1p:"主屏幕列出等你回复的、需要接续的（60% 以上）和正在运行的会话，每个只出现一次。选中一个，它会带着圆环放大显示；如果它和别的会话互相交接过工作，卡片里会用圆环显示同组的会话。窗口够宽时，列表和它并排显示。",
+
+lg1:"60% 以下：还有余量",lg2:"60% 及以上：需要接续",lg3:"85% 及以上：快满了，会提醒",
+c1h:"一个按钮，腾出空间",c1p:"“备份并压缩”先备份对话，再压缩它，让这个会话本身的百分比降下来。Mac 应用会在面板里直接运行，并显示每一步和用时。",
+tidyAlt:"92%“对话快满了”的会话，下方是“备份并压缩”面板：依次列出每一步，最后显示从 92% 降到 18%（演示数据）。",
+c2l:"刚压缩 · 92% → 18%",c2t:"压缩过的会话会在主屏幕上保留一小时，不会一降下来就消失。",
+c3:"备份不到一秒。等待的是模型写摘要的时间，长对话大约 30 秒到 2 分钟。",c4:"Claude Code 和 Codex 会话就地压缩；Aside 会话则在新会话中继续。",
+d1h:"待办也跟着走",d1p:"每个会话都可以记一份带编号的待办。打开“接续时一起发送”后，压缩后的第一条消息会附上没做完的项；在新会话中继续时，它们会放在最前面。",
+todoAlt:"待办备忘：带编号的清单中已完成一项，“接续时一起发送”已打开（演示数据）。",
+
+
+e2h:"用的哪个工具，在哪里运行",e2p:"每一行都会标出，比如“Claude Code · Warp”，会话结束后也会保留。子代理不单独占一行，而是在它的会话上显示为“成员 2”。",
+ch1:"Claude Code · Warp",ch2:"Codex · 应用",ch3:"Claude Code · VS Code",ch4:"Codex · CLI",
+f0h:"还有这些",
+f2h:"搜索所有会话",f2p:"按名称或项目找到任何会话。右键点击一行，即可压缩或复制恢复命令。",sPrompt:"按名称或项目查找",sAll:"显示所有会话…",
+f3h:"到 85% 就提醒",f3p:"会话快满时会收到一次通知，来得及压缩。",nText:"결제 API 리팩터 对话量 92% — 请压缩（备份并压缩，或 /compact）",
+f4h:"四种语言",f4p:"支持英语、韩语、日语和简体中文。首次启动时选择，之后随时可以更改。",
+ih:"首次启动",iIntro:"CarryOn 还没有经过 Apple 公证，所以首次打开时 macOS 会确认一次。",
+s1:"打开 <b>.dmg</b>，把 <b>CarryOn</b> 拖到 <b>应用程序</b> 文件夹。",
+s2:"打开应用。macOS 会提示无法验证，这是目前的正常现象，点击 <b>完成</b>。",
+s3:"前往 <b>系统设置 → 隐私与安全性</b>，向下滚动，点击 <b>仍要打开</b>，然后确认。",
+alt:"习惯用终端？这一行命令效果相同：",term:"终端",copy:"复制",copied:"已复制",copyFailed:"请选择命令并手动复制。",
+m14:"在 macOS 14 Sonoma 上，也可以右键点击应用并选择“打开”。",bar:"没有 Dock 图标：应用位于菜单栏。",
+ph:"记录只在你的 Mac 上读取",p0:"CarryOn 读取你 Mac 上已有的会话记录，找到的内容只在这台 Mac 上显示。",
+p1:"CarryOn 本身不进行任何网络连接。",p2:"消息正文不会完整显示，也不会被保存或发送。",
+pMore:"具体读取哪些内容",pDetail:"逐行读取 ~/.claude、~/.codex 和 ~/.aside 中的会话记录（Claude Code、Codex、Aside），提取元数据：会话 ID、名称、标题、工作目录、token 数、时间以及谁把工作交给了谁。标题可能是第一条消息的前约 60 个字符。每个会话的最后一个请求（一行），以及最上方显示的会话的最近 3 个请求、最后回复的结尾和计划，都从该会话的日志读取，只在这台 Mac 上显示，既不保存也不发送。此外还会读取你的待办、进程列表（哪些会话在运行、在哪个应用中），以及为“备份并压缩”读取一次登录 shell 的 PATH。",
+foot:"为同时运行多个 AI 代理的人而做。",siteCount:"本网站统计访问量和下载量，不使用 Cookie。"}};
+const VER="1.4.0";  // the only place the version is written
+const own=(o,k)=>typeof k==="string"&&Object.prototype.hasOwnProperty.call(o,k);  // no Object.hasOwn: Safari < 15.4
+const $=(s,r=document)=>[...r.querySelectorAll(s)];
+let cur="en",copyTimer;
+$("[data-ring]").forEach(e=>{const p=e.dataset.ring;e.innerHTML='<svg viewBox="0 0 48 48" aria-hidden="true"><circle class="trk" cx="24" cy="24" r="19"/><circle class="arc" cx="24" cy="24" r="19" pathLength="100" stroke-dasharray="'+p+' 100" transform="rotate(-90 24 24)"/><text x="24" y="28.5" text-anchor="middle">'+p+"<tspan>%</tspan></text></svg>"});
+
+// the table of contents: the section under the middle of the window is active, and a blue
+// copy of its icon and label is revealed from the left as far as it has been read; at the bottom of the page the last one is full
+const toc=$("#toc")[0],links=$("#toc a"),secs=links.map(a=>document.getElementById(a.hash.slice(1)));
+links.forEach(a=>{const f=document.createElement("span");f.className="fill";f.setAttribute("aria-hidden","true");f.innerHTML=a.innerHTML;a.append(f)});  // before setLang fills its [data-i]
+const narrow=matchMedia("(max-width:760px)"),still=matchMedia("(prefers-reduced-motion:reduce)");
+let ticking=0,active=-1;
+function track(){ticking=0;
+const mid=innerHeight/2,end=innerHeight+scrollY>=document.documentElement.scrollHeight-2,tops=secs.map(s=>s.getBoundingClientRect().top);
+let i=-1;tops.forEach((t,k)=>{if(t<=mid)i=k});  // a section runs from its top to the next one's, so the gap between them counts as read
+if(end)i=secs.length-1;
+const p=end?1:i<0?0:Math.min(1,Math.max(0,(mid-tops[i])/((i+1<secs.length?tops[i+1]:secs[i].getBoundingClientRect().bottom)-tops[i])));
+links.forEach((a,k)=>{const on=k===i;a.style.setProperty("--p",on?p.toFixed(3):0);a.classList.toggle("read",on&&p>0);if(on)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current")});
+if(i!==active){active=i;if(i>=0)center(links[i])}}
+function center(a){if(narrow.matches)toc.scrollTo({left:a.offsetLeft-(toc.clientWidth-a.offsetWidth)/2,behavior:still.matches?"auto":"smooth"})}  // the chip bar keeps a chip in view
+const soon=()=>{if(!ticking)ticking=requestAnimationFrame(track)};
+addEventListener("scroll",soon,{passive:true});addEventListener("resize",soon);
+toc.addEventListener("focusin",e=>center(e.target));
+
+function setLang(l){cur=l;const d=I18N[l];document.documentElement.lang=l;
+$("[data-i]").forEach(e=>e.textContent=d[e.dataset.i].replace("{v}",VER));
+$("[data-v]").forEach(e=>e.textContent=VER);
+$("[data-h]").forEach(e=>e.innerHTML=d[e.dataset.h]);
+$("[data-a]").forEach(e=>e.setAttribute(e.tagName==="IMG"?"alt":"aria-label",d[e.dataset.a]));
+$("[data-s]").forEach(e=>e[e.tagName==="SOURCE"?"srcset":"src"]="img/"+l+"-"+e.dataset.s+".webp");
+$("#copy")[0].textContent=d.copy;
+$("#copy-status")[0].textContent="";
+$("#lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
+try{localStorage.lang=l}catch(e){}
+active=-1;soon()}
+function pick(){let s;try{s=localStorage.lang}catch(e){}
+if(own(I18N,s))return s;
+for(const n of navigator.languages||[navigator.language||"en"]){const c=n.slice(0,2).toLowerCase();if(own(I18N,c))return c}
+return"en"}
+$("#lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+$("#copy")[0].onclick=async function(){const cmd=$("#cmd")[0],t=cmd.textContent;let copied=false;
+try{await navigator.clipboard.writeText(t);copied=true}catch(e){const r=document.createRange();r.selectNodeContents(cmd);const s=getSelection();s.removeAllRanges();s.addRange(r);try{copied=document.execCommand("copy")}catch(_){}}
+this.textContent=copied?I18N[cur].copied:I18N[cur].copy;
+$("#copy-status")[0].textContent=copied?I18N[cur].copied:I18N[cur].copyFailed;
+clearTimeout(copyTimer);copyTimer=setTimeout(()=>this.textContent=I18N[cur].copy,1800)};
+setLang(pick());
+// count this visit (/api/hit on this site): the path, where it came from (the host only, never this site) and the language shown; no cookies
+{let r="";try{r=new URL(document.referrer).hostname}catch(e){}
+try{navigator.sendBeacon("/api/hit",JSON.stringify({p:location.pathname,r:r===location.hostname?"":r,l:cur}))}catch(e){}}
+</script>
+</body>
+</html>

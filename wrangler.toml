@@ -1,0 +1,13 @@
+# The website on Cloudflare Pages: docs/ is the page, functions/ counts visits and downloads (D1 carryon-stats).
+#   preview:    npx wrangler@4 pages deploy docs --project-name carryon-app --branch preview
+#   production: npx wrangler@4 pages deploy docs --project-name carryon-app --branch main
+#   tables:     npx wrangler@4 d1 execute carryon-stats --remote --file schema.sql
+# The /admin link is in .admin-link.txt (git-ignored); its key is the Pages secret ADMIN_KEY.
+name = "carryon-app"
+pages_build_output_dir = "docs"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "carryon-stats"
+database_id = "6a7f2662-7a2e-4974-bf2e-d3251304ca29"
