@@ -182,7 +182,6 @@ details p{margin:0 0 20px;color:var(--muted);font-size:17px}
 .foot p{margin:0}
 .foot .made{display:flex;align-items:center;gap:10px}
 .foot img{border-radius:5px}
-.foot .count{flex-basis:100%}
 
 @media (max-width:1080px){
 .hero{grid-template-columns:minmax(0,1fr);gap:48px;padding-block:56px 80px}
@@ -331,7 +330,7 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 </div>
 </div>
 </main>
-<footer class="wrap foot"><p class="made"><img src="img/icon.png?v=otter" width="20" height="20" alt=""><span data-i="foot"></span></p><p class="ver">CarryOn <span data-v></span> · macOS 14+ · <a href="https://github.com/morningverse67-wq/carryon-app">GitHub</a></p><p class="count" data-i="siteCount"></p></footer>
+<footer class="wrap foot"><p class="made"><img src="img/icon.png?v=otter" width="20" height="20" alt=""><span data-i="foot"></span></p><p class="ver">CarryOn <span data-v></span> · macOS 14+ · <a href="https://github.com/morningverse67-wq/carryon-app">GitHub</a></p></footer>
 <script>
 const I18N={
 en:{langLabel:"Language",tocLabel:"On this page",dlShort:"Download",dl:"Download for Mac",eyebrow:"Free menu-bar app for macOS",
@@ -378,7 +377,7 @@ m14:"On macOS 14 Sonoma you can also right-click the app and choose Open.",bar:"
 ph:"Everything is read on your Mac",p0:"CarryOn reads the session logs already on your Mac and shows what it finds on this Mac only.",
 p1:"CarryOn itself makes no network connections.",p2:"Message bodies are never shown in full, stored or sent anywhere.",
 pMore:"What exactly it reads",pDetail:"The session logs in ~/.claude, ~/.codex and ~/.aside (Claude Code, Codex, Aside), line by line, for metadata: session ids, names, titles, working folder, token counts, times and who handed work to whom. A title can be the first ~60 characters of a session’s first message. Each session’s last request (one line) and, for the session at the top, its last 3 requests, the end of its last reply and its plan are read from its log and shown on this Mac only: CarryOn stores none of it and sends it nowhere. It also reads your to-dos, the process list (which sessions run, and in which app) and, for Back up & compact, your login shell’s PATH once.",
-foot:"Made for people who run many AI agents at once.",siteCount:"This site counts visits and downloads without cookies."},
+foot:"Made for people who run many AI agents at once."},
 ko:{langLabel:"언어",tocLabel:"목차",dlShort:"다운로드",dl:"Mac용 다운로드",eyebrow:"macOS 메뉴 막대 앱 · 무료",
 cleanAlt:"데모 데이터로 띄운 세션 정리 화면: 쉬는 Claude Code 세션이 메모리 사용량과 함께 있고 선택한 세션을 끄는 버튼, 그 아래 24시간 동안 토큰을 많이 읽은 세션.",
 cu4:"메모리를 정리할 때는 그 세션의 MCP 서버를 하나도 켜지 않아요. Claude Code도 Codex도 마찬가지라 메모리를 덜 써요.",
@@ -423,7 +422,7 @@ m14:"macOS 14 Sonoma에서는 앱을 오른쪽 클릭하고 ‘열기’를 눌�
 ph:"기록은 이 Mac 안에서만 읽어요",p0:"CarryOn은 Mac에 이미 있는 세션 기록을 읽고, 찾은 내용을 이 Mac에서만 보여 줘요.",
 p1:"CarryOn 자체는 네트워크에 연결하지 않아요.",p2:"메시지 본문은 전체를 보여 주지도, 저장하거나 보내지도 않아요.",
 pMore:"정확히 무엇을 읽나요",pDetail:"~/.claude, ~/.codex, ~/.aside의 세션 기록(Claude Code, Codex, Aside)을 한 줄씩 읽어 메타데이터(세션 ID, 이름, 제목, 작업 폴더, 토큰 수, 시각, 누가 누구에게 일을 넘겼는지)를 뽑아요. 제목은 첫 메시지의 앞 60자 정도일 수 있어요. 각 세션의 마지막 요청(한 줄)과, 맨 위에 보이는 세션의 최근 요청 3개·마지막 답의 끝·계획은 그 세션 기록에서 읽어 이 Mac에서만 보여 주고, 저장하거나 어디로 보내지 않아요. 그 밖에 할 일 메모, 프로세스 목록(어떤 세션이 어느 앱에서 실행 중인지), 그리고 ‘백업하고 메모리 정리’를 위해 로그인 셸의 PATH를 한 번 읽어요.",
-foot:"AI 에이전트를 여러 개 동시에 돌리는 사람을 위해 만들었어요.",siteCount:"이 사이트는 쿠키 없이 방문 수와 다운로드 수를 세요."},
+foot:"AI 에이전트를 여러 개 동시에 돌리는 사람을 위해 만들었어요."},
 ja:{langLabel:"言語",tocLabel:"目次",dlShort:"ダウンロード",dl:"Mac版をダウンロード",eyebrow:"macOS のメニューバーアプリ · 無料",
 cleanAlt:"デモデータの「セッションの整理」画面：休止中の Claude Code セッションとそれぞれのメモリ、選んだセッションを終了するボタン、その下に 24 時間でトークンを多く読んだセッション。",
 cu4:"圧縮のときはセッションの MCP サーバーをひとつも起動しません。Claude Code も Codex も同じなので、メモリの使用が少なくなります。",
@@ -468,7 +467,7 @@ m14:"macOS 14 Sonoma では、アプリを右クリックして「開く」を�
 ph:"記録はこの Mac の中だけで読みます",p0:"CarryOn は Mac にすでにあるセッション記録を読み、見つけた内容をこの Mac の中だけで表示します。",
 p1:"CarryOn 自体はネットワークに接続しません。",p2:"メッセージ本文は全文を表示せず、保存も送信もしません。",
 pMore:"何を読み取るのか、くわしく",pDetail:"~/.claude、~/.codex、~/.aside のセッション記録（Claude Code、Codex、Aside）を 1 行ずつ読み、メタデータ（セッション ID、名前、タイトル、作業フォルダ、トークン数、時刻、誰が誰に仕事を渡したか）を取り出します。タイトルは最初のメッセージの先頭約 60 文字になることがあります。各セッションの最後の依頼（1 行）と、いちばん上に表示中のセッションの最近の依頼 3 件・最後の返答の末尾・計画は、そのログから読んでこの Mac の中だけで表示し、保存も送信もしません。ほかに、やることメモ、プロセス一覧（どのセッションがどのアプリで実行中か）、そして「バックアップして圧縮」のためにログインシェルの PATH を一度だけ読みます。",
-foot:"たくさんの AI エージェントを同時に動かす人のために。",siteCount:"このサイトは Cookie を使わずに訪問数とダウンロード数を数えています。"},
+foot:"たくさんの AI エージェントを同時に動かす人のために。"},
 zh:{langLabel:"语言",tocLabel:"目录",dlShort:"下载",dl:"下载 Mac 版",eyebrow:"macOS 菜单栏应用 · 免费",
 cleanAlt:"使用演示数据的“整理会话”界面：空闲的 Claude Code 会话及其占用的内存、关闭所选会话的按钮，下方是 24 小时内读取 token 最多的会话。",
 cu4:"压缩时不会启动该会话的任何 MCP 服务器，Claude Code 和 Codex 都一样，所以占用的内存更少。",
@@ -513,7 +512,7 @@ m14:"在 macOS 14 Sonoma 上，也可以右键点击应用并选择“打开”�
 ph:"记录只在你的 Mac 上读取",p0:"CarryOn 读取你 Mac 上已有的会话记录，找到的内容只在这台 Mac 上显示。",
 p1:"CarryOn 本身不进行任何网络连接。",p2:"消息正文不会完整显示，也不会被保存或发送。",
 pMore:"具体读取哪些内容",pDetail:"逐行读取 ~/.claude、~/.codex 和 ~/.aside 中的会话记录（Claude Code、Codex、Aside），提取元数据：会话 ID、名称、标题、工作目录、token 数、时间以及谁把工作交给了谁。标题可能是第一条消息的前约 60 个字符。每个会话的最后一个请求（一行），以及最上方显示的会话的最近 3 个请求、最后回复的结尾和计划，都从该会话的日志读取，只在这台 Mac 上显示，既不保存也不发送。此外还会读取你的待办、进程列表（哪些会话在运行、在哪个应用中），以及为“备份并压缩”读取一次登录 shell 的 PATH。",
-foot:"为同时运行多个 AI 代理的人而做。",siteCount:"本网站统计访问量和下载量，不使用 Cookie。"}};
+foot:"为同时运行多个 AI 代理的人而做。"}};
 const VER="1.4.0";  // the only place the version is written
 const own=(o,k)=>typeof k==="string"&&Object.prototype.hasOwnProperty.call(o,k);  // no Object.hasOwn: Safari < 15.4
 const $=(s,r=document)=>[...r.querySelectorAll(s)];
