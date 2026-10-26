@@ -1,21 +1,79 @@
 CarryOn Freeware License
+Version 2.0, 2026-10-26
 
 Copyright (c) 2026 morningverse. All rights reserved.
 
-CarryOn (the "Software") is free to download and use, for personal or work purposes, on any
-number of Macs.
+This licence is an agreement between you and morningverse, the developer of CarryOn
+(the "Licensor"). It covers the CarryOn application for macOS, its installer and
+command-line tools, and their updates, documentation and icons (the "Software").
+By installing, copying or using the Software you agree to this licence. If you do
+not agree, do not install or use the Software. CarryOn is free to use, but it is
+not open source software.
 
-You may not:
+1. Licence
+The Licensor grants you a free, non-exclusive, non-transferable licence to install
+and use the Software, unmodified, for personal or work purposes, on any number of
+Macs that you own or control. Get the Software only from the official sources:
+https://carryon-app.pages.dev and https://github.com/morningverse67-wq/carryon-app.
 
-  1. sell the Software, or charge for it in any form;
-  2. distribute modified copies of the Software;
-  3. reverse engineer, decompile or disassemble the Software, except to the extent that
-     applicable law expressly permits it despite this limitation.
+2. Restrictions
+Unless the Licensor agrees in writing, you may not, and may not help anyone else to:
+(a) copy, publish, upload, host, mirror or otherwise distribute the Software or any
+    part of it, modified or not, including through other websites, app stores,
+    file-sharing services, bundles or disk images. Linking to an official source is
+    allowed, and so is a package-manager entry that downloads the unmodified
+    Software directly from an official source;
+(b) sell, rent, lease or lend the Software, charge any fee for it or for access to
+    it, or include it in a paid product or service;
+(c) modify, translate or adapt the Software, or create derivative works of it;
+(d) reverse engineer, decompile or disassemble the Software, except to the extent
+    that applicable law expressly permits it despite this restriction;
+(e) remove, alter or hide any copyright, trademark or licence notice in the
+    Software;
+(f) present the Software or any part of it as your own work, or distribute or
+    promote it under another name, icon or brand.
 
-All rights not expressly granted in this license are reserved by the copyright holder.
+3. Trademarks
+"CarryOn" and the CarryOn otter icon are trademarks of the Licensor. This licence
+gives you no right to use them, except to refer truthfully to the Software, for
+example in a review or in a link to an official source. Do not use them, or anything
+confusingly similar, as the name, icon, domain name or account name of any other
+product or service.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+4. Ownership
+The Software is licensed, not sold. The Licensor keeps all rights, title and
+interest in the Software and in every copy of it. All rights not expressly granted
+in this licence are reserved.
+
+5. Files published for reference
+The README, the website and the website code published in the CarryOn GitHub
+repository are shown for reference only. Apart from the viewing and forking within
+GitHub that GitHub's Terms of Service allow, this licence grants no rights in them.
+
+6. Termination
+This licence ends automatically if you break any of its terms. You must then stop
+using the Software and delete all copies. Sections 2 to 10 continue to apply.
+
+7. No warranty
+To the maximum extent permitted by applicable law, the Software is provided "as
+is", without warranty of any kind, express or implied, including the warranties of
+merchantability, fitness for a particular purpose and non-infringement.
+
+8. Limitation of liability
+To the maximum extent permitted by applicable law, the Licensor is not liable for
+any claim, damages or other liability arising from or in connection with the
+Software or its use. Nothing in this licence excludes or limits liability that
+cannot be excluded or limited by law, such as liability for intent or gross
+negligence.
+
+9. Governing law and courts
+This licence is governed by the laws of the Republic of Korea. Disputes about it may
+be brought before the competent courts of the Republic of Korea. If you are a
+consumer, you keep the protection that the mandatory law of the country where you
+live gives you, including your right to bring proceedings there.
+
+10. General
+If any part of this licence is held unenforceable, the rest remains in effect. A
+Korean translation is provided; for users in Korea, the Korean text applies.
+
+Questions, and reports of unofficial copies: carryon0907h@gmail.com

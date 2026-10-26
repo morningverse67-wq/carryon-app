@@ -52,4 +52,4 @@ Dock 아이콘은 없어요. 메뉴 막대에서 찾으세요.
 
 ## 라이선스
 
-무료로 쓸 수 있어요. 소스 코드는 공개하지 않아요. 자세한 내용은 [LICENSE](LICENSE)를 보세요.
+CarryOn은 무료지만 오픈소스가 아닙니다. 복제·재배포·수정·판매는 할 수 없습니다([LICENSE](LICENSE), [한국어 번역](LICENSE.ko.md)). ‘CarryOn’과 해달 아이콘은 morningverse의 상표입니다.

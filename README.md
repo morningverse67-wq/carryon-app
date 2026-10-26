@@ -55,4 +55,4 @@ There is no Dock icon: CarryOn lives in the menu bar.
 
 ## License
 
-Free to use. The source code is not public. See [LICENSE](LICENSE).
+CarryOn is free to use, but it is not open source. You may not copy, redistribute, modify or sell it; see [LICENSE](LICENSE). "CarryOn" and the otter icon are trademarks of morningverse.
