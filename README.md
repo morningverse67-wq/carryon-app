@@ -5,8 +5,8 @@ English | [한국어](README.ko.md)
 A free menu-bar app that shows every AI coding session on your Mac (Claude Code, Codex and Aside) and how full each one's
 context is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.
 
-**[Download CarryOn for Mac](https://github.com/morningverse67-wq/carryon-app/releases/latest/download/CarryOn.dmg)**
-· macOS 14 or later · Apple silicon and Intel · [Website](https://carryon-app.pages.dev/)
+**[Download CarryOn for Mac](https://carryon-app.pages.dev/download)**
+· macOS 14 or later · Apple silicon and Intel · [Website](https://carryon-app.pages.dev/?lang=en)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/en-wide-dark.webp">

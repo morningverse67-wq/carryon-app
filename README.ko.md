@@ -5,8 +5,8 @@
 Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside)과 세션마다 컨텍스트가 얼마나 찼는지 보여 주는 무료 메뉴 막대
 앱이에요. 거의 다 찬 세션은 버튼 하나로 백업하고 메모리를 정리해서, 하던 일을 그 자리에서 이어 갈 수 있어요.
 
-**[Mac용 CarryOn 다운로드](https://github.com/morningverse67-wq/carryon-app/releases/latest/download/CarryOn.dmg)**
-· macOS 14 이상 · Apple 칩·인텔 · [웹사이트](https://carryon-app.pages.dev/)
+**[Mac용 CarryOn 다운로드](https://carryon-app.pages.dev/download)**
+· macOS 14 이상 · Apple 칩·인텔 · [웹사이트](https://carryon-app.pages.dev/?lang=ko)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/ko-wide-dark.webp">

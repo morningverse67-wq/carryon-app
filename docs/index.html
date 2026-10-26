@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CarryOn</title>
 <meta name="description" content="See how full every AI agent session is, and back up and compact the full ones before they run out of room.">
+<link rel="alternate" hreflang="en" href="https://carryon-app.pages.dev/?lang=en">
+<link rel="alternate" hreflang="ko" href="https://carryon-app.pages.dev/?lang=ko">
+<link rel="alternate" hreflang="ja" href="https://carryon-app.pages.dev/?lang=ja">
+<link rel="alternate" hreflang="zh" href="https://carryon-app.pages.dev/?lang=zh">
+<link rel="alternate" hreflang="x-default" href="https://carryon-app.pages.dev/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://carryon-app.pages.dev/">
 <meta property="og:title" content="CarryOn: every AI session at a glance">
@@ -548,7 +553,9 @@ $("#copy-status")[0].textContent="";
 $("#lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
 try{localStorage.lang=l}catch(e){}
 active=-1;soon()}
-function pick(){let s;try{s=localStorage.lang}catch(e){}
+function pick(){let s;try{s=new URLSearchParams(location.search).get("lang")}catch(e){}
+if(own(I18N,s))return s;  // ?lang=en|ko|ja|zh in the address comes first: a link can say which language it opens in
+try{s=localStorage.lang}catch(e){}
 if(own(I18N,s))return s;
 for(const n of navigator.languages||[navigator.language||"en"]){const c=n.slice(0,2).toLowerCase();if(own(I18N,c))return c}
 return"en"}
