@@ -19,7 +19,7 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 - **Back up & compact.** Backs the conversation up, then compacts it in place so its % drops. The app runs it in a panel
   and shows each step and how long it took. An Aside session goes on in a fresh one.
 
-  <img src="docs/img/en-tidy.webp" width="390" alt="The session at 92%, Almost full, and the Back up & compact panel, ending at 92% → 18% (demo data)">
+  <img src="docs/img/demo.gif" width="560" alt="Back up &amp; compact on a session at 92%: the backup, the compaction steps, and the ring down to 18% (demo data)">
 
 - **Clean Up Sessions.** Closes the Claude Code sessions left idle in a terminal, with the memory they hold, after you
   confirm (the conversation stays and can be resumed), and lists the sessions that read the most tokens in 24 hours,
