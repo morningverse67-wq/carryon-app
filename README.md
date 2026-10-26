@@ -27,15 +27,21 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 - **Your to-dos come along.** Keep a to-do list per session; the open ones follow it after a compaction.
 - In English, Korean, Japanese and Simplified Chinese.
 
-## First launch
+## Install
 
-CarryOn is not notarized by Apple yet, so macOS asks once before it opens:
+The quickest way is one line in Terminal. It downloads the newest release, checks its SHA-256 against the release,
+quits a running CarryOn and puts the app into Applications, with no Open Anyway step
+([read it first](https://carryon-app.pages.dev/install.sh)):
+
+```sh
+curl -fsSL https://carryon-app.pages.dev/install.sh | sh
+```
+
+Or download the `.dmg`. CarryOn is not notarized by Apple, so macOS asks once before it opens:
 
 1. Open the `.dmg` and drag **CarryOn** into **Applications**.
-2. Open the app. macOS says it can't verify it; that is expected for now. Click **Done**.
+2. Open the app. macOS says it can't verify it; that is expected. Click **Done**.
 3. Go to **System Settings → Privacy & Security**, scroll down, click **Open Anyway** and confirm.
-
-Or run this once in Terminal: `xattr -dr com.apple.quarantine "/Applications/CarryOn.app"`
 
 There is no Dock icon: CarryOn lives in the menu bar.
 

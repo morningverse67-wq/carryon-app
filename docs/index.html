@@ -314,7 +314,7 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 <div class="duo">
 <ol class="steps"><li><span data-h="s1"></span></li><li><span data-h="s2"></span></li><li><span data-h="s3"></span></li></ol>
 <div><p class="alt" data-i="alt"></p>
-<div class="term"><div class="term-top"><span data-i="term"></span><button id="copy" type="button" aria-describedby="copy-status"></button></div><code id="cmd">xattr -dr com.apple.quarantine "/Applications/CarryOn.app"</code></div>
+<div class="term"><div class="term-top"><span data-i="term"></span><button id="copy" type="button" aria-describedby="copy-status"></button></div><code id="cmd">curl -fsSL https://carryon-app.pages.dev/install.sh | sh</code></div>
 <span id="copy-status" class="sr-only" role="status"></span></div>
 </div>
 <ul class="notes after"><li data-i="m14"></li><li class="no-dot"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 1.5l1.5 4.2 4.2 1.5-4.2 1.5L8 12.9 6.5 8.7 2.3 7.2l4.2-1.5zM14.5 11l.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8z"/></svg><span data-i="bar"></span></li></ul>
@@ -373,7 +373,7 @@ ih:"First launch",iIntro:"CarryOn isn’t notarized by Apple yet, so macOS asks 
 s1:"Open the <b>.dmg</b> and drag <b>CarryOn</b> into <b>Applications</b>.",
 s2:"Open the app. macOS says it can’t verify it. That’s expected for now: click <b>Done</b>.",
 s3:"Go to <b>System Settings → Privacy &amp; Security</b>, scroll down, click <b>Open Anyway</b> and confirm.",
-alt:"Prefer Terminal? This line does the same:",term:"Terminal",copy:"Copy",copied:"Copied",copyFailed:"Select and copy the command manually.",
+alt:"Prefer Terminal? This one line downloads it, checks its SHA-256 and installs it (a running CarryOn is quit and replaced), with no Open Anyway step:",term:"Terminal",copy:"Copy",copied:"Copied",copyFailed:"Select and copy the command manually.",
 m14:"On macOS 14 Sonoma you can also right-click the app and choose Open.",bar:"There’s no Dock icon: CarryOn lives in the menu bar.",
 ph:"Everything is read on your Mac",p0:"CarryOn reads the session logs already on your Mac and shows what it finds on this Mac only.",
 p1:"CarryOn itself makes no network connections.",p2:"Message bodies are never shown in full, stored or sent anywhere.",
@@ -418,7 +418,7 @@ ih:"처음 실행할 때",iIntro:"CarryOn은 아직 Apple 공증을 받지 않�
 s1:"<b>.dmg</b>를 열고 <b>CarryOn</b>을 <b>응용 프로그램</b> 폴더로 끌어다 놓으세요.",
 s2:"앱을 열면 macOS가 확인할 수 없다고 안내해요. 지금은 정상이니 <b>완료</b>를 누르세요.",
 s3:"<b>시스템 설정 → 개인정보 보호 및 보안</b>에서 아래로 스크롤해 <b>그래도 열기</b>를 누르고 확인하세요.",
-alt:"터미널이 편하다면 이 한 줄로 끝나요.",term:"터미널",copy:"복사",copied:"복사됨",copyFailed:"명령을 선택해 직접 복사하세요.",
+alt:"터미널이 편하다면 이 한 줄로 받고, SHA-256을 확인하고, 설치까지 해요(실행 중인 CarryOn은 끄고 새것으로 바꿔요). ‘그래도 열기’ 단계도 없어요.",term:"터미널",copy:"복사",copied:"복사됨",copyFailed:"명령을 선택해 직접 복사하세요.",
 m14:"macOS 14 Sonoma에서는 앱을 오른쪽 클릭하고 ‘열기’를 눌러도 돼요.",bar:"Dock 아이콘은 없어요. 메뉴 막대에서 찾으세요.",
 ph:"기록은 이 Mac 안에서만 읽어요",p0:"CarryOn은 Mac에 이미 있는 세션 기록을 읽고, 찾은 내용을 이 Mac에서만 보여 줘요.",
 p1:"CarryOn 자체는 네트워크에 연결하지 않아요.",p2:"메시지 본문은 전체를 보여 주지도, 저장하거나 보내지도 않아요.",
@@ -463,7 +463,7 @@ ih:"はじめて起動するとき",iIntro:"CarryOn はまだ Apple の公証を
 s1:"<b>.dmg</b> を開き、<b>CarryOn</b> を <b>アプリケーション</b> にドラッグします。",
 s2:"アプリを開くと、macOS が確認できないと表示します。今は想定どおりなので <b>完了</b> を押してください。",
 s3:"<b>システム設定 → プライバシーとセキュリティ</b> で下にスクロールし、<b>このまま開く</b> を押して確認します。",
-alt:"ターミナル派なら、この 1 行で同じことができます。",term:"ターミナル",copy:"コピー",copied:"コピーしました",copyFailed:"コマンドを選択して手動でコピーしてください。",
+alt:"ターミナル派なら、この 1 行でダウンロード、SHA-256 の確認、インストールまで済みます（実行中の CarryOn は終了して置き換えます）。「このまま開く」の手順もいりません。",term:"ターミナル",copy:"コピー",copied:"コピーしました",copyFailed:"コマンドを選択して手動でコピーしてください。",
 m14:"macOS 14 Sonoma では、アプリを右クリックして「開く」を選んでも起動できます。",bar:"Dock アイコンはありません。アプリはメニューバーにいます。",
 ph:"記録はこの Mac の中だけで読みます",p0:"CarryOn は Mac にすでにあるセッション記録を読み、見つけた内容をこの Mac の中だけで表示します。",
 p1:"CarryOn 自体はネットワークに接続しません。",p2:"メッセージ本文は全文を表示せず、保存も送信もしません。",
@@ -508,7 +508,7 @@ ih:"首次启动",iIntro:"CarryOn 还没有经过 Apple 公证，所以首次打
 s1:"打开 <b>.dmg</b>，把 <b>CarryOn</b> 拖到 <b>应用程序</b> 文件夹。",
 s2:"打开应用。macOS 会提示无法验证，这是目前的正常现象，点击 <b>完成</b>。",
 s3:"前往 <b>系统设置 → 隐私与安全性</b>，向下滚动，点击 <b>仍要打开</b>，然后确认。",
-alt:"习惯用终端？这一行命令效果相同：",term:"终端",copy:"复制",copied:"已复制",copyFailed:"请选择命令并手动复制。",
+alt:"习惯用终端？这一行命令会下载、校验 SHA-256 并完成安装（会退出正在运行的 CarryOn 并替换为新版），无需点击“仍要打开”。",term:"终端",copy:"复制",copied:"已复制",copyFailed:"请选择命令并手动复制。",
 m14:"在 macOS 14 Sonoma 上，也可以右键点击应用并选择“打开”。",bar:"没有 Dock 图标：应用位于菜单栏。",
 ph:"记录只在你的 Mac 上读取",p0:"CarryOn 读取你 Mac 上已有的会话记录，找到的内容只在这台 Mac 上显示。",
 p1:"CarryOn 本身不进行任何网络连接。",p2:"消息正文不会完整显示，也不会被保存或发送。",

@@ -25,15 +25,20 @@ Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside)과 세션마다
 - **할 일 메모도 함께 넘어가요.** 세션마다 할 일을 적어 두면, 메모리 정리 뒤에도 남은 할 일이 따라가요.
 - 영어, 한국어, 일본어, 중국어(간체)로 쓸 수 있어요.
 
-## 처음 실행할 때
+## 설치
 
-CarryOn은 아직 Apple 공증을 받지 않아서, 처음 열 때 macOS가 한 번 확인해요.
+가장 빠른 방법은 터미널 한 줄이에요. 최신 릴리스를 받아 SHA-256을 릴리스와 대조하고, 실행 중인 CarryOn은 끈 뒤
+응용 프로그램 폴더에 넣어요. ‘그래도 열기’ 단계도 없어요([먼저 읽어 보기](https://carryon-app.pages.dev/install.sh)).
+
+```sh
+curl -fsSL https://carryon-app.pages.dev/install.sh | sh
+```
+
+`.dmg`로 받아도 돼요. CarryOn은 Apple 공증을 받지 않아서, 처음 열 때 macOS가 한 번 확인해요.
 
 1. `.dmg`를 열고 **CarryOn**을 **응용 프로그램** 폴더로 끌어다 놓으세요.
-2. 앱을 열면 macOS가 확인할 수 없다고 안내해요. 지금은 정상이니 **완료**를 누르세요.
+2. 앱을 열면 macOS가 확인할 수 없다고 안내해요. 정상이니 **완료**를 누르세요.
 3. **시스템 설정 → 개인정보 보호 및 보안**에서 아래로 스크롤해 **그래도 열기**를 누르고 확인하세요.
-
-터미널이 편하다면 이 한 줄로 끝나요: `xattr -dr com.apple.quarantine "/Applications/CarryOn.app"`
 
 Dock 아이콘은 없어요. 메뉴 막대에서 찾으세요.
 
