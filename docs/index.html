@@ -519,7 +519,7 @@ ph:"记录只在你的 Mac 上读取",p0:"CarryOn 读取你 Mac 上已有的会�
 p1:"CarryOn 本身不进行任何网络连接。",p2:"消息正文不会完整显示，也不会被保存或发送。",
 pMore:"具体读取哪些内容",pDetail:"逐行读取 ~/.claude、~/.codex 和 ~/.aside 中的会话记录（Claude Code、Codex、Aside），提取元数据：会话 ID、名称、标题、工作目录、token 数、时间以及谁把工作交给了谁。标题可能是第一条消息的前约 60 个字符。每个会话的最后一个请求（一行），以及最上方显示的会话的最近 3 个请求、最后回复的结尾和计划，都从该会话的日志读取，只在这台 Mac 上显示，既不保存也不发送。此外还会读取你的待办、进程列表（哪些会话在运行、在哪个应用中），以及为“备份并压缩”读取一次登录 shell 的 PATH。",
 foot:"为同时运行多个 AI 代理的人而做。"}};
-const VER="1.4.1";  // the only place the version is written
+const VER="1.4.2";  // the only place the version is written
 const own=(o,k)=>typeof k==="string"&&Object.prototype.hasOwnProperty.call(o,k);  // no Object.hasOwn: Safari < 15.4
 const $=(s,r=document)=>[...r.querySelectorAll(s)];
 let cur="en",copyTimer;
