@@ -10,21 +10,29 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/en-wide-dark.webp">
-  <img src="docs/img/en-wide-light.webp" width="820" alt="The CarryOn window with demo data: a session at 92%, almost full, with its Back up &amp; compact button and the rings of its group, and the lists of sessions waiting for you, needing continuing and running">
+  <img src="docs/img/en-wide-light.webp" width="820" alt="The CarryOn window with demo data: a session at 92%, almost full, with its Back up &amp; compact button and the rings of its group, and the lists of sessions waiting for you, needing compacting and running">
 </picture>
 
-- **One list of what needs you.** Waiting for your answer, needs continuing (context 60% or more, orange from 85%) and
-  running, each session once; the selected session's card shows the sessions in its group (those that handed each
-  other work) as rings. A notification comes when one gets almost full.
+- **One list of what needs you.** Waiting for your answer, needs compacting (context 60% or more in yellow, orange from
+  85%) and running, each session once, on cards. The selected session's card shows its group as rings: a session that
+  handed out work and the sessions it handed work to, named after the first. The group's name is a menu of every group,
+  the fullest first. A notification comes when one gets almost full.
 - **Back up & compact.** Backs the conversation up, then compacts it in place so its % drops. The app runs it in a panel
   and shows each step and how long it took. An Aside session goes on in a fresh one.
+  A Claude Code session idle in a terminal gets **Close & compact**: after you confirm, CarryOn closes it, compacts it
+  and opens it again in Terminal. A session that is working gets **Tidy up when done** instead: it is compacted once
+  it stops, with a notification. Turn on **Tidy up automatically when full** in Settings and a running session that
+  reaches the red line is set for it by itself.
 
   <img src="docs/img/demo.gif" width="560" alt="Back up &amp; compact on a session at 92%: the backup, the compaction steps, and the ring down to 18% (demo data)">
 
 - **Clean Up Sessions.** Closes the Claude Code sessions left idle in a terminal, with the memory they hold, after you
   confirm (the conversation stays and can be resumed), and lists the sessions that read the most tokens in 24 hours,
-  ready to compact.
+  each ready to compact right in its row.
 - **Your to-dos come along.** Keep a to-do list per session; the open ones follow it after a compaction.
+- **Rename a session.** Right-click it and choose Rename…; the name is kept in CarryOn only.
+- **In the menu bar.** Click CarryOn there to open the window. Right-click it for the three fullest sessions, Settings
+  and Check for Updates, which opens the releases page in your browser.
 - In English, Korean, Japanese and Simplified Chinese.
 
 ## Install
