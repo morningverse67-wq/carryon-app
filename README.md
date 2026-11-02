@@ -19,10 +19,10 @@ context is. When one is almost full, one button backs it up and compacts it, so 
   the fullest first. A notification comes when one gets almost full.
 - **Back up & compact.** Backs the conversation up, then compacts it in place so its % drops. The app runs it in a panel
   and shows each step and how long it took. An Aside session goes on in a fresh one.
-  A Claude Code session idle in a terminal gets **Close & compact**: after you confirm, CarryOn closes it, compacts it
-  and opens it again in Terminal. A session that is working gets **Tidy up when done** instead: it is compacted once
-  it stops, with a notification. Turn on **Tidy up automatically when full** in Settings and a running session that
-  reaches the red line is set for it by itself.
+  CarryOn never closes a running session or opens it again in a new window. Turn on **Tidy up automatically when full**
+  in Settings and Claude Code and Codex compact a session themselves at the red line, right where it runs: CarryOn writes
+  that one value into their own settings and puts back what was there when you turn it off. A session that is working
+  gets **Tidy up when done**: it is compacted once it stops, with a notification.
 
   <img src="docs/img/demo.gif" width="560" alt="Back up &amp; compact on a session at 92%: the backup, the compaction steps, and the ring down to 18% (demo data)">
 

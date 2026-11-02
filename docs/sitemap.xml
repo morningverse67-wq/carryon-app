@@ -6,5 +6,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://carryon-app.pages.dev/?lang=ko"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://carryon-app.pages.dev/?lang=ja"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://carryon-app.pages.dev/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://carryon-app.pages.dev/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://carryon-app.pages.dev/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://carryon-app.pages.dev/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://carryon-app.pages.dev/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://carryon-app.pages.dev/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://carryon-app.pages.dev/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://carryon-app.pages.dev/"/>
   </url>
 </urlset>
