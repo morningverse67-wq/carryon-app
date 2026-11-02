@@ -35,9 +35,9 @@
 --bar:60px;--tocbar:62px;
 --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
 @media (prefers-color-scheme:dark){:root{
---bg:#0C0D10;--surface:#15171B;--sunken:#1B1D22;--line:#2A2D34;--text:#F2F3F5;--muted:#C3C7CF;--faint:#A2A8B3;--accent:#86AEFF;
---btn:#2563EB;--btn-hover:#1D4ED8;--toc-on:rgba(130,145,170,.2);--fill:#1C3A72;--orange:#FF9A52;--ring-o:#F97316;--ring-y:#FFCC00;--green:#3DD068;--neutral:#9AA0AB;--track:#2A2D34;
---glow:rgba(59,116,240,.24);--shadow:0 1px 2px rgba(0,0,0,.4),0 28px 56px -28px rgba(0,0,0,.8);--bar-bg:rgba(12,13,16,.82)}}
+--bg:#121110;--surface:#1A1917;--sunken:#211F1D;--line:#302E2A;--text:#F2F3F5;--muted:#C3C7CF;--faint:#A2A8B3;--accent:#86AEFF;
+--btn:#2563EB;--btn-hover:#1D4ED8;--toc-on:rgba(170,160,145,.2);--fill:#1C3A72;--orange:#FF9A52;--ring-o:#F97316;--ring-y:#FFCC00;--green:#3DD068;--neutral:#9AA0AB;--track:#302E2A;
+--glow:rgba(59,116,240,.24);--shadow:0 1px 2px rgba(0,0,0,.4),0 28px 56px -28px rgba(0,0,0,.8);--bar-bg:rgba(18,17,16,.82)}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
@@ -69,30 +69,44 @@ main{overflow-x:clip}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--btn);color:#fff;text-decoration:none;font-weight:650;border-radius:12px;transition:background-color .15s}
 .btn:hover{background:var(--btn-hover)}
 .btn svg{width:19px;height:19px;flex:none}
-.btn-s{font-size:15px;padding:8px 15px 8px 13px;border-radius:10px}
+.btn-s{font-size:15px;line-height:1.2;padding:8px 15px 8px 13px;border-radius:10px}
 .btn-s svg{width:16px;height:16px}
 .btn-l{font-size:18px;padding:16px 28px 16px 24px}
+.btn-o{display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--surface);color:var(--text);border:1px solid var(--neutral);text-decoration:none;font-family:inherit;font-weight:600;line-height:1.2;cursor:pointer;transition:background-color .15s}
+.btn-o:hover{background:var(--sunken)}
+.btn-o.btn-s{font-size:15px;padding:8px 15px}
 
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:56px;align-items:center;padding-block:72px 104px}
-.eyebrow{margin:0 0 18px;font-size:15px;font-weight:650;color:var(--accent);letter-spacing:.01em}
-h1{font-size:clamp(40px,4.1vw,58px);line-height:1.08;letter-spacing:-.035em;font-weight:760;margin:0 0 24px}
-h1 span{display:block}
-h1 .h1b{color:var(--faint)}
-:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(34px,3.6vw,50px);line-height:1.25;letter-spacing:-.02em}
-.lede{font-size:clamp(18px,1.5vw,20px);color:var(--muted);margin:0 0 32px;max-width:32em}
-.meta{margin:14px 0 0;font-size:15px;color:var(--faint)}
-.also{margin:28px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:16px}
-.also a,.foot a{color:var(--muted);text-decoration:none}
-.also a:hover,.foot a:hover{color:var(--text);text-decoration:underline}
-.hero-shot{position:relative;isolation:isolate}
+/* hero: one centered column, the window below it */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:96px 112px}
+h1{font-size:clamp(44px,5vw,68px);line-height:1.06;letter-spacing:-.035em;font-weight:760;margin:0 0 20px}
+:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(38px,4.4vw,60px);line-height:1.2;letter-spacing:-.02em}
+.lede{font-size:clamp(18px,1.5vw,20px);color:var(--muted);margin:0 0 36px;max-width:34em;text-wrap:balance}
+.meta{margin:16px 0 0;font-size:15px;color:var(--faint)}
+.hero-shot{position:relative;isolation:isolate;width:min(100%,1040px);margin-top:80px}
 .hero-shot::before{content:"";position:absolute;inset:-14% -10%;z-index:-1;background:radial-gradient(closest-side,var(--glow),transparent);pointer-events:none}
 .hero-shot img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:var(--shadow)}
 @media (prefers-reduced-motion:no-preference){.hero-shot img{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}}
 
+/* get started, updates: a heading on the left, cards of "name ─ [button]" lines on the right */
+.row{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:56px;margin:0;min-height:0;padding-block:72px;border-top:1px solid var(--line)}
+.row:last-child{margin-bottom:0}
+.row-head p{margin:0;color:var(--muted);max-width:22em}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
+.card>p{margin:0;color:var(--muted);font-size:16px;line-height:1.6}
+.lines{list-style:none;margin:24px 0 0;padding:0}
+.lines>li{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding-block:12px;border-top:1px solid var(--line);font-weight:600;line-height:1.4}
+.lines>li:last-child{padding-bottom:0}
+.lines>li.block{display:block}
+.line-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.small{margin:10px 0 14px;color:var(--muted);font-size:15px;font-weight:400;line-height:1.55}
+.card .steps{margin-top:24px;gap:16px}
+.card .steps li{font-size:16px;line-height:1.55}
+.card .small:last-child{margin-bottom:0;margin-top:20px}
+
 /* table of contents + sections */
-.docs{display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;align-items:start}
+.docs{display:grid;grid-template-columns:240px minmax(0,1fr);gap:56px;align-items:start;padding-top:96px;border-top:1px solid var(--line)}
 .toc{position:sticky;top:calc(var(--bar) + 32px)}
 .toc ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .toc a{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 11px;border-radius:11px;color:var(--text);text-decoration:none;font-size:15px;font-weight:500;line-height:1.3}
@@ -179,17 +193,10 @@ kbd{font:inherit;color:var(--faint)}
 .steps li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;color:var(--muted)}
 .steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--sunken);border:1px solid var(--line);color:var(--text);font-size:15px;font-weight:700;line-height:1;margin-top:-1px}
 b{color:var(--text);font-weight:650}
-.alt{margin:0 0 12px;color:var(--muted)}
-.term{border-radius:14px;overflow:hidden;background:#15171B;color:#E8EAED;border:1px solid #2A2D34}
-.term-top{display:flex;align-items:center;justify-content:space-between;padding:9px 10px 9px 16px;border-bottom:1px solid #2A2D34;font-size:14px;color:#A2A8B3}
-.term button{border:1px solid #3A3F48;background:#22252C;color:#F2F3F5;font:inherit;font-size:14px;font-weight:600;padding:5px 14px;border-radius:8px;cursor:pointer}
-.term button:hover{background:#2C3038}
-.term code{display:block;padding:16px;font:15px/1.65 var(--mono);overflow-wrap:anywhere}
-.after{margin-top:36px}
-.after li{display:flex;gap:10px}
-.after svg{width:18px;height:18px;flex:none;margin-top:.3em;fill:currentColor;color:var(--accent)}
-.after .no-dot::before{content:none}
-.after .no-dot{padding-left:0}
+.term{border-radius:12px;overflow:hidden;background:#15171B;color:#E8EAED;border:1px solid #2A2D34}
+.term code{display:block;padding:14px 16px;font:14px/1.65 var(--mono);font-weight:400;overflow-x:auto}
+.term code span{white-space:nowrap}  /* breaks only at the spaces, never inside the address */
+@media (prefers-color-scheme:dark){.term{background:#0A0908;border-color:#3A3733}}
 
 /* privacy */
 .checks{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:14px}
@@ -206,12 +213,15 @@ details p{margin:0 0 20px;color:var(--muted);font-size:17px}
 .foot .made{display:flex;align-items:center;gap:10px}
 .foot img{border-radius:5px}
 
+@media (max-width:1300px){
+.row{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:56px}
+.row-head p{max-width:36em}
+}
+@media (max-width:1000px){.cards{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:1080px){
-.hero{grid-template-columns:minmax(0,1fr);gap:48px;padding-block:56px 80px}
-.hero-text{max-width:640px}
-h1{font-size:clamp(40px,6.4vw,60px)}
-:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(34px,5.4vw,50px)}
-.hero-shot{max-width:820px}
+.hero{padding-block:72px 88px}
+.hero-shot{margin-top:56px}
+.docs{padding-top:72px}
 .docs{grid-template-columns:204px minmax(0,1fr);gap:36px}
 .duo,.split{grid-template-columns:minmax(0,1fr)}
 .split{gap:28px}
@@ -221,9 +231,15 @@ h1{font-size:clamp(40px,6.4vw,60px)}
 :root{--bar:56px}
 body{font-size:17.5px}
 .wrap{width:calc(100% - 32px)}
-.bar .btn{display:none}
-.hero{padding-block:36px 56px;gap:36px}
-h1{font-size:clamp(34px,10vw,40px)}
+.bar :is(.btn,.btn-o){display:none}
+.hero{padding-block:48px 56px}
+h1{font-size:clamp(36px,10.5vw,44px)}
+:is(:lang(ko),:lang(ja),:lang(zh)) h1{font-size:clamp(32px,9vw,40px)}
+.lede{margin-bottom:28px}
+.hero-shot{margin-top:40px}
+.row{padding-block:48px;scroll-margin-top:calc(var(--bar) + 8px)}
+.card{padding:22px}
+.docs{padding-top:48px}
 .btn-l{width:100%}
 .hero-shot img{border-radius:18px}
 .docs{display:block}
@@ -244,18 +260,15 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 <a class="brand" href="#"><img src="img/icon.png?v=otter" width="28" height="28" alt=""><span>CarryOn</span></a>
 <select id="lang" data-a="langLabel"><option value="en" lang="en">English</option><option value="ko" lang="ko">한국어</option><option value="ja" lang="ja">日本語</option><option value="zh" lang="zh">中文</option><option value="de" lang="de">Deutsch</option><option value="fr" lang="fr">Français</option><option value="es" lang="es">Español</option><option value="it" lang="it">Italiano</option><option value="nl" lang="nl">Nederlands</option><option value="pt" lang="pt-BR">Português</option></select>
 <!-- /download counts the download, then sends it on to the newest GitHub release; its dmg asset must be named CarryOn.dmg -->
+<a class="btn-o btn-s" href="https://github.com/morningverse67-wq/carryon-app">GitHub</a>
 <a class="btn btn-s" href="/download"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dlShort"></span></a>
 </div></header>
 <main>
 <div class="wrap hero">
-<div class="hero-text">
-<p class="eyebrow" data-i="eyebrow"></p>
-<h1><span data-i="h1a"></span><span class="h1b" data-i="h1b"></span></h1>
+<h1 data-i="dlH"></h1>
 <p class="lede" data-i="sub"></p>
 <a class="btn btn-l" href="/download"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dl"></span></a>
 <p class="meta" data-i="meta"></p>
-<p class="also"><a href="https://github.com/morningverse67-wq/carryon-app" data-i="gh"></a></p>
-</div>
 <!-- img/<lang>-<shot>.webp: screenshots of the app with made-up demo data -->
 <div class="hero-shot"><picture>
 <source media="(max-width:760px) and (prefers-color-scheme:dark)" data-s="narrow-dark" width="880" height="1464">
@@ -265,14 +278,43 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 </picture></div>
 </div>
 
+<div class="wrap">
+<section class="row" id="install">
+<div class="row-head"><h2 data-i="startH"></h2><p data-i="startP"></p></div>
+<div class="cards">
+<div class="card"><h3 data-i="macH"></h3><p data-i="bar"></p>
+<ul class="lines">
+<li><span data-i="chip"></span><a class="btn btn-s" href="/download"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dlShort"></span></a></li>
+<li class="block"><div class="line-top"><span data-i="term"></span><button class="btn-o btn-s" id="copy" type="button" aria-describedby="copy-status"></button></div>
+<p class="small" data-i="alt"></p>
+<div class="term"><code id="cmd">curl -fsSL <span>https://carryon-app.pages.dev/install.sh</span> | sh</code></div>
+<span id="copy-status" class="sr-only" role="status"></span></li>
+</ul></div>
+<div class="card"><h3 data-i="ih"></h3><p data-i="iIntro"></p>
+<ol class="steps"><li><span data-h="s1"></span></li><li><span data-h="s2"></span></li><li><span data-h="s3"></span></li></ol>
+<p class="small" data-i="m14"></p></div>
+</div>
+</section>
+<section class="row" id="help">
+<div class="row-head"><h2 data-i="moreH"></h2><p data-i="moreP"></p></div>
+<div class="cards">
+<div class="card"><h3 data-i="updH"></h3><p data-i="updP"></p>
+<ul class="lines"><li><span id="l-rel" data-i="relRow"></span><a class="btn-o btn-s" id="b-rel" href="https://github.com/morningverse67-wq/carryon-app/releases" aria-labelledby="l-rel b-rel" data-i="view"></a></li></ul></div>
+<div class="card"><h3>GitHub</h3>
+<ul class="lines"><li><span id="l-sh" data-i="scriptRow"></span><a class="btn-o btn-s" id="b-sh" href="https://github.com/morningverse67-wq/carryon-app/blob/main/docs/install.sh" aria-labelledby="l-sh b-sh" data-i="view"></a></li>
+<li><span id="l-repo" data-i="repoRow"></span><a class="btn-o btn-s" id="b-repo" href="https://github.com/morningverse67-wq/carryon-app" aria-labelledby="l-repo b-repo" data-i="view"></a></li></ul></div>
+</div>
+</section>
+</div>
+
 <div class="wrap docs">
 <nav class="toc" id="toc" data-a="tocLabel"><ol>
+<li><a href="#install"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="t6"></span></a></li>
 <li><a href="#glance"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" opacity=".35"/><path d="M10 3a7 7 0 0 1 5.7 11"/></svg><span data-i="t1"></span></a></li>
 <li><a href="#compact"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 8.5h5v-5M16.5 11.5h-5v5M8.5 8.5 3 3M11.5 11.5 17 17"/></svg><span data-i="t2"></span></a></li>
 <li><a href="#cleanup"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 3.5 10 10M7 9.5l3.5 3.5M7 9.5c-2 1-3.5 3.5-3.5 7 3.5 0 6-1.5 7-3.5"/></svg><span data-i="tC"></span></a></li>
 <li><a href="#todos"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 5.5 1.5 1.5L7 4.5M3 13.5 4.5 15 7 12.5M10 6h7M10 14h7"/></svg><span data-i="t3"></span></a></li>
 <li><a href="#more"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5.5" height="5.5" rx="1.5"/><rect x="11.5" y="3" width="5.5" height="5.5" rx="1.5"/><rect x="3" y="11.5" width="5.5" height="5.5" rx="1.5"/><rect x="11.5" y="11.5" width="5.5" height="5.5" rx="1.5"/></svg><span data-i="t5"></span></a></li>
-<li><a href="#install"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="t6"></span></a></li>
 <li><a href="#privacy"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8.5" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg><span data-i="t7"></span></a></li>
 </ol></nav>
 <div class="secs">
@@ -331,18 +373,6 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 </div>
 </section>
 
-<section id="install">
-<h2 data-i="ih"></h2>
-<p class="intro" data-i="iIntro"></p>
-<div class="duo">
-<ol class="steps"><li><span data-h="s1"></span></li><li><span data-h="s2"></span></li><li><span data-h="s3"></span></li></ol>
-<div><p class="alt" data-i="alt"></p>
-<div class="term"><div class="term-top"><span data-i="term"></span><button id="copy" type="button" aria-describedby="copy-status"></button></div><code id="cmd">curl -fsSL https://carryon-app.pages.dev/install.sh | sh</code></div>
-<span id="copy-status" class="sr-only" role="status"></span></div>
-</div>
-<ul class="notes after"><li data-i="m14"></li><li class="no-dot"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 1.5l1.5 4.2 4.2 1.5-4.2 1.5L8 12.9 6.5 8.7 2.3 7.2l4.2-1.5zM14.5 11l.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8z"/></svg><span data-i="bar"></span></li></ul>
-</section>
-
 <section id="privacy">
 <h2 data-i="ph"></h2>
 <p class="intro" data-i="p0"></p>
@@ -357,8 +387,8 @@ section{margin-bottom:96px;scroll-margin-top:calc(var(--bar) + var(--tocbar) + 1
 <footer class="wrap foot"><p class="made"><img src="img/icon.png?v=otter" width="20" height="20" alt=""><span data-i="foot"></span></p><p class="ver">CarryOn <span data-v></span> · macOS 14+ · <a href="https://github.com/morningverse67-wq/carryon-app">GitHub</a></p></footer>
 <script>
 const I18N={
-en:{langLabel:"Language",tocLabel:"On this page",dlShort:"Download",dl:"Download for Mac",eyebrow:"Free menu-bar app for macOS",
-cleanAlt:"Clean Up Sessions with demo data: idle Claude Code sessions with the memory each holds and a button to close the selected ones, then the sessions that read the most tokens in 24 hours.",
+en:{dlH:"Download CarryOn",startH:"Get started",startP:"Install it on your Mac, then open it once.",macH:"Mac app",moreH:"Updates and help",moreP:"New versions and the install script are on GitHub.",updH:"Updates",updP:"Right-click CarryOn in the menu bar and choose Check for Updates to open the releases page. Running the Terminal line again also installs the newest version.",relRow:"Release notes",scriptRow:"Install script",repoRow:"Repository",view:"View",chip:"Apple silicon & Intel",
+langLabel:"Language",tocLabel:"On this page",dlShort:"Download",dl:"Download for Mac",cleanAlt:"Clean Up Sessions with demo data: idle Claude Code sessions with the memory each holds and a button to close the selected ones, then the sessions that read the most tokens in 24 hours.",
 cu4:"Compacting starts none of the session’s MCP servers, for Codex as for Claude Code, so it needs less memory.",
 cu3:"Token-heavy sessions show the tokens they read in 24 hours. Compact one right in its row (one at a time, the others wait their turn), or set Tidy up when done if it is working. Each turn reads the whole conversation again, so compacting makes every turn lighter.",
 cu2:"Only Claude Code sessions started in a terminal can be closed, and one whose command still runs in the background is not selected for you.",
@@ -369,8 +399,6 @@ tC:"Clean Up Sessions",
 listAlt:"The home lists: Waiting for you 1, Needs compacting 4 with a Compact button on each, and Running 5 (demo data).",
 pNote:"Only when you press Back up & compact (or Back up & start fresh) does CarryOn copy that one session’s log, with a readable .md, to ~/.carryon/backups/, and then run the tool’s own /compact (claude or codex). As when you type /compact in the session, the compaction is added to that session’s log and the conversation goes to your model provider to be summarized.",
 c5:"A session that is working has no Back up & compact button, so its work is never cut off. Tidy up when done sets it to be compacted once it stops, with a notification; click the notification and that session comes up.",c6:"CarryOn never closes a running session or opens it again in a new window. Turn on Tidy up automatically when full in Settings and Claude Code and Codex compact a session themselves at the red line, right where it runs. CarryOn writes that one value into their own settings and puts back what was there when you turn it off.",
-gh:"View on GitHub ★",
-h1a:"Every AI session at a glance.",h1b:"Carry on before it fills up.",
 sub:"CarryOn shows how full each Claude Code, Codex and Aside session is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.",
 meta:"Version {v} · macOS 14 or later · Apple silicon & Intel · Free",
 heroAlt:"The CarryOn window with demo data: a session at 92%, almost full, with its Back up & compact button and the rings of its group, and the lists of sessions waiting for you, needing compacting and running.",
@@ -404,8 +432,8 @@ ph:"Session logs are read on this Mac only",p0:"CarryOn reads the session logs a
 p1:"CarryOn itself makes no network connections.",p2:"Message bodies are never shown in full, stored or sent anywhere.",
 pMore:"What exactly it reads",pDetail:"The session logs in ~/.claude, ~/.codex and ~/.aside (Claude Code, Codex, Aside), line by line, for metadata: session ids, names, titles, working folder, token counts, times and who handed work to whom. A title can be the first ~60 characters of a session’s first message. Each session’s last request (one line) and, for the session at the top, its last 3 requests, the end of its last reply and its plan are read from its log and shown on this Mac only, in the app or, with Open in Terminal, in that terminal: CarryOn stores none of it and sends it nowhere. It also reads your to-dos, the process list (which sessions run, and in which app) and, for Back up & compact, your login shell’s PATH once.",
 foot:"Made for people who run many AI agents at once."},
-ko:{langLabel:"언어",tocLabel:"목차",dlShort:"다운로드",dl:"Mac용 다운로드",eyebrow:"macOS 메뉴 막대 앱 · 무료",
-cleanAlt:"데모 데이터로 띄운 세션 정리 화면: 쉬는 Claude Code 세션이 메모리 사용량과 함께 있고 선택한 세션을 끄는 버튼, 그 아래 24시간 동안 토큰을 많이 읽은 세션.",
+ko:{dlH:"CarryOn 다운로드",startH:"시작하기",startP:"Mac에 설치하고, 처음 한 번만 열어 주면 돼요.",macH:"Mac 앱",moreH:"업데이트와 도움말",moreP:"새 버전과 설치 스크립트는 GitHub에 있어요.",updH:"업데이트",updP:"메뉴 막대의 CarryOn을 오른쪽 클릭하고 ‘업데이트 확인’을 누르면 릴리스 페이지가 열려요. 터미널 한 줄을 다시 실행해도 최신 버전으로 바꿔요.",relRow:"릴리스 노트",scriptRow:"설치 스크립트",repoRow:"저장소",view:"보기",chip:"Apple 칩·인텔",
+langLabel:"언어",tocLabel:"목차",dlShort:"다운로드",dl:"Mac용 다운로드",cleanAlt:"데모 데이터로 띄운 세션 정리 화면: 쉬는 Claude Code 세션이 메모리 사용량과 함께 있고 선택한 세션을 끄는 버튼, 그 아래 24시간 동안 토큰을 많이 읽은 세션.",
 cu4:"메모리를 정리할 때는 그 세션의 MCP 서버를 하나도 켜지 않아요. Claude Code도 Codex도 마찬가지라 메모리를 덜 써요.",
 cu3:"토큰을 많이 쓰는 세션은 24시간 동안 읽은 토큰 수와 함께 보이고, 그 줄에서 바로 정리할 수 있어요(한 번에 하나, 나머지는 대기). 일하는 중이면 ‘끝나면 정리’를 예약해요. 세션은 매번 대화 전체를 다시 읽으니, 정리하면 한 번에 읽는 양이 줄어요.",
 cu2:"끌 수 있는 건 터미널에서 시작한 Claude Code 세션뿐이고, 띄운 명령이 아직 돌고 있는 세션은 미리 선택해 두지 않아요.",
@@ -416,8 +444,6 @@ tC:"세션 정리",
 listAlt:"홈 목록: 답 기다림 1, 정리 필요 4(행마다 메모리 정리 버튼), 실행 중 5(데모 데이터).",
 pNote:"‘백업하고 메모리 정리’(또는 ‘백업하고 새 세션으로’)를 누를 때만 그 세션 하나의 기록을 읽기 쉬운 .md와 함께 ~/.carryon/backups/에 복사하고, 그 도구의 /compact(claude 또는 codex)를 실행해요. 세션에서 /compact를 직접 입력할 때처럼 정리 결과가 그 세션 기록에 더해지고, 대화는 요약을 위해 모델 제공자에게 보내져요.",
 c5:"일하는 중인 세션에는 ‘백업하고 메모리 정리’ 버튼이 없어서 하던 일이 끊기지 않아요. ‘끝나면 정리’를 예약해 두면 일이 멈춘 뒤 정리하고 알려 줘요. 알림을 누르면 그 세션이 바로 떠요.",c6:"CarryOn은 실행 중인 세션을 끄거나 새 창으로 다시 열지 않아요. 설정에서 ‘메모리 차면 자동 정리’를 켜 두면 Claude Code와 Codex가 빨간 선에 닿을 때 그 자리에서 스스로 메모리를 정리해요. CarryOn은 두 도구의 설정에 그 값 하나만 써 두고, 끄면 원래대로 되돌려요.",
-gh:"GitHub에서 보기 ★",
-h1a:"모든 AI 세션을 한눈에.",h1b:"꽉 차기 전에 이어 가세요.",
 sub:"Claude Code, Codex, Aside 세션이 저마다 얼마나 찼는지 보여 줘요. 거의 다 찬 세션은 버튼 하나로 백업하고 메모리를 정리해서, 하던 일을 그 자리에서 이어 갈 수 있어요.",
 meta:"버전 {v} · macOS 14 이상 · Apple 칩·인텔 · 무료",
 heroAlt:"데모 데이터로 띄운 CarryOn 창: 92%로 곧 대화가 꽉 차는 세션이 ‘백업하고 메모리 정리’ 버튼, 같은 그룹 세션의 링과 함께 보이고, 답 기다림·정리 필요·실행 중 세션 목록이 있어요.",
@@ -451,8 +477,8 @@ ph:"기록은 이 Mac 안에서만 읽어요",p0:"CarryOn은 Mac에 이미 있�
 p1:"CarryOn 자체는 네트워크에 연결하지 않아요.",p2:"메시지 본문은 전체를 보여 주지도, 저장하거나 보내지도 않아요.",
 pMore:"정확히 무엇을 읽나요",pDetail:"~/.claude, ~/.codex, ~/.aside의 세션 기록(Claude Code, Codex, Aside)을 한 줄씩 읽어 메타데이터(세션 ID, 이름, 제목, 작업 폴더, 토큰 수, 시각, 누가 누구에게 일을 넘겼는지)를 뽑아요. 제목은 첫 메시지의 앞 60자 정도일 수 있어요. 각 세션의 마지막 요청(한 줄)과, 맨 위에 보이는 세션의 최근 요청 3개·마지막 답의 끝·계획은 그 세션 기록에서 읽어 이 Mac에서만(앱이나, ‘터미널에서 열기’로 연 그 터미널에서) 보여 주고, 저장하거나 어디로 보내지 않아요. 그 밖에 할 일 메모, 프로세스 목록(어떤 세션이 어느 앱에서 실행 중인지), 그리고 ‘백업하고 메모리 정리’를 위해 로그인 셸의 PATH를 한 번 읽어요.",
 foot:"AI 에이전트를 여러 개 동시에 돌리는 사람을 위해 만들었어요."},
-ja:{langLabel:"言語",tocLabel:"目次",dlShort:"ダウンロード",dl:"Mac版をダウンロード",eyebrow:"macOS のメニューバーアプリ · 無料",
-cleanAlt:"デモデータの「セッションの整理」画面：休止中の Claude Code セッションとそれぞれのメモリ、選んだセッションを終了するボタン、その下に 24 時間でトークンを多く読んだセッション。",
+ja:{dlH:"CarryOn をダウンロード",startH:"はじめる",startP:"Mac にインストールして、最初に一度開くだけです。",macH:"Mac アプリ",moreH:"アップデートとヘルプ",moreP:"新しいバージョンとインストールスクリプトは GitHub にあります。",updH:"アップデート",updP:"メニューバーの CarryOn を右クリックして「アップデートを確認」を選ぶと、リリースページが開きます。ターミナルの 1 行をもう一度実行しても最新版に入れ替わります。",relRow:"リリースノート",scriptRow:"インストールスクリプト",repoRow:"リポジトリ",view:"表示",chip:"Appleシリコン・Intel",
+langLabel:"言語",tocLabel:"目次",dlShort:"ダウンロード",dl:"Mac版をダウンロード",cleanAlt:"デモデータの「セッションの整理」画面：休止中の Claude Code セッションとそれぞれのメモリ、選んだセッションを終了するボタン、その下に 24 時間でトークンを多く読んだセッション。",
 cu4:"圧縮のときはセッションの MCP サーバーをひとつも起動しません。Claude Code も Codex も同じなので、メモリの使用が少なくなります。",
 cu3:"トークンの多いセッションは 24 時間に読んだトークン数とともに表示され、その行ですぐ整理できます（一度に 1 つ、ほかは順番待ち）。作業中なら「終わったら整理」を予約します。セッションは毎回会話全体を読み直すので、圧縮すると 1 回に読む量が減ります。",
 cu2:"終了できるのはターミナルで始めた Claude Code のセッションだけで、起動したコマンドがまだ動いているセッションはあらかじめ選びません。",
@@ -463,8 +489,6 @@ tC:"セッションの整理",
 listAlt:"ホームの一覧：返事待ち 1、整理が必要 4（各行に圧縮ボタン）、実行中 5（デモデータ）。",
 pNote:"「バックアップして圧縮」（または「バックアップして新しいセッションへ」）を押したときだけ、そのセッション一つのログを読みやすい .md と一緒に ~/.carryon/backups/ にコピーし、そのツール自身の /compact（claude または codex）を実行します。セッションで /compact と入力したときと同じく、圧縮がそのセッションのログに追加され、会話は要約のためにモデルの提供元に送られます。",
 c5:"作業中のセッションには「バックアップして圧縮」ボタンが出ないので、作業が途中で切れません。「終わったら整理」を予約すると、作業が止まってから整理して通知します。通知をクリックするとそのセッションが表示されます。",c6:"CarryOn は実行中のセッションを終了したり、新しいウィンドウで開き直したりしません。設定で「いっぱいになったら自動で整理」をオンにすると、Claude Code と Codex が赤い線でその場で自分で圧縮します。CarryOn は両ツールの設定にその値を一つ書くだけで、オフにすると元に戻します。",
-gh:"GitHub で見る ★",
-h1a:"AIセッションを、ひと目で。",h1b:"あふれる前に、そのまま続けよう。",
 sub:"Claude Code・Codex・Aside の各セッションが、どれだけ埋まっているかを表示します。いっぱいに近づいたらボタンひとつでバックアップして圧縮。中断したところからそのまま続けられます。",
 meta:"バージョン {v} · macOS 14以降 · Appleシリコン・Intel · 無料",
 heroAlt:"デモデータの CarryOn ウィンドウ：92% でもうすぐいっぱいになるセッションが「バックアップと圧縮」ボタンと同じグループのリング付きで表示され、返事待ち・整理が必要・実行中のセッション一覧が並びます。",
@@ -485,7 +509,7 @@ ch1:"Claude Code · Warp",ch2:"Codex · アプリ",ch3:"Claude Code · VS Code",
 f0h:"ほかにもこんなこと",
 f2h:"すべてのセッションを検索",f2p:"名前やプロジェクトでどのセッションでも探せます。行を右クリックすると、圧縮、再開コマンドのコピー、名前の変更ができます。変更した名前は CarryOn の中だけに保存されます。",sPrompt:"名前やプロジェクトで検索",sAll:"すべてのセッションを表示…",
 f3h:"85% で通知",f3p:"セッションがいっぱいに近づくと通知が 1 回届くので、間に合ううちに圧縮できます。",nText:"決済 API 改修 の会話量 92% — 圧縮してください（バックアップして圧縮）",
-mH:"メニューバーから",mP:"メニューバーの CarryOn をクリックするとウィンドウが開きます。右クリックすると、いちばん埋まったセッション 3 つがリングと % 付きで出て（選ぶとそのセッションを表示）、設定とアップデートの確認もあります。アップデートの確認はブラウザでリリースページを開きます。",mOpen:"CarryOn を開く",mTop:"会話量の多いセッション",mSet:"設定…",mUpd:"アップデートを確認…",
+mH:"メニューバーから",mP:"メニューバーの CarryOn をクリックするとウィンドウが開きます。右クリックすると、いちばん埋まったセッション 3 つがリングと % 付きで出て（選ぶとそのセッションを表示）、設定と「アップデートを確認」もあります。こちらはブラウザでリリースページを開きます。",mOpen:"CarryOn を開く",mTop:"会話量の多いセッション",mSet:"設定…",mUpd:"アップデートを確認…",
 bH:"会話をひと目で",bP:"選んだセッションの最後の依頼を押すと、その前の依頼と最後の返答が開きます。「ターミナルで開く」も、セッションを再開する前に最近のやりとりを表示します。",bK1:"最後の依頼",bK2:"最近の依頼",bK3:"最後の返答",
 f4h:"10 の言語",f4p:"英語・韓国語・日本語・中国語（簡体字）・ドイツ語・フランス語・スペイン語・イタリア語・オランダ語・ポルトガル語に対応。最初の起動で選べて、いつでも変えられます。",
 ih:"はじめて起動するとき",iIntro:"CarryOn はまだ Apple の公証を受けていないため、最初の 1 回だけ macOS が確認します。",
@@ -498,8 +522,8 @@ ph:"記録はこの Mac の中だけで読みます",p0:"CarryOn は Mac にす�
 p1:"CarryOn 自体はネットワークに接続しません。",p2:"メッセージ本文は全文を表示せず、保存も送信もしません。",
 pMore:"何を読み取るのか、くわしく",pDetail:"~/.claude、~/.codex、~/.aside のセッション記録（Claude Code、Codex、Aside）を 1 行ずつ読み、メタデータ（セッション ID、名前、タイトル、作業フォルダ、トークン数、時刻、誰が誰に仕事を渡したか）を取り出します。タイトルは最初のメッセージの先頭約 60 文字になることがあります。各セッションの最後の依頼（1 行）と、いちばん上に表示中のセッションの最近の依頼 3 件・最後の返答の末尾・計画は、そのログから読んでこの Mac の中だけ（アプリか、「ターミナルで開く」で開いたそのターミナル）で表示し、保存も送信もしません。ほかに、やることメモ、プロセス一覧（どのセッションがどのアプリで実行中か）、そして「バックアップして圧縮」のためにログインシェルの PATH を一度だけ読みます。",
 foot:"たくさんの AI エージェントを同時に動かす人のために。"},
-zh:{langLabel:"语言",tocLabel:"目录",dlShort:"下载",dl:"下载 Mac 版",eyebrow:"macOS 菜单栏应用 · 免费",
-cleanAlt:"使用演示数据的“整理会话”界面：空闲的 Claude Code 会话及其占用的内存、关闭所选会话的按钮，下方是 24 小时内读取 token 最多的会话。",
+zh:{dlH:"下载 CarryOn",startH:"开始使用",startP:"安装到 Mac 上，首次打开时确认一次即可。",macH:"Mac 应用",moreH:"更新与帮助",moreP:"新版本和安装脚本都在 GitHub 上。",updH:"更新",updP:"右键点击菜单栏中的 CarryOn，选择“检查更新”即可打开发布页面。再次运行终端里的那一行命令，也会换成最新版本。",relRow:"版本说明",scriptRow:"安装脚本",repoRow:"仓库",view:"查看",chip:"Apple 芯片与 Intel",
+langLabel:"语言",tocLabel:"目录",dlShort:"下载",dl:"下载 Mac 版",cleanAlt:"使用演示数据的“整理会话”界面：空闲的 Claude Code 会话及其占用的内存、关闭所选会话的按钮，下方是 24 小时内读取 token 最多的会话。",
 cu4:"压缩时不会启动该会话的任何 MCP 服务器，Claude Code 和 Codex 都一样，所以占用的内存更少。",
 cu3:"token 用量大的会话会显示 24 小时内读取的 token 数，可以在那一行直接整理（一次一个，其余排队）；正在工作的可以预约“完成后整理”。会话每次都会重新读取整段对话，压缩后每次读取的量会减少。",
 cu2:"只能关闭在终端里启动的 Claude Code 会话；它启动的命令仍在运行的会话不会被预先选中。",
@@ -510,8 +534,6 @@ tC:"整理会话",
 listAlt:"主屏幕列表：等你回复 1、需要整理 4（每行有压缩按钮）、运行中 5（演示数据）。",
 pNote:"只有点击“备份并压缩”（或“备份并开新会话”）时，才会把那一个会话的日志连同一份易读的 .md 复制到 ~/.carryon/backups/，然后运行该工具自己的 /compact（claude 或 codex）。和在会话中输入 /compact 一样，压缩结果会追加到该会话的日志，对话会发送给你的模型提供商进行总结。",
 c5:"正在工作的会话没有“备份并压缩”按钮，以免打断它的工作。预约“完成后整理”后，它停下时会自动整理并通知你。点击通知即可打开那个会话。",c6:"CarryOn 不会关闭正在运行的会话，也不会在新窗口中重新打开它。在设置中打开“满了自动整理”，Claude Code 和 Codex 会在到达红线时就地自行压缩会话。CarryOn 只在两个工具的设置里写入这一个值，关闭后恢复原样。",
-gh:"在 GitHub 上查看 ★",
-h1a:"所有 AI 会话，一目了然。",h1b:"快满之前，接着往下做。",
 sub:"CarryOn 显示每个 Claude Code、Codex 和 Aside 会话的上下文用了多少。快满时，一个按钮就能备份并压缩，从停下的地方接着做。",
 meta:"版本 {v} · macOS 14 或更高版本 · Apple 芯片与 Intel · 免费",
 heroAlt:"使用演示数据的 CarryOn 窗口：92%、快满的会话带着“备份并压缩”按钮和同组会话的圆环显示，还有等你回复、需要整理和正在运行的会话列表。",
@@ -545,8 +567,8 @@ ph:"记录只在你的 Mac 上读取",p0:"CarryOn 读取你 Mac 上已有的会�
 p1:"CarryOn 本身不进行任何网络连接。",p2:"消息正文不会完整显示，也不会被保存或发送。",
 pMore:"具体读取哪些内容",pDetail:"逐行读取 ~/.claude、~/.codex 和 ~/.aside 中的会话记录（Claude Code、Codex、Aside），提取元数据：会话 ID、名称、标题、工作目录、token 数、时间以及谁把工作交给了谁。标题可能是第一条消息的前约 60 个字符。每个会话的最后一个请求（一行），以及最上方显示的会话的最近 3 个请求、最后回复的结尾和计划，都从该会话的日志读取，只在这台 Mac 上显示（在应用中，或在用“在终端中打开”打开的那个终端中），既不保存也不发送。此外还会读取你的待办、进程列表（哪些会话在运行、在哪个应用中），以及为“备份并压缩”读取一次登录 shell 的 PATH。",
 foot:"为同时运行多个 AI 代理的人而做。"},
-de:{langLabel:"Sprache",tocLabel:"Auf dieser Seite",dlShort:"Download",dl:"Download für Mac",eyebrow:"Kostenlose Menüleisten-App für macOS",
-cleanAlt:"„Sitzungen aufräumen“ mit Demodaten: ruhende Claude-Code-Sitzungen mit dem Speicher, den jede belegt, und eine Taste, die die ausgewählten schließt, darunter die Sitzungen, die in 24 Stunden die meisten Tokens gelesen haben.",
+de:{dlH:"CarryOn herunterladen",startH:"Loslegen",startP:"Installiere die App auf deinem Mac und öffne sie einmal.",macH:"Mac-App",moreH:"Updates und Hilfe",moreP:"Neue Versionen und das Installationsskript findest du auf GitHub.",updH:"Updates",updP:"Klicke mit der rechten Maustaste auf CarryOn in der Menüleiste und wähle „Nach Updates suchen“, um die Seite mit den Versionen zu öffnen. Wenn du die Terminal-Zeile erneut ausführst, wird ebenfalls die neueste Version installiert.",relRow:"Versionshinweise",scriptRow:"Installationsskript",repoRow:"Repository",view:"Ansehen",chip:"Apple Silicon & Intel",
+langLabel:"Sprache",tocLabel:"Auf dieser Seite",dlShort:"Download",dl:"Download für Mac",cleanAlt:"„Sitzungen aufräumen“ mit Demodaten: ruhende Claude-Code-Sitzungen mit dem Speicher, den jede belegt, und eine Taste, die die ausgewählten schließt, darunter die Sitzungen, die in 24 Stunden die meisten Tokens gelesen haben.",
 cu4:"Beim Komprimieren startet keiner der MCP-Server der Sitzung, bei Codex wie bei Claude Code. So braucht es weniger Speicher.",
 cu3:"Bei Sitzungen mit vielen Tokens steht dabei, wie viele Tokens sie in 24 Stunden gelesen haben. Komprimiere eine direkt in ihrer Zeile (eine nach der anderen, die übrigen warten), oder wähle „Aufräumen, wenn fertig“, wenn sie gerade arbeitet. Jede Runde liest das ganze Gespräch neu, also macht Komprimieren jede Runde leichter.",
 cu2:"Schließen lassen sich nur Claude-Code-Sitzungen, die in einem Terminal gestartet wurden. Eine, deren Befehl noch im Hintergrund läuft, wird nicht für dich ausgewählt.",
@@ -557,8 +579,6 @@ tC:"Sitzungen aufräumen",
 listAlt:"Die Listen der Startseite: Wartet auf dich 1, Komprimieren nötig 4 mit je einer Taste „Komprimieren“, und Läuft 5 (Demodaten).",
 pNote:"Nur wenn du „Sichern & komprimieren“ (oder „Sichern & neu beginnen“) drückst, kopiert CarryOn das Protokoll dieser einen Sitzung samt lesbarer .md nach ~/.carryon/backups/ und führt dann das /compact des jeweiligen Tools aus (claude oder codex). Wie wenn du /compact in der Sitzung eintippst, wird die Komprimierung dem Protokoll der Sitzung hinzugefügt, und das Gespräch geht zum Zusammenfassen an deinen Modellanbieter.",
 c5:"Eine Sitzung, die gerade arbeitet, hat keine Taste „Sichern & komprimieren“, damit ihre Arbeit nie abgebrochen wird. „Aufräumen, wenn fertig“ merkt sie zum Komprimieren vor, sobald sie aufhört, mit einer Mitteilung; ein Klick auf die Mitteilung zeigt diese Sitzung.",c6:"CarryOn beendet nie eine laufende Sitzung und öffnet sie nie in einem neuen Fenster neu. Schalte in den Einstellungen „Automatisch aufräumen, wenn voll“ ein, dann komprimieren Claude Code und Codex eine Sitzung an der roten Linie selbst, genau dort, wo sie läuft. CarryOn schreibt dafür nur diesen einen Wert in ihre Einstellungen und stellt beim Ausschalten den alten Stand wieder her.",
-gh:"Auf GitHub ansehen ★",
-h1a:"Jede KI-Sitzung auf einen Blick.",h1b:"Weitermachen, bevor sie voll ist.",
 sub:"CarryOn zeigt, wie voll jede Sitzung in Claude Code, Codex und Aside ist. Ist eine fast voll, sichert und komprimiert eine Taste sie, und du arbeitest dort weiter, wo du aufgehört hast.",
 meta:"Version {v} · macOS 14 oder neuer · Apple Silicon & Intel · Kostenlos",
 heroAlt:"Das CarryOn-Fenster mit Demodaten: eine Sitzung bei 92 %, fast voll, mit ihrer Taste „Sichern & komprimieren“ und den Ringen ihrer Gruppe, dazu die Listen der Sitzungen, die auf dich warten, komprimiert werden müssen und laufen.",
@@ -589,8 +609,8 @@ ph:"Sitzungsprotokolle werden nur auf diesem Mac gelesen",p0:"CarryOn liest die 
 p1:"CarryOn selbst baut keine Netzwerkverbindungen auf.",p2:"Nachrichtentexte werden nie vollständig angezeigt, gespeichert oder irgendwohin gesendet.",
 pMore:"Was genau gelesen wird",pDetail:"Die Sitzungsprotokolle in ~/.claude, ~/.codex und ~/.aside (Claude Code, Codex, Aside), Zeile für Zeile, nach Metadaten: Sitzungs-IDs, Namen, Titel, Arbeitsordner, Token-Zahlen, Zeiten und wer wem Arbeit übergeben hat. Ein Titel können die ersten rund 60 Zeichen der ersten Nachricht einer Sitzung sein. Die letzte Anfrage jeder Sitzung (eine Zeile) und, für die Sitzung ganz oben, ihre letzten 3 Anfragen, das Ende ihrer letzten Antwort und ihr Plan werden aus ihrem Protokoll gelesen und nur auf diesem Mac angezeigt, in der App oder, mit „Im Terminal öffnen“, in diesem Terminal: CarryOn speichert nichts davon und sendet es nirgendwohin. Außerdem liest es deine To-dos, die Prozessliste (welche Sitzungen laufen und in welcher App) und für „Sichern & komprimieren“ einmal den PATH deiner Login-Shell.",
 foot:"Gemacht für alle, die viele KI-Agenten gleichzeitig laufen lassen."},
-fr:{langLabel:"Langue",tocLabel:"Sur cette page",dlShort:"Télécharger",dl:"Télécharger pour Mac",eyebrow:"App gratuite pour la barre des menus de macOS",
-cleanAlt:"Ranger les sessions avec des données de démo : les sessions Claude Code inactives, la mémoire que chacune occupe et un bouton pour fermer celles qui sont sélectionnées, puis les sessions qui ont lu le plus de tokens en 24 heures.",
+fr:{dlH:"Télécharger CarryOn",startH:"Pour commencer",startP:"Installez l’app sur votre Mac, puis ouvrez-la une fois.",macH:"App Mac",moreH:"Mises à jour et aide",moreP:"Les nouvelles versions et le script d’installation sont sur GitHub.",updH:"Mises à jour",updP:"Faites un clic droit sur CarryOn dans la barre des menus et choisissez Rechercher des mises à jour pour ouvrir la page des versions. Relancer la ligne du Terminal installe aussi la dernière version.",relRow:"Notes de version",scriptRow:"Script d’installation",repoRow:"Dépôt",view:"Voir",chip:"Apple silicon et Intel",
+langLabel:"Langue",tocLabel:"Sur cette page",dlShort:"Télécharger",dl:"Télécharger pour Mac",cleanAlt:"Ranger les sessions avec des données de démo : les sessions Claude Code inactives, la mémoire que chacune occupe et un bouton pour fermer celles qui sont sélectionnées, puis les sessions qui ont lu le plus de tokens en 24 heures.",
 cu4:"Le compactage ne démarre aucun des serveurs MCP de la session, pour Codex comme pour Claude Code : il demande donc moins de mémoire.",
 cu3:"Les sessions gourmandes en tokens affichent les tokens lus en 24 heures. Compactez-en une directement dans sa ligne (une à la fois, les autres attendent leur tour), ou choisissez Ranger une fois fini si elle travaille. Chaque tour relit toute la conversation : compacter allège donc chaque tour.",
 cu2:"Seules les sessions Claude Code lancées dans un terminal peuvent être fermées, et une session dont la commande tourne encore en arrière-plan n’est pas sélectionnée d’office.",
@@ -601,8 +621,6 @@ tC:"Ranger les sessions",
 listAlt:"Les listes de l’accueil : Vous attend 1, À compacter 4 avec un bouton Compacter sur chacune, et En cours 5 (données de démo).",
 pNote:"C’est seulement quand vous appuyez sur Sauvegarder et compacter (ou Sauvegarder et repartir à neuf) que CarryOn copie le journal de cette session, avec un .md lisible, dans ~/.carryon/backups/, puis lance la commande /compact de l’outil (claude ou codex). Comme quand vous tapez /compact dans la session, le compactage est ajouté au journal de la session et la conversation est envoyée à votre fournisseur de modèle pour être résumée.",
 c5:"Une session au travail n’a pas de bouton Sauvegarder et compacter, pour que son travail ne soit jamais interrompu. Ranger une fois fini la programme pour être compactée dès qu’elle s’arrête, avec une notification ; cliquez sur la notification pour afficher cette session.",c6:"CarryOn ne ferme jamais une session en cours et ne la rouvre jamais dans une nouvelle fenêtre. Activez Ranger automatiquement si plein dans les Réglages : Claude Code et Codex compactent alors eux-mêmes une session à la ligne rouge, là où elle tourne. CarryOn n’écrit que cette valeur dans leurs réglages et remet ce qui y était quand vous le désactivez.",
-gh:"Voir sur GitHub ★",
-h1a:"Chaque session d’IA d’un coup d’œil.",h1b:"Continuez avant qu’elle soit pleine.",
 sub:"CarryOn montre à quel point chaque session Claude Code, Codex et Aside est remplie. Quand l’une d’elles est presque pleine, un seul bouton la sauvegarde et la compacte, et vous reprenez là où vous en étiez.",
 meta:"Version {v} · macOS 14 ou ultérieur · Apple silicon et Intel · Gratuit",
 heroAlt:"La fenêtre CarryOn avec des données de démo : une session à 92 %, presque pleine, avec son bouton Sauvegarder et compacter et les anneaux de son groupe, et les listes des sessions qui vous attendent, à compacter et en cours.",
@@ -633,8 +651,8 @@ ph:"Les journaux de session sont lus sur ce Mac uniquement",p0:"CarryOn lit les 
 p1:"CarryOn lui-même n’établit aucune connexion réseau.",p2:"Le texte des messages n’est jamais affiché en entier, enregistré ni envoyé nulle part.",
 pMore:"Ce qu’il lit exactement",pDetail:"Les journaux de session dans ~/.claude, ~/.codex et ~/.aside (Claude Code, Codex, Aside), ligne par ligne, pour en tirer des métadonnées : identifiants de session, noms, titres, dossier de travail, nombres de tokens, heures et qui a confié du travail à qui. Un titre peut être les quelque 60 premiers caractères du premier message d’une session. La dernière demande de chaque session (une ligne) et, pour la session en haut, ses 3 dernières demandes, la fin de sa dernière réponse et son plan sont lus dans son journal et affichés sur ce Mac uniquement, dans l’app ou, avec Ouvrir dans Terminal, dans ce terminal : CarryOn n’en garde rien et ne l’envoie nulle part. Il lit aussi vos choses à faire, la liste des processus (quelles sessions tournent, et dans quelle app) et, pour Sauvegarder et compacter, une fois le PATH de votre shell de connexion.",
 foot:"Fait pour ceux qui font tourner beaucoup d’agents d’IA à la fois."},
-es:{langLabel:"Idioma",tocLabel:"En esta página",dlShort:"Descargar",dl:"Descargar para Mac",eyebrow:"App gratuita para la barra de menús de macOS",
-cleanAlt:"Ordenar sesiones con datos de demostración: sesiones inactivas de Claude Code con la memoria que ocupa cada una y un botón para cerrar las seleccionadas, y debajo las sesiones que más tokens leyeron en 24 horas.",
+es:{dlH:"Descargar CarryOn",startH:"Primeros pasos",startP:"Instálala en tu Mac y ábrela una vez.",macH:"App para Mac",moreH:"Actualizaciones y ayuda",moreP:"Las nuevas versiones y el script de instalación están en GitHub.",updH:"Actualizaciones",updP:"Haz clic derecho en CarryOn en la barra de menús y elige Buscar actualizaciones para abrir la página de versiones. Ejecutar de nuevo la línea de Terminal también instala la versión más reciente.",relRow:"Notas de la versión",scriptRow:"Script de instalación",repoRow:"Repositorio",view:"Ver",chip:"Apple silicon e Intel",
+langLabel:"Idioma",tocLabel:"En esta página",dlShort:"Descargar",dl:"Descargar para Mac",cleanAlt:"Ordenar sesiones con datos de demostración: sesiones inactivas de Claude Code con la memoria que ocupa cada una y un botón para cerrar las seleccionadas, y debajo las sesiones que más tokens leyeron en 24 horas.",
 cu4:"Al compactar no se inicia ninguno de los servidores MCP de la sesión, ni en Codex ni en Claude Code, así que hace falta menos memoria.",
 cu3:"Las sesiones que gastan muchos tokens muestran los tokens que leyeron en 24 horas. Compacta una desde su propia fila (de una en una, las demás esperan su turno), o elige Ordenar al terminar si está trabajando. Cada turno vuelve a leer toda la conversación, así que compactar aligera cada turno.",
 cu2:"Solo se pueden cerrar las sesiones de Claude Code iniciadas en un terminal, y una cuyo comando sigue en segundo plano no se selecciona por ti.",
@@ -645,8 +663,6 @@ tC:"Ordenar sesiones",
 listAlt:"Las listas de inicio: Te espera 1, Por compactar 4 con un botón Compactar en cada una, y En ejecución 5 (datos de demostración).",
 pNote:"Solo cuando pulsas Copiar y compactar (o Copiar y empezar de cero), CarryOn copia el registro de esa sesión, con un .md legible, en ~/.carryon/backups/, y después ejecuta el /compact de la propia herramienta (claude o codex). Igual que cuando escribes /compact en la sesión, la compactación se añade al registro de esa sesión y la conversación va a tu proveedor del modelo para resumirla.",
 c5:"Una sesión que está trabajando no tiene botón Copiar y compactar, para que su trabajo nunca se corte. Ordenar al terminar la deja lista para compactarse cuando pare, con una notificación; al hacer clic en la notificación aparece esa sesión.",c6:"CarryOn nunca cierra una sesión en ejecución ni la vuelve a abrir en una ventana nueva. Activa Ordenar solo al llenarse en Ajustes y Claude Code y Codex compactan la sesión por sí mismos al llegar a la línea roja, ahí mismo donde se ejecuta. CarryOn solo escribe ese valor en sus ajustes y deja lo que había al desactivarlo.",
-gh:"Ver en GitHub ★",
-h1a:"Cada sesión de IA, de un vistazo.",h1b:"Sigue antes de que se llene.",
 sub:"CarryOn muestra cuánto se ha llenado cada sesión de Claude Code, Codex y Aside. Cuando una está casi llena, un solo botón la copia y la compacta, y sigues trabajando donde lo dejaste.",
 meta:"Versión {v} · macOS 14 o posterior · Apple silicon e Intel · Gratis",
 heroAlt:"La ventana de CarryOn con datos de demostración: una sesión al 92 %, casi llena, con su botón Copiar y compactar y los anillos de su grupo, y las listas de sesiones que te esperan, por compactar y en ejecución.",
@@ -677,8 +693,8 @@ ph:"Los registros de sesión se leen solo en este Mac",p0:"CarryOn lee los regis
 p1:"CarryOn por sí misma no se conecta a la red.",p2:"El texto de los mensajes nunca se muestra completo, ni se guarda, ni se envía a ningún sitio.",
 pMore:"Qué lee exactamente",pDetail:"Los registros de sesión de ~/.claude, ~/.codex y ~/.aside (Claude Code, Codex, Aside), línea por línea, para sacar metadatos: ID de sesión, nombres, títulos, carpeta de trabajo, número de tokens, horas y quién pasó trabajo a quién. Un título puede ser los primeros 60 caracteres, más o menos, del primer mensaje de una sesión. La última petición de cada sesión (una línea) y, para la sesión de arriba, sus 3 últimas peticiones, el final de su última respuesta y su plan se leen de su registro y se muestran solo en este Mac, en la app o, con Abrir en Terminal, en ese terminal: CarryOn no guarda nada de eso ni lo envía a ningún sitio. También lee tus pendientes, la lista de procesos (qué sesiones se ejecutan y en qué app) y, para Copiar y compactar, una vez el PATH de tu shell de inicio de sesión.",
 foot:"Hecho para quien ejecuta muchos agentes de IA a la vez."},
-it:{langLabel:"Lingua",tocLabel:"In questa pagina",dlShort:"Scarica",dl:"Scarica per Mac",eyebrow:"App gratuita per la barra dei menu di macOS",
-cleanAlt:"Riordina sessioni con dati dimostrativi: sessioni di Claude Code inattive con la memoria occupata da ciascuna e un pulsante per chiudere quelle selezionate, poi le sessioni che hanno letto più token in 24 ore.",
+it:{dlH:"Scarica CarryOn",startH:"Per iniziare",startP:"Installala sul tuo Mac e aprila una volta.",macH:"App per Mac",moreH:"Aggiornamenti e assistenza",moreP:"Nuove versioni e script di installazione sono su GitHub.",updH:"Aggiornamenti",updP:"Fai clic destro su CarryOn nella barra dei menu e scegli Verifica aggiornamenti per aprire la pagina delle versioni. Eseguire di nuovo la riga nel Terminale installa anche la versione più recente.",relRow:"Note di rilascio",scriptRow:"Script di installazione",repoRow:"Repository",view:"Vedi",chip:"Apple silicon e Intel",
+langLabel:"Lingua",tocLabel:"In questa pagina",dlShort:"Scarica",dl:"Scarica per Mac",cleanAlt:"Riordina sessioni con dati dimostrativi: sessioni di Claude Code inattive con la memoria occupata da ciascuna e un pulsante per chiudere quelle selezionate, poi le sessioni che hanno letto più token in 24 ore.",
 cu4:"Per compattare non si avvia nessuno dei server MCP della sessione, sia per Codex sia per Claude Code, quindi serve meno memoria.",
 cu3:"Le sessioni che consumano molti token mostrano quanti token hanno letto in 24 ore. Compattane una direttamente nella sua riga (una alla volta, le altre aspettano il turno), oppure imposta Riordina a fine lavoro se sta lavorando. Ogni turno rilegge tutta la conversazione, quindi compattare alleggerisce ogni turno.",
 cu2:"Si possono chiudere solo le sessioni di Claude Code avviate in un terminale, e una il cui comando è ancora attivo in background non viene selezionata per te.",
@@ -689,8 +705,6 @@ tC:"Riordina sessioni",
 listAlt:"Gli elenchi della schermata principale: Ti aspetta 1, Da compattare 4 con un pulsante Compatta su ciascuna, e In esecuzione 5 (dati dimostrativi).",
 pNote:"Solo quando premi Salva e compatta (o Salva e ricomincia) CarryOn copia il log di quella sessione, con un .md leggibile, in ~/.carryon/backups/, e poi esegue il /compact dello strumento stesso (claude o codex). Come quando scrivi /compact nella sessione, la compattazione viene aggiunta al log della sessione e la conversazione va al fornitore del tuo modello per essere riassunta.",
 c5:"Una sessione al lavoro non ha il pulsante Salva e compatta, così il suo lavoro non viene mai interrotto. Riordina a fine lavoro la imposta per essere compattata quando si ferma, con una notifica; un clic sulla notifica mostra quella sessione.",c6:"CarryOn non chiude mai una sessione in esecuzione né la riapre in una nuova finestra. Attiva Riordina da solo quando è pieno in Impostazioni e Claude Code e Codex compattano da soli la sessione alla linea rossa, proprio dove gira. CarryOn scrive solo quel valore nelle loro impostazioni e rimette com’era quando lo disattivi.",
-gh:"Vedi su GitHub ★",
-h1a:"Ogni sessione di IA a colpo d’occhio.",h1b:"Vai avanti prima che si riempia.",
 sub:"CarryOn mostra quanto è piena ogni sessione di Claude Code, Codex e Aside. Quando una è quasi piena, un solo pulsante la salva e la compatta, e continui da dove eri rimasto.",
 meta:"Versione {v} · macOS 14 o successivo · Apple silicon e Intel · Gratis",
 heroAlt:"La finestra di CarryOn con dati dimostrativi: una sessione al 92%, quasi piena, con il suo pulsante Salva e compatta e gli anelli del suo gruppo, e gli elenchi delle sessioni che ti aspettano, da compattare e in esecuzione.",
@@ -721,8 +735,8 @@ ph:"I log delle sessioni vengono letti solo su questo Mac",p0:"CarryOn legge i l
 p1:"CarryOn di per sé non fa nessuna connessione di rete.",p2:"Il testo dei messaggi non viene mai mostrato per intero, salvato o inviato da nessuna parte.",
 pMore:"Cosa legge esattamente",pDetail:"I log delle sessioni in ~/.claude, ~/.codex e ~/.aside (Claude Code, Codex, Aside), riga per riga, per ricavarne i metadati: ID di sessione, nomi, titoli, cartella di lavoro, numero di token, orari e chi ha passato lavoro a chi. Un titolo può essere i primi 60 caratteri circa del primo messaggio di una sessione. L’ultima richiesta di ogni sessione (una riga) e, per la sessione in cima, le sue ultime 3 richieste, la fine della sua ultima risposta e il suo piano vengono letti dal suo log e mostrati solo su questo Mac, nell’app o, con Apri nel Terminale, in quel terminale: CarryOn non ne salva nulla e non lo invia da nessuna parte. Legge anche le tue cose da fare, l’elenco dei processi (quali sessioni sono in esecuzione, e in quale app) e, per Salva e compatta, una volta il PATH della tua shell di login.",
 foot:"Fatto per chi usa molti agenti di IA insieme."},
-nl:{langLabel:"Taal",tocLabel:"Op deze pagina",dlShort:"Download",dl:"Download voor Mac",eyebrow:"Gratis menubalk-app voor macOS",
-cleanAlt:"Sessies opruimen met demogegevens: inactieve Claude Code-sessies met het geheugen dat elk inneemt en een knop om de geselecteerde te sluiten, daaronder de sessies die in 24 uur de meeste tokens lazen.",
+nl:{dlH:"CarryOn downloaden",startH:"Aan de slag",startP:"Installeer de app op je Mac en open die één keer.",macH:"Mac-app",moreH:"Updates en hulp",moreP:"Nieuwe versies en het installatiescript staan op GitHub.",updH:"Updates",updP:"Klik met de rechtermuisknop op CarryOn in de menubalk en kies Zoek naar updates om de pagina met versies te openen. De Terminal-regel opnieuw uitvoeren installeert ook de nieuwste versie.",relRow:"Releasenotes",scriptRow:"Installatiescript",repoRow:"Repository",view:"Bekijken",chip:"Apple silicon en Intel",
+langLabel:"Taal",tocLabel:"Op deze pagina",dlShort:"Download",dl:"Download voor Mac",cleanAlt:"Sessies opruimen met demogegevens: inactieve Claude Code-sessies met het geheugen dat elk inneemt en een knop om de geselecteerde te sluiten, daaronder de sessies die in 24 uur de meeste tokens lazen.",
 cu4:"Bij het comprimeren start geen van de MCP-servers van de sessie, voor Codex net als voor Claude Code, dus het vraagt minder geheugen.",
 cu3:"Sessies die veel tokens gebruiken, tonen hoeveel tokens ze in 24 uur lazen. Comprimeer er een direct in haar eigen rij (een tegelijk, de rest wacht op zijn beurt), of kies Opruimen als klaar als ze nog bezig is. Elke beurt leest het hele gesprek opnieuw, dus comprimeren maakt elke beurt lichter.",
 cu2:"Alleen Claude Code-sessies die in een terminal zijn gestart, kunnen worden gesloten, en een sessie waarvan de opdracht nog op de achtergrond draait, wordt niet voor je geselecteerd.",
@@ -733,8 +747,6 @@ tC:"Sessies opruimen",
 listAlt:"De lijsten op het beginscherm: Wacht op jou 1, Moet comprimeren 4 met bij elk een knop Comprimeren, en Actief 5 (demogegevens).",
 pNote:"Alleen als je op Back-up en comprimeren (of Back-up en opnieuw beginnen) drukt, kopieert CarryOn het logboek van die ene sessie, met een leesbare .md, naar ~/.carryon/backups/ en voert dan de eigen /compact van de tool uit (claude of codex). Net als wanneer je /compact in de sessie typt, wordt de compressie aan het logboek van die sessie toegevoegd en gaat het gesprek naar je modelaanbieder om samengevat te worden.",
 c5:"Een sessie die bezig is, heeft geen knop Back-up en comprimeren, zodat haar werk nooit wordt afgebroken. Opruimen als klaar zet haar klaar om gecomprimeerd te worden zodra ze stopt, met een melding; klik op de melding en die sessie verschijnt.",c6:"CarryOn sluit nooit een actieve sessie en opent haar nooit opnieuw in een nieuw venster. Zet Automatisch opruimen als vol aan in Instellingen, dan comprimeren Claude Code en Codex een sessie zelf bij de rode lijn, precies waar ze draait. CarryOn schrijft alleen die ene waarde in hun instellingen en zet terug wat er stond als je het uitzet.",
-gh:"Bekijk op GitHub ★",
-h1a:"Elke AI-sessie in één oogopslag.",h1b:"Ga door voordat ze vol is.",
 sub:"CarryOn toont hoe vol elke sessie van Claude Code, Codex en Aside is. Is er een bijna vol, dan maakt één knop er een back-up van en comprimeert ze, en werk je verder waar je was.",
 meta:"Versie {v} · macOS 14 of nieuwer · Apple silicon en Intel · Gratis",
 heroAlt:"Het CarryOn-venster met demogegevens: een sessie op 92%, bijna vol, met haar knop Back-up en comprimeren en de ringen van haar groep, en de lijsten met sessies die op je wachten, die moeten comprimeren en die actief zijn.",
@@ -765,8 +777,8 @@ ph:"Sessielogboeken worden alleen op deze Mac gelezen",p0:"CarryOn leest de sess
 p1:"CarryOn zelf maakt geen netwerkverbindingen.",p2:"Berichtteksten worden nooit volledig getoond, bewaard of ergens heen gestuurd.",
 pMore:"Wat het precies leest",pDetail:"De sessielogboeken in ~/.claude, ~/.codex en ~/.aside (Claude Code, Codex, Aside), regel voor regel, voor metagegevens: sessie-ID’s, namen, titels, werkmap, aantallen tokens, tijden en wie werk aan wie gaf. Een titel kan bestaan uit de eerste zo’n 60 tekens van het eerste bericht van een sessie. Het laatste verzoek van elke sessie (één regel) en, voor de sessie bovenaan, haar laatste 3 verzoeken, het einde van haar laatste antwoord en haar plan worden uit haar logboek gelezen en alleen op deze Mac getoond, in de app of, met Open in Terminal, in die terminal: CarryOn bewaart er niets van en stuurt het nergens heen. Het leest ook je taken, de proceslijst (welke sessies draaien, en in welke app) en, voor Back-up en comprimeren, eenmaal het PATH van je login-shell.",
 foot:"Gemaakt voor wie veel AI-agents tegelijk laat draaien."},
-pt:{lang:"pt-BR",langLabel:"Idioma",tocLabel:"Nesta página",dlShort:"Baixar",dl:"Baixar para Mac",eyebrow:"App gratuito para a barra de menus do macOS",
-cleanAlt:"Arrumar sessões com dados de demonstração: sessões ociosas do Claude Code com a memória que cada uma ocupa e um botão para fechar as selecionadas, e depois as sessões que mais leram tokens em 24 horas.",
+pt:{lang:"pt-BR",dlH:"Baixar o CarryOn",startH:"Primeiros passos",startP:"Instale o app no seu Mac e abra uma vez.",macH:"App para Mac",moreH:"Atualizações e ajuda",moreP:"Novas versões e o script de instalação estão no GitHub.",updH:"Atualizações",updP:"Clique com o botão direito no CarryOn na barra de menus e escolha Verificar atualizações para abrir a página de versões. Rodar de novo a linha do Terminal também instala a versão mais recente.",relRow:"Notas da versão",scriptRow:"Script de instalação",repoRow:"Repositório",view:"Ver",chip:"Apple silicon e Intel",
+langLabel:"Idioma",tocLabel:"Nesta página",dlShort:"Baixar",dl:"Baixar para Mac",cleanAlt:"Arrumar sessões com dados de demonstração: sessões ociosas do Claude Code com a memória que cada uma ocupa e um botão para fechar as selecionadas, e depois as sessões que mais leram tokens em 24 horas.",
 cu4:"Ao compactar, nenhum dos servidores MCP da sessão é iniciado, no Codex e no Claude Code, então é preciso menos memória.",
 cu3:"Sessões que gastam muitos tokens mostram os tokens lidos em 24 horas. Compacte uma direto na linha dela (uma de cada vez, as outras esperam a vez), ou escolha Arrumar ao terminar se ela estiver trabalhando. Cada turno lê a conversa inteira de novo, então compactar deixa cada turno mais leve.",
 cu2:"Só é possível fechar sessões do Claude Code iniciadas em um terminal, e uma cujo comando ainda roda em segundo plano não é selecionada para você.",
@@ -777,8 +789,6 @@ tC:"Arrumar sessões",
 listAlt:"As listas da tela inicial: Esperando você 1, Precisa compactar 4 com um botão Compactar em cada, e Em execução 5 (dados de demonstração).",
 pNote:"Só quando você aperta Fazer backup e compactar (ou Fazer backup e recomeçar) o CarryOn copia o log daquela sessão, com um .md legível, para ~/.carryon/backups/ e depois roda o /compact da própria ferramenta (claude ou codex). Como quando você digita /compact na sessão, a compactação é adicionada ao log da sessão e a conversa vai para o seu provedor do modelo para ser resumida.",
 c5:"Uma sessão que está trabalhando não tem o botão Fazer backup e compactar, para que o trabalho dela nunca seja cortado. Arrumar ao terminar marca a sessão para ser compactada quando parar, com uma notificação; clique na notificação e essa sessão aparece.",c6:"O CarryOn nunca fecha uma sessão em execução nem a reabre numa janela nova. Ative Arrumar sozinho quando encher em Ajustes e o Claude Code e o Codex compactam a sessão sozinhos ao chegar à linha vermelha, ali mesmo onde ela roda. O CarryOn só escreve esse valor nas configurações deles e devolve o que havia quando você desliga.",
-gh:"Ver no GitHub ★",
-h1a:"Cada sessão de IA, de relance.",h1b:"Continue antes que ela encha.",
 sub:"O CarryOn mostra o quanto cada sessão do Claude Code, Codex e Aside está cheia. Quando uma está quase cheia, um botão faz o backup e compacta, e você continua de onde parou.",
 meta:"Versão {v} · macOS 14 ou posterior · Apple silicon e Intel · Grátis",
 heroAlt:"A janela do CarryOn com dados de demonstração: uma sessão em 92%, quase cheia, com o botão Fazer backup e compactar e os anéis do grupo dela, e as listas de sessões esperando você, que precisam compactar e em execução.",
