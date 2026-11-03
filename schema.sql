@@ -16,8 +16,10 @@ CREATE TABLE IF NOT EXISTS hits (
   path TEXT,
   ref TEXT,      -- the referrer's host, never the site itself
   country TEXT,
-  lang TEXT      -- the language the page was shown in: en | ko | ja | zh
+  lang TEXT,     -- the language the page was shown in: en | ko | ja | zh
+  src TEXT       -- the link's ?s= tag (ytch, igdm, ig ...): letters, digits, hyphens, 32 at most
 );
+-- A table made before src: npx wrangler@4 d1 execute carryon-stats --remote --command "ALTER TABLE hits ADD COLUMN src TEXT"
 CREATE INDEX IF NOT EXISTS hits_day ON hits(day);
 
 -- GitHub's repo traffic, copied daily by tools/gh-traffic.sh (GitHub keeps 14 days only)

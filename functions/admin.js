@@ -22,12 +22,12 @@ export async function onRequestGet({ request, env }) {
   const top = (t, col) => q(`SELECT ${col} AS k, COUNT(*) AS n FROM ${t} WHERE day >= ${D30} GROUP BY k ORDER BY n DESC LIMIT 10`);
   const [gh, res] = await Promise.all([releases(), env.DB.batch([
     totals("hits"), totals("downloads"), perDay("hits"), perDay("downloads"),
-    top("hits", "ref"), top("hits", "lang"), top("downloads", "ref"), top("downloads", "os"),
+    top("hits", "ref"), top("hits", "lang"), top("downloads", "ref"), top("downloads", "os"), top("hits", "src"),
     q(`SELECT country AS k, SUM(v) AS n, SUM(d) AS m FROM (SELECT country, 1 AS v, 0 AS d FROM hits WHERE day >= ${D30} UNION ALL SELECT country, 0, 1 FROM downloads WHERE day >= ${D30}) GROUP BY k ORDER BY SUM(v) + SUM(d) DESC LIMIT 10`),
     q(`SELECT kind, SUM(count) AS n FROM gh_daily WHERE day >= ${D30} GROUP BY kind`),
     q("SELECT referrer AS k, uniques AS n FROM gh_referrers WHERE day = (SELECT MAX(day) FROM gh_referrers) ORDER BY n DESC LIMIT 10"),
   ])]);
-  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, countries, ghDaily, ghRefs] = res.map(r => r.results);
+  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, vSrcs, countries, ghDaily, ghRefs] = res.map(r => r.results);
   const days = Array.from({ length: 30 }, (_, i) => new Date(Date.now() - (29 - i) * 864e5).toISOString().slice(0, 10));
   const v = Object.fromEntries(vDays.map(r => [r.day, r.n])), d = Object.fromEntries(dDays.map(r => [r.day, r.n]));
   const traffic = Object.fromEntries(ghDaily.map(r => [r.kind, num(r.n)]));
@@ -44,6 +44,7 @@ export async function onRequestGet({ request, env }) {
 <details class="card"><summary>표로 보기</summary><table><tr><th>날짜</th><th class="n">방문</th><th class="n">다운로드</th></tr>${days.slice().reverse().map(x => `<tr><td>${x}</td><td class="n">${num(v[x])}</td><td class="n">${num(d[x])}</td></tr>`).join("")}</table></details>
 <div class="grid">
 ${list("방문 유입 경로", vRefs, ref)}
+${list("방문 꼬리표 (?s=)", vSrcs, k => k || "없음")}
 ${list("방문 언어", vLangs, k => LANG[k] || "알 수 없음")}
 ${list("나라", countries, country, [["n", "방문"], ["m", "다운로드"]])}
 ${list("다운로드 경로", dRefs, k => k === url.hostname ? "이 사이트" : ref(k))}
