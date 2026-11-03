@@ -819,7 +819,7 @@ ph:"Os logs de sessão são lidos só neste Mac",p0:"O CarryOn lê os logs de se
 p1:"O próprio CarryOn não faz nenhuma conexão de rede.",p2:"O texto das mensagens nunca é mostrado por inteiro, guardado ou enviado para lugar nenhum.",
 pMore:"O que exatamente ele lê",pDetail:"Os logs de sessão em ~/.claude, ~/.codex e ~/.aside (Claude Code, Codex, Aside), linha por linha, para obter metadados: IDs de sessão, nomes, títulos, pasta de trabalho, contagem de tokens, horários e quem passou trabalho para quem. Um título pode ser os primeiros ~60 caracteres da primeira mensagem de uma sessão. O último pedido de cada sessão (uma linha) e, para a sessão no topo, os 3 últimos pedidos, o fim da última resposta e o plano dela são lidos do log e mostrados só neste Mac, no app ou, com Abrir no Terminal, nesse terminal: o CarryOn não guarda nada disso nem envia para lugar nenhum. Ele também lê suas tarefas, a lista de processos (quais sessões rodam, e em qual app) e, para Fazer backup e compactar, uma vez o PATH do seu shell de login.",
 foot:"Feito para quem roda muitos agentes de IA ao mesmo tempo."}};
-const VER="1.4.4";  // the only place the version is written
+const VER="1.5.0";  // the only place the version is written
 const own=(o,k)=>typeof k==="string"&&Object.prototype.hasOwnProperty.call(o,k);  // no Object.hasOwn: Safari < 15.4
 const $=(s,r=document)=>[...r.querySelectorAll(s)];
 let cur="en",copyTimer;

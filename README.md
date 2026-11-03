@@ -31,9 +31,11 @@ context is. When one is almost full, one button backs it up and compacts it, so 
   each ready to compact right in its row.
 - **Your to-dos come along.** Keep a to-do list per session; the open ones follow it after a compaction.
 - **Rename a session.** Right-click it and choose Rename…; the name is kept in CarryOn only.
+- **Roles and teams.** Set Role… gives a session a role that goes along in the go-on message and the Resume brief;
+  Name Team… names a group, and Teams… shows every team with its members' roles. Kept in CarryOn only.
 - **In the menu bar.** Click CarryOn there to open the window. Right-click it for the three fullest sessions, Settings
   and Check for Updates, which opens the releases page in your browser.
-- In English, Korean, Japanese and Simplified Chinese.
+- In English, Korean, Japanese, Simplified Chinese, German, French, Spanish, Italian, Dutch and Portuguese (Brazil).
 
 ## Install
 
