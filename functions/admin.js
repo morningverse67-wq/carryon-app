@@ -4,7 +4,7 @@ import { keyOk } from "../lib/stats.js";
 // The page holds no key, no link back to itself and no script; only this Function talks to GitHub's API.
 // ponytail: per_page=100 sums the newest 100 releases only; page through them if there are ever more.
 const RELEASES = "https://api.github.com/repos/morningverse67-wq/carryon-app/releases?per_page=100";
-const LANG = { en: "영어", ko: "한국어", ja: "일본어", zh: "중국어" };
+const LANG = { en: "영어", ko: "한국어", ja: "일본어", zh: "중국어", de: "독일어", fr: "프랑스어", es: "스페인어", it: "이탈리아어", nl: "네덜란드어", pt: "포르투갈어" };
 const D30 = "date('now', '-29 days')";  // the last 30 days, today included (UTC)
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
 const num = n => Number(n || 0).toLocaleString("ko-KR");

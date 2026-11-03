@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS hits (
   path TEXT,
   ref TEXT,      -- the referrer's host, never the site itself
   country TEXT,
-  lang TEXT,     -- the language the page was shown in: en | ko | ja | zh
+  lang TEXT,     -- the language the page was shown in: en | ko | ja | zh | de | fr | es | it | nl | pt
   src TEXT       -- the link's ?s= tag (ytch, igdm, ig ...): letters, digits, hyphens, 32 at most
 );
 -- A table made before src: npx wrangler@4 d1 execute carryon-stats --remote --command "ALTER TABLE hits ADD COLUMN src TEXT"
