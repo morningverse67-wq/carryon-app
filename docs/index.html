@@ -867,9 +867,10 @@ this.textContent=copied?I18N[cur].copied:I18N[cur].copy;
 $("#copy-status")[0].textContent=copied?I18N[cur].copied:I18N[cur].copyFailed;
 clearTimeout(copyTimer);copyTimer=setTimeout(()=>this.textContent=I18N[cur].copy,1800)};
 setLang(pick());
-// count this visit (/api/hit on this site): the path, where it came from (the host only, never this site) and the language shown; no cookies
-{let r="";try{r=new URL(document.referrer).hostname}catch(e){}
-try{navigator.sendBeacon("/api/hit",JSON.stringify({p:location.pathname,r:r===location.hostname?"":r,l:cur}))}catch(e){}}
+// count this visit (/api/hit on this site): the path, where it came from (the host only, never this site), the language shown and the link's ?s= tag (ytch, igdm ...); no cookies
+{let r="",t;try{r=new URL(document.referrer).hostname}catch(e){}
+try{t=new URLSearchParams(location.search).get("s");if(!/^[A-Za-z0-9-]{1,32}$/.test(t||""))t=undefined}catch(e){}
+try{navigator.sendBeacon("/api/hit",JSON.stringify({p:location.pathname,r:r===location.hostname?"":r,l:cur,s:t}))}catch(e){}}
 </script>
 </body>
 </html>
