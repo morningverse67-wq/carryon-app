@@ -2,7 +2,7 @@
 
 English | [한국어](README.ko.md)
 
-A free menu-bar app that shows every AI coding session on your Mac (Claude Code, Codex and Aside) and how full each one's
+A free menu-bar app that shows every AI coding session on your Mac (Claude Code, Codex, Aside and Gemini CLI) and how full each one's
 context is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.
 
 **[Download CarryOn for Mac](https://carryon-app.pages.dev/download)**
@@ -18,7 +18,7 @@ context is. When one is almost full, one button backs it up and compacts it, so 
   handed out work and the sessions it handed work to, named after the first. The group's name is a menu of every group,
   the fullest first. A notification comes when one gets almost full.
 - **Back up & compact.** Backs the conversation up, then compacts it in place so its % drops. The app runs it in a panel
-  and shows each step and how long it took. An Aside session goes on in a fresh one.
+  and shows each step and how long it took. An Aside or Gemini CLI session goes on in a fresh one.
   CarryOn never closes a running session or opens it again in a new window. Turn on **Tidy up automatically when full**
   in Settings and Claude Code and Codex compact a session themselves at the red line, right where it runs: CarryOn writes
   that one value into their own settings and puts back what was there when you turn it off. A session that is working
@@ -26,6 +26,9 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 
   <img src="docs/img/demo.gif" width="560" alt="Back up &amp; compact on a session at 92%: the backup, the compaction steps, and the ring down to 18% (demo data)">
 
+- **Start fresh in Orca.** On Claude Code (or Codex) running in an Orca pane, **Back up & start fresh** backs it up and
+  types `/clear` (Codex: `/new`) and then the go-on message there, so it goes on in a fresh session in the same pane.
+  CarryOn types into a running session only then: when you press it, while the session is idle with an empty input line.
 - **Clean Up Sessions.** Closes the Claude Code sessions left idle in a terminal, with the memory they hold, after you
   confirm (the conversation stays and can be resumed), and lists the sessions that read the most tokens in 24 hours,
   each ready to compact right in its row.
@@ -62,6 +65,8 @@ There is no Dock icon: CarryOn lives in the menu bar.
 - Only **Back up & compact** (or **Back up & start fresh**) copies that one session's log to `~/.carryon/backups/` and runs
   the tool's own `/compact` (claude or codex): as when you type `/compact` yourself, the summary is added to that session's
   log and the conversation goes to your model provider.
+- In an Orca pane, **Back up & start fresh** reads that pane's screen through Orca's own CLI, to see that the session is
+  idle with an empty input line, before it types anything there.
 
 ## License
 
