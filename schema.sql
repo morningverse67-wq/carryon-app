@@ -1,12 +1,12 @@
 -- CarryOn website stats. No IPs, full user agents, cookies or anything else that identifies a person. Days and times are UTC.
 
--- GET /download
+-- GET /download, /download/android
 CREATE TABLE IF NOT EXISTS downloads (
   day TEXT NOT NULL DEFAULT (date('now')),
   time TEXT NOT NULL DEFAULT (strftime('%H:%M', 'now')),
   country TEXT,  -- request.cf.country, e.g. KR
   ref TEXT,      -- the referrer's host only
-  os TEXT        -- mac | other, from the user agent
+  os TEXT        -- mac | other, from the user agent; android = the APK (/download/android)
 );
 CREATE INDEX IF NOT EXISTS downloads_day ON downloads(day);
 

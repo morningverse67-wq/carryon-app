@@ -60,7 +60,9 @@ There is no Dock icon: CarryOn lives in the menu bar.
 
 ## Privacy
 
-- CarryOn reads the session logs already on your Mac and makes no network connections itself.
+- CarryOn reads the session logs already on your Mac and, by default, makes no network connections itself.
+- If you turn on **Phone link**, it talks, encrypted, only to phones you paired on the same network, and sends only
+  session names, how full they are and their state, never your conversations.
 - Message bodies are never shown in full, stored or sent anywhere.
 - Only **Back up & compact** (or **Back up & start fresh**) copies that one session's log to `~/.carryon/backups/` and runs
   the tool's own `/compact` (claude or codex): as when you type `/compact` yourself, the summary is added to that session's
