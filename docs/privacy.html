@@ -48,10 +48,10 @@ section+section{border-top:1px solid var(--line);margin-top:56px;padding-top:8px
 <ul>
 <li>같은 와이파이에서 짝지은 컴퓨터하고만 직접 통신합니다. 위에 적은 세션 이름·찬 정도·상태를 받고, 사용자가 누른 정리 요청을 보냅니다. 짝지을 때 폰은 기기 종류("Android" 또는 "iPhone")를 컴퓨터에 알립니다.</li>
 <li>짝지은 컴퓨터의 키, 주소, 이름과 이미 보낸 알림 기록을 폰의 보안 저장소(Android Keystore, iOS 키체인 '이 기기만')에 둡니다. 백업으로 다른 기기에 옮겨지지 않고, 짝 해제나 앱 삭제로 지워집니다.</li>
-<li>카메라는 컴퓨터 화면의 짝짓기 QR을 읽을 때만 씁니다. 화면은 폰 안에서 처리하고 저장하거나 보내지 않습니다.</li>
+<li>카메라는 컴퓨터 화면의 짝짓기 QR을 읽을 때만 씁니다. QR은 폰 안에서 읽고(ZXing), 카메라 화면은 저장하거나 보내지 않습니다.</li>
 <li>알림은 폰 안에서 만듭니다. 앱이 꺼져 있어도 운영체제가 허락할 때(Android는 15분에 한 번까지) 짝지은 컴퓨터에 상태를 묻습니다.</li>
-<li><b>Android에서 QR을 읽는 Google ML Kit</b>는 진단과 사용 분석을 위해 기기 정보, 앱 정보, 기기 또는 기타 식별자, 성능 지표, 설정, 오류 코드 같은 정보를 HTTPS로 Google에 보냅니다. Google은 이 정보를 제3자에게 넘기지 않는다고 밝힙니다(<a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit 데이터 공시</a>, <a href="https://policies.google.com/privacy">Google 개인정보처리방침</a>). iOS는 Apple의 기기 내 Vision으로 QR을 읽습니다.</li>
-<li>광고, 분석 도구, 오류 보고 도구를 넣지 않았습니다.</li>
+<li>폰 앱은 짝지은 컴퓨터 말고는 어디에도 연결하지 않습니다. 광고, 분석 도구, 오류 보고 도구를 넣지 않았습니다.</li>
+<li>처음 화면의 <b>예시로 둘러보기</b>는 앱에 든 예시 데이터만 보여 주고, 네트워크와 카메라를 쓰지 않습니다.</li>
 </ul>
 
 <h2>이 웹사이트 (carryon-app.pages.dev)</h2>
@@ -95,10 +95,10 @@ section+section{border-top:1px solid var(--line);margin-top:56px;padding-top:8px
 <ul>
 <li>The phone talks only to the computers you paired, directly, on the same Wi-Fi. It receives the session names, fullness and state above and sends the compaction requests you make. When pairing, it tells the computer its kind of device ("Android" or "iPhone").</li>
 <li>The paired computers' keys, addresses and names, and which alerts were already shown, are kept in the phone's secure storage (Android Keystore, iOS Keychain "this device only"). They are not restored to another device and are deleted when you unpair or delete the app.</li>
-<li>The camera is used only to read the pairing QR code on your computer's screen. The picture is processed on the phone and is never saved or sent.</li>
+<li>The camera is used only to read the pairing QR code on your computer's screen. The code is read on the phone (ZXing); the picture is never saved or sent.</li>
 <li>Alerts are made on the phone. While the app is closed, it asks the paired computers for their status when the system allows (on Android, at most every 15 minutes).</li>
-<li><b>Google ML Kit, which reads QR codes on Android,</b> sends Google diagnostics and usage data such as device information, app information, device or other identifiers, performance metrics, configuration and error codes, over HTTPS. Google says it does not transfer this data to third parties (<a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit data disclosure</a>, <a href="https://policies.google.com/privacy">Google Privacy Policy</a>). On iOS, QR codes are read on the device with Apple's Vision.</li>
-<li>There are no ads, analytics or crash-reporting tools in the apps.</li>
+<li>The phone app connects to nothing but the computers you paired. There are no ads, analytics or crash-reporting tools in the apps.</li>
+<li><b>See an example</b> on the first screen shows sample data built into the app; it uses no network and no camera.</li>
 </ul>
 
 <h2>This website (carryon-app.pages.dev)</h2>
