@@ -1,0 +1,26 @@
+name: install.ps1
+on:
+  pull_request:
+    paths: ["docs/install.ps1", ".github/workflows/install-ps1.yml"]
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the installer the way users do (Windows PowerShell 5.1)
+        shell: powershell
+        run: Get-Content -Raw docs/install.ps1 | Invoke-Expression
+      - name: Check the install
+        shell: powershell
+        run: |
+          $exe = Join-Path $env:LOCALAPPDATA 'CarryOn\CarryOn.exe'
+          if (-not (Test-Path $exe)) { throw "missing $exe" }
+          if (-not (Test-Path (Join-Path ([Environment]::GetFolderPath('Programs')) 'CarryOn.lnk'))) { throw 'missing shortcut' }
+          Start-Sleep 5
+          $p = Get-Process CarryOn -ErrorAction SilentlyContinue
+          if (-not $p) { throw 'CarryOn is not running' }
+          "running: " + $p.Path
+      - name: Run it again (update over a running copy)
+        shell: powershell
+        run: Get-Content -Raw docs/install.ps1 | Invoke-Expression
