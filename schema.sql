@@ -37,3 +37,16 @@ CREATE TABLE IF NOT EXISTS gh_referrers (
   uniques INTEGER NOT NULL,
   PRIMARY KEY (day, referrer)
 );
+
+-- POST /api/report, the site's bug form. The only table here that can hold something personal: the email, when one is given.
+CREATE TABLE IF NOT EXISTS reports (
+  day TEXT NOT NULL DEFAULT (date('now')),
+  time TEXT NOT NULL DEFAULT (strftime('%H:%M', 'now')),
+  country TEXT,
+  os TEXT,       -- what the form filled in from the browser, e.g. macOS, Android 14; the sender can change it
+  ver TEXT,      -- the app version, if given
+  body TEXT NOT NULL,  -- what went wrong, 2,000 characters at most
+  email TEXT,    -- for a reply, if given
+  who TEXT       -- 6 hex characters of SHA-256(day | IP): caps one place at 5 a day; not the IP
+);
+CREATE INDEX IF NOT EXISTS reports_day ON reports(day, who);
