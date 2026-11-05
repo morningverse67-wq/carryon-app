@@ -48,7 +48,7 @@ ${list("방문 꼬리표 (?s=)", vSrcs, k => k || "없음")}
 ${list("방문 언어", vLangs, k => LANG[k] || "알 수 없음")}
 ${list("나라", countries, country, [["n", "방문"], ["m", "다운로드"]])}
 ${list("다운로드 경로", dRefs, k => k === url.hostname ? "이 사이트" : ref(k))}
-${list("다운로드 기기", dOs, k => ({ mac: "Mac", android: "Android APK" })[k] || "다른 기기")}
+${list("다운로드 기기", dOs, k => ({ mac: "Mac", windows: "Windows zip", android: "Android APK" })[k] || "다른 기기")}
 </div>
 <h2>GitHub <small>사이트 버튼으로 받은 것도 들어간 GitHub 집계</small></h2>
 <div class="tiles">${tile("릴리스 다운로드 · 전체", gh)}${tile("저장소 조회 · 30일", traffic.views ?? "–")}${tile("clone · 30일", traffic.clones ?? "–")}</div>

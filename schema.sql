@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS downloads (
   time TEXT NOT NULL DEFAULT (strftime('%H:%M', 'now')),
   country TEXT,  -- request.cf.country, e.g. KR
   ref TEXT,      -- the referrer's host only
-  os TEXT        -- mac | other, from the user agent; android = the APK (/download/android)
+  os TEXT        -- mac | other, from the user agent; android = the APK (/download/android), windows = the zip (/download/windows)
 );
 CREATE INDEX IF NOT EXISTS downloads_day ON downloads(day);
 
