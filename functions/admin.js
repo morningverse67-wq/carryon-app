@@ -26,8 +26,9 @@ export async function onRequestGet({ request, env }) {
     q(`SELECT country AS k, SUM(v) AS n, SUM(d) AS m FROM (SELECT country, 1 AS v, 0 AS d FROM hits WHERE day >= ${D30} UNION ALL SELECT country, 0, 1 FROM downloads WHERE day >= ${D30}) GROUP BY k ORDER BY SUM(v) + SUM(d) DESC LIMIT 10`),
     q(`SELECT kind, SUM(count) AS n FROM gh_daily WHERE day >= ${D30} GROUP BY kind`),
     q("SELECT referrer AS k, uniques AS n FROM gh_referrers WHERE day = (SELECT MAX(day) FROM gh_referrers) ORDER BY n DESC LIMIT 10"),
+    q("SELECT day, time, country, os, ver, body, email FROM reports ORDER BY rowid DESC LIMIT 30"),
   ])]);
-  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, vSrcs, countries, ghDaily, ghRefs] = res.map(r => r.results);
+  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, vSrcs, countries, ghDaily, ghRefs, reports] = res.map(r => r.results);
   const days = Array.from({ length: 30 }, (_, i) => new Date(Date.now() - (29 - i) * 864e5).toISOString().slice(0, 10));
   const v = Object.fromEntries(vDays.map(r => [r.day, r.n])), d = Object.fromEntries(dDays.map(r => [r.day, r.n]));
   const traffic = Object.fromEntries(ghDaily.map(r => [r.kind, num(r.n)]));
@@ -37,6 +38,8 @@ export async function onRequestGet({ request, env }) {
 <body><main>
 <h1>CarryOn 통계</h1>
 <p class="note">날짜는 UTC 기준이라 한국 시간 오전 9시에 하루가 바뀌어요. 쿠키·IP 없이 센 숫자이고 봇은 뺐어요.</p>
+<h2>버그 제보 <small>최근 30개 · 사이트의 제보 폼</small></h2>
+${reports.length ? reports.map(report).join("") : '<p class="note">아직 없어요</p>'}
 <h2>방문</h2>${tiles(visits[0])}
 <h2>다운로드 <small>사이트의 다운로드 버튼으로 받은 수</small></h2>${tiles(downloads[0])}
 <h2>최근 30일</h2>
@@ -71,6 +74,7 @@ async function releases() {
   } catch { return "불러오지 못함"; }
 }
 
+const report = r => `<section class="card rep"><p class="note">${esc(r.day)} ${esc(r.time)} UTC · ${esc(country(r.country))} · ${esc(r.os || "기기 모름")} · ${esc(r.ver ? "버전 " + r.ver : "버전 모름")}${r.email ? ` · <a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ""}</p><p>${esc(r.body)}</p></section>`;
 const tile = (label, value) => `<div class="tile"><span>${esc(label)}</span><b${/^[\d,–]+$/.test(value) ? "" : ' class="txt"'}>${esc(value)}</b></div>`;
 const tiles = t => `<div class="tiles">${tile("오늘", num(t.today))}${tile("7일", num(t.d7))}${tile("30일", num(t.d30))}${tile("전체", num(t.total))}</div>`;
 
@@ -117,6 +121,7 @@ small,.note,th,.axis,summary,.none{font-size:14px;font-weight:400;color:var(--mu
 .col:nth-last-child(-n+4) em{left:auto;right:0;transform:none}
 .col:hover em,.col:focus em{display:block}
 .axis{display:flex;justify-content:space-between;margin-top:4px;font-variant-numeric:tabular-nums}
+.rep{margin-top:10px}.rep p{margin:0}.rep p+p{margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}
 details{margin-top:10px}
 summary{cursor:pointer}
 details table{margin-top:10px}
