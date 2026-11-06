@@ -7,8 +7,8 @@ Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 
 
 **새 소식:** Windows·Android 시험판이 나왔어요. Mac은 계속 무료예요.
 
-**다운로드:** [Mac](https://carryon-app.pages.dev/download) · [Windows (시험판)](https://carryon-app.pages.dev/download/windows) · [Android (시험판)](https://carryon-app.pages.dev/download/android) · [웹사이트](https://carryon-app.pages.dev/?lang=ko)
-<!-- iPhone: App Store에 올라가면 위 줄에 " · [iPhone](<App Store 링크>)"를 넣어요 -->
+**다운로드:** [Mac](https://carryon-app.pages.dev/download) · [Windows (시험판)](https://carryon-app.pages.dev/download/windows) · [Android (시험판)](https://carryon-app.pages.dev/download/android) · [iPhone (곧 출시)](https://apps.apple.com/app/id6831468074) · [웹사이트](https://carryon-app.pages.dev/?lang=ko)
+<!-- iPhone: 11-06부터 App Store 심사 중. 출시되면 "(곧 출시)"를 빼요 -->
 
 - Mac: macOS 14 이상, Apple 칩·인텔
 - Windows (시험판): Windows 10 1903 이상, x64. zip이라 압축을 풀고 `CarryOn.exe`를 실행해요
