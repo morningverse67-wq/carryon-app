@@ -16,8 +16,7 @@ const ref = k => k || "직접·알 수 없음";
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   if (!keyOk(url.searchParams.get("k"), env.ADMIN_KEY)) return new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
-  // 11-06: one place to look. The full page below stays at &full=1 (countries, languages, GitHub).
-  if (!url.searchParams.has("full")) return new Response(null, { status: 302, headers: { Location: "https://app-stats.mirae-gap.workers.dev/", "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" } });
+  // 11-06 사용자: the app-stats card read worse than this page, so /admin shows this page again (no redirect).
   const q = sql => env.DB.prepare(sql);
   const totals = t => q(`SELECT COUNT(*) AS total, COALESCE(SUM(day = date('now')), 0) AS today, COALESCE(SUM(day >= date('now', '-6 days')), 0) AS d7, COALESCE(SUM(day >= ${D30}), 0) AS d30 FROM ${t}`);
   const perDay = t => q(`SELECT day, COUNT(*) AS n FROM ${t} WHERE day >= ${D30} GROUP BY day`);
