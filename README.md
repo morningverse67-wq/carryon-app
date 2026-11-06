@@ -7,8 +7,8 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 
 **New:** Windows and Android betas are out. Mac stays free.
 
-**Download:** [Mac](https://carryon-app.pages.dev/download) · [Windows (beta)](https://carryon-app.pages.dev/download/windows) · [Android (beta)](https://carryon-app.pages.dev/download/android) · [Website](https://carryon-app.pages.dev/?lang=en)
-<!-- iPhone: add " · [iPhone](<App Store link>)" above once CarryOn is on the App Store -->
+**Download:** [Mac](https://carryon-app.pages.dev/download) · [Windows (beta)](https://carryon-app.pages.dev/download/windows) · [Android (beta)](https://carryon-app.pages.dev/download/android) · [iPhone (coming soon)](https://apps.apple.com/app/id6831468074) · [Website](https://carryon-app.pages.dev/?lang=en)
+<!-- iPhone: in App Store review since 11-06; drop "(coming soon)" once it is live -->
 
 - Mac: macOS 14 or later, Apple silicon and Intel
 - Windows (beta): Windows 10 1903 or later, x64. A zip: unzip it, then run `CarryOn.exe`
