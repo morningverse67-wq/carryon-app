@@ -276,6 +276,9 @@ h1{grid-column:1/-1;grid-row:1}
 :root{--bar:56px}
 .mid-cta,.os{flex-direction:column;align-items:stretch}
 .end{padding-block:72px 80px}
+.hero .os{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hero .os a{min-width:0;padding-inline:6px;font-size:15px;white-space:normal;line-height:1.2;text-align:center}
+.hero .os a:first-child{grid-column:1/-1}
 .viz-rings{gap:18px}
 .r-big{width:120px;height:120px}
 body{font-size:16.5px}
@@ -323,10 +326,7 @@ h1{font-size:clamp(38px,11vw,52px)}
 <p class="stat stat-r"><b>4</b><span>Mac · Windows<br>iPhone · Android</span></p>
 </div>
 <p class="lede" data-i="sub"></p>
-<div class="ctas">
-<a class="btn btn-l" href="/download" data-dl id="dl"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dl"></span></a>
-<a class="btn-o btn-l" href="#get" data-i="other"></a>
-</div>
+<div class="os"><a class="btn-o btn-l" href="/download" data-os="mac">Mac</a><a class="btn-o btn-l" href="/download/windows" data-os="windows" data-i="altWin"></a><a class="btn-o btn-l" data-ios data-os="ios">iPhone</a><a class="btn-o btn-l" href="#android" data-os="android" data-i="altAnd"></a></div>
 <p class="meta" data-i="meta" id="dl-meta"></p>
 </div>
 <!-- img/<lang>-<shot>.webp: screenshots of the app with made-up demo data; <lang>-phone-dark.webp is the phone app's (ko, en; drawn by app_flutter test/phone_shot_test.dart phone-home-dark) -->
