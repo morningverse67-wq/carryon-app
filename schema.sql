@@ -50,3 +50,12 @@ CREATE TABLE IF NOT EXISTS reports (
   who TEXT       -- 6 hex characters of SHA-256(day | IP): caps one place at 5 a day; not the IP
 );
 CREATE INDEX IF NOT EXISTS reports_day ON reports(day, who);
+
+-- Each release file's running download count, copied daily by tools/gh-traffic.sh; the day-to-day growth is the daily GitHub downloads.
+CREATE TABLE IF NOT EXISTS gh_assets (
+  day TEXT NOT NULL,   -- the day it was copied (UTC)
+  tag TEXT NOT NULL,   -- the release, e.g. v1.7.0
+  name TEXT NOT NULL,  -- the file, e.g. CarryOn.dmg
+  count INTEGER NOT NULL,
+  PRIMARY KEY (day, tag, name)
+);

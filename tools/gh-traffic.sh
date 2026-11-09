@@ -1,5 +1,6 @@
 #!/bin/sh
-# Once a day, copy GitHub's repo traffic (views and clones per day, the top referrers) into the website's
+# Once a day, copy GitHub's repo traffic (views and clones per day, the top referrers) and each release file's
+# download count into the website's
 # stats database, because GitHub keeps only 14 days. It reads with the owner's own `gh` login: no token is
 # made or stored. The ingest key is in .ingest-key.txt (git-ignored) and reaches curl on stdin, never argv.
 #   sh tools/gh-traffic.sh           copy once now
@@ -33,7 +34,8 @@ fi
 views=$(gh api "repos/$REPO/traffic/views")
 clones=$(gh api "repos/$REPO/traffic/clones")
 refs=$(gh api "repos/$REPO/traffic/popular/referrers")
+assets=$(gh api "repos/$REPO/releases?per_page=100" --jq '[.[] as $r | $r.assets[] | {tag: $r.tag_name, name: .name, count: .download_count}]')
 key=$(cat .ingest-key.txt)
-printf '{"k":"%s","views":%s,"clones":%s,"referrers":%s}' "$key" "$views" "$clones" "$refs" |
+printf '{"k":"%s","views":%s,"clones":%s,"referrers":%s,"assets":%s}' "$key" "$views" "$clones" "$refs" "$assets" |
   curl -fsS --max-time 30 -H 'Content-Type: application/json' --data-binary @- "$URL"
 echo " $(date '+%F %T')"

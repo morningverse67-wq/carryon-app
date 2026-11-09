@@ -1,4 +1,4 @@
-import { keyOk } from "../lib/stats.js";
+import { keyOk, fileKind, ghPerDay } from "../lib/stats.js";
 
 // GET /admin?k=<ADMIN_KEY>: the website's numbers, in Korean. Without the right key it is a plain 404.
 // The page holds no key, no link back to itself and no script; only this Function talks to GitHub's API.
@@ -28,11 +28,18 @@ export async function onRequestGet({ request, env }) {
     q(`SELECT kind, SUM(count) AS n FROM gh_daily WHERE day >= ${D30} GROUP BY kind`),
     q("SELECT referrer AS k, uniques AS n FROM gh_referrers WHERE day = (SELECT MAX(day) FROM gh_referrers) ORDER BY n DESC LIMIT 10"),
     q("SELECT day, time, country, os, ver, body, email FROM reports ORDER BY rowid DESC LIMIT 30"),
+    q(`SELECT day, CASE WHEN os LIKE 'windows%' THEN 'windows' WHEN os LIKE 'android%' THEN 'android' ELSE 'mac' END AS f, COUNT(*) AS n FROM downloads WHERE day >= ${D30} GROUP BY day, f`),
+    q(`SELECT day, COUNT(*) AS n FROM hits WHERE day >= ${D30} AND src = 'ytch' GROUP BY day`),
+    q("SELECT day, tag, name, count FROM gh_assets WHERE day >= date('now', '-30 days')"),
   ])]);
-  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, vSrcs, countries, ghDaily, ghRefs, reports] = res.map(r => r.results);
+  const [visits, downloads, vDays, dDays, vRefs, vLangs, dRefs, dOs, vSrcs, countries, ghDaily, ghRefs, reports, dFiles, ytDays, ghSnaps] = res.map(r => r.results);
   const days = Array.from({ length: 30 }, (_, i) => new Date(Date.now() - (29 - i) * 864e5).toISOString().slice(0, 10));
   const v = Object.fromEntries(vDays.map(r => [r.day, r.n])), d = Object.fromEntries(dDays.map(r => [r.day, r.n]));
   const traffic = Object.fromEntries(ghDaily.map(r => [r.kind, num(r.n)]));
+  const byFile = { mac: {}, windows: {}, android: {} };
+  for (const r of dFiles) byFile[r.f][r.day] = r.n;
+  const yt = Object.fromEntries(ytDays.map(r => [r.day, r.n])), ghDay = ghPerDay(ghSnaps);
+  const conv = visits[0]?.d30 ? (downloads[0].d30 / visits[0].d30 * 100).toFixed(1) + "%" : "–";
   const html = `<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex"><title>CarryOn 통계</title><style>${CSS}</style></head>
@@ -43,9 +50,11 @@ export async function onRequestGet({ request, env }) {
 ${reports.length ? reports.map(report).join("") : '<p class="note">아직 없어요</p>'}
 <h2>방문</h2>${tiles(visits[0])}
 <h2>다운로드 <small>사이트의 다운로드 버튼으로 받은 수</small></h2>${tiles(downloads[0])}
-<h2>최근 30일</h2>
-<div class="grid">${chart("방문", days, v)}${chart("다운로드", days, d)}</div>
-<details class="card"><summary>표로 보기</summary><table><tr><th>날짜</th><th class="n">방문</th><th class="n">다운로드</th></tr>${days.slice().reverse().map(x => `<tr><td>${x}</td><td class="n">${num(v[x])}</td><td class="n">${num(d[x])}</td></tr>`).join("")}</table></details>
+<p class="note">최근 30일 방문 대비 다운로드 ${conv}</p>
+<h2>최근 30일 <small>막대에 마우스를 올리거나 눌러 보면 그날 숫자</small></h2>
+<div class="grid">${chart("방문", days, v)}${chart("YouTube 채널 링크 방문 (?s=ytch)", days, yt)}${chart("사이트 다운로드", days, d)}${chart("GitHub 다운로드", days, ghDay, Object.keys(ghDay).length ? "" : "11-10 첫 기록부터 쌓여요")}</div>
+<div class="grid">${chart("Mac 파일", days, byFile.mac)}${chart("Windows 파일", days, byFile.windows)}${chart("Android 파일", days, byFile.android)}</div>
+<details class="card"><summary>표로 보기</summary><table><tr><th>날짜</th><th class="n">방문</th><th class="n">YouTube 링크</th><th class="n">다운로드</th><th class="n">Mac</th><th class="n">Windows</th><th class="n">Android</th><th class="n">GitHub</th></tr>${days.slice().reverse().map(x => `<tr><td>${x}</td>${[v[x], yt[x], d[x], byFile.mac[x], byFile.windows[x], byFile.android[x]].map(n => `<td class="n">${num(n)}</td>`).join("")}<td class="n">${x in ghDay ? num(ghDay[x]) : "–"}</td></tr>`).join("")}</table></details>
 <div class="grid">
 ${list("방문 유입 경로", vRefs, ref)}
 ${list("방문 꼬리표 (?s=)", vSrcs, k => k || "없음")}
@@ -54,8 +63,10 @@ ${list("나라", countries, country, [["n", "방문"], ["m", "다운로드"]])}
 ${list("다운로드 경로", dRefs, k => k === url.hostname ? "이 사이트" : ref(k))}
 ${list("다운로드 기기", dOs, k => { const F = { mac: "Mac 파일", windows: "Windows 파일", android: "Android 파일" }, D = { mac: "Mac", windows: "윈도우 PC", android: "안드로이드 폰", iphone: "아이폰", ipad: "아이패드", linux: "리눅스", chromeos: "크롬북", unknown: "알 수 없는 기기" }; const [f, d] = String(k).split("@"); return k === "other" ? "Mac 파일 · 기기 기록 전(11-06 이전)" : (F[f] || f) + (d ? " · " + (D[d] || d) + "에서" : ""); })}
 </div>
-<h2>GitHub <small>사이트 버튼으로 받은 것도 들어간 GitHub 집계</small></h2>
-<div class="tiles">${tile("릴리스 다운로드 · 전체", gh)}${tile("저장소 조회 · 30일", traffic.views ?? "–")}${tile("clone · 30일", traffic.clones ?? "–")}</div>
+<h2>GitHub 릴리스 다운로드 <small>GitHub가 파일마다 센 누적 횟수</small></h2>
+${ghSection(gh)}
+<h2>GitHub 저장소</h2>
+<div class="tiles">${tile("저장소 조회 · 30일", traffic.views ?? "–")}${tile("clone · 30일", traffic.clones ?? "–")}</div>
 ${ghRefs.length ? `<div class="grid">${list("저장소 유입 경로 · 최근 14일 순방문", ghRefs, k => k)}</div>` : ""}
 ${ghDaily.length ? "" : `<p class="note">저장소 조회·clone은 tools/gh-traffic.sh가 매일 넣어요. 아직 들어온 값이 없어요.</p>`}
 </main></body></html>`;
@@ -65,14 +76,29 @@ ${ghDaily.length ? "" : `<p class="note">저장소 조회·clone은 tools/gh-tra
   } });
 }
 
+// The releases as rows {tag, date, pre, files: {mac, windows, android, other}}, or a sentence when there are none to show.
 async function releases() {
   try {
     const r = await fetch(RELEASES, { headers: { "User-Agent": "carryon-stats", Accept: "application/vnd.github+json" } });
     if (r.status === 404) return "아직 공개 전";
     if (!r.ok) return `불러오지 못함 (${r.status}) · 새로고침해 보세요`;  // 403 now and then: GitHub's limit for Cloudflare's shared IPs
     const list = await r.json();
-    return list.length ? num(list.reduce((s, x) => s + x.assets.reduce((a, y) => a + y.download_count, 0), 0)) : "아직 공개 전";
+    if (!list.length) return "아직 공개 전";
+    return list.map(x => {
+      const files = { mac: 0, windows: 0, android: 0, other: 0 };
+      for (const a of x.assets) files[fileKind(a.name)] += a.download_count;
+      return { tag: x.tag_name, date: (x.published_at || "").slice(0, 10), pre: x.prerelease, files };
+    });
   } catch { return "불러오지 못함"; }
+}
+
+function ghSection(gh) {
+  if (typeof gh === "string") return `<div class="tiles">${tile("릴리스 다운로드", gh)}</div>`;
+  const sum = k => gh.reduce((s, x) => s + x.files[k], 0), app = sum("mac") + sum("windows") + sum("android");
+  const row = x => `<tr><td>${esc(x.tag)}${x.pre ? " <small>베타</small>" : ""}</td><td>${esc(x.date)}</td>${["mac", "windows", "android", "other"].map(k => `<td class="n">${x.files[k] ? num(x.files[k]) : "–"}</td>`).join("")}</tr>`;
+  return `<div class="tiles">${tile("앱 파일 · 전체", num(app))}${tile("Mac (.dmg)", num(sum("mac")))}${tile("Windows (.zip)", num(sum("windows")))}${tile("Android (.apk)", num(sum("android")))}</div>
+<section class="card" style="margin-top:10px"><h3>릴리스별</h3><table><tr><th>릴리스</th><th>날짜</th><th class="n">Mac</th><th class="n">Windows</th><th class="n">Android</th><th class="n">체크섬</th></tr>${gh.map(row).join("")}</table></section>
+<p class="note">사람 수가 아니라 파일을 받은 횟수예요. ① 사이트 다운로드 버튼으로 받은 것도 여기 들어가 위 '다운로드'와 겹쳐요. ② 같은 사람이 여러 번 받은 것, 봇, 우리가 확인하며 받은 것도 들어가요. ③ 같은 이름의 파일을 다시 올리면 GitHub가 그 파일을 0부터 다시 세서 그 전 숫자는 사라져요(예: v1.7.0 CarryOn.dmg는 11-06에 다시 올려 11-04~06에 받은 횟수가 빠져 있어요). ④ 체크섬(SHA256SUMS)은 앱이 아니라 '앱 파일' 합계에서 뺐어요.</p>`;
 }
 
 const report = r => `<section class="card rep"><p class="note">${esc(r.day)} ${esc(r.time)} UTC · ${esc(country(r.country))} · ${esc(r.os || "기기 모름")} · ${esc(r.ver ? "버전 " + r.ver : "버전 모름")}${r.email ? ` · <a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ""}</p><p>${esc(r.body)}</p></section>`;
@@ -80,13 +106,14 @@ const tile = (label, value) => `<div class="tile"><span>${esc(label)}</span><b${
 const tiles = t => `<div class="tiles">${tile("오늘", num(t.today))}${tile("7일", num(t.d7))}${tile("30일", num(t.d30))}${tile("전체", num(t.total))}</div>`;
 
 // One series per chart, each on its own scale; the hovered or focused day shows its number, the table has them all.
-function chart(title, days, by) {
+function chart(title, days, by, empty = "") {
   const max = Math.max(0, ...days.map(x => by[x] || 0));
+  if (empty) return `<section class="card"><h3>일별 ${esc(title)}</h3><p class="note">${esc(empty)}</p></section>`;
   const cols = days.map(x => {
     const n = by[x] || 0;
     return `<span class="col" tabindex="0"><i style="height:${n ? `max(2px,${(n / max * 100).toFixed(1)}%)` : 0}"></i><em><b>${num(n)}</b> ${x.slice(5)}</em></span>`;
   }).join("");
-  return `<section class="card"><h3>일별 ${title} <small>하루 최대 ${num(max)}</small></h3><div class="plot">${cols}</div><div class="axis"><span>${days[0].slice(5)}</span><span>오늘</span></div></section>`;
+  return `<section class="card"><h3>일별 ${esc(title)} <small>하루 최대 ${num(max)}</small></h3><div class="plot">${cols}</div><div class="axis"><span>${days[0].slice(5)}</span><span>오늘</span></div></section>`;
 }
 
 function list(title, rows, name, cols = [["n"]]) {
