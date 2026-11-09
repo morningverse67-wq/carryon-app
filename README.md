@@ -5,14 +5,15 @@ English | [한국어](README.ko.md)
 A free menu-bar app that shows every AI coding session on your Mac (Claude Code, Codex, Aside and Gemini CLI) and how full each one's
 context is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.
 
-**New:** Windows and Android betas are out. Mac stays free.
+**New:** CarryOn for iPhone is on the App Store.
 
-**Download:** [Mac](https://carryon-app.pages.dev/download) · [Windows (beta)](https://carryon-app.pages.dev/download/windows) · [Android (beta)](https://carryon-app.pages.dev/download/android) · [iPhone (coming soon)](https://apps.apple.com/app/id6831468074) · [Website](https://carryon-app.pages.dev/?lang=en)
-<!-- iPhone: in App Store review since 11-06; drop "(coming soon)" once it is live -->
+**Download:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (beta)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (beta testers wanted)](https://carryon-app.pages.dev/?lang=en&s=github#android) · [Website](https://carryon-app.pages.dev/?lang=en&s=github)
 
 - Mac: macOS 14 or later, Apple silicon and Intel
 - Windows (beta): Windows 10 1903 or later, x64. A zip: unzip it, then run `CarryOn.exe`
-- Android (beta): Android 7 or later. The phone app needs CarryOn on your computer
+- iPhone: iOS 15 or later. The phone app needs CarryOn on your computer
+- Android (closed beta on Google Play): Android 7 or later. To join, DM your Gmail address to [@carryon__app on X](https://x.com/carryon__app);
+  once you are on the list, [join the test here](https://play.google.com/apps/testing/io.github.carryon.phone). The beta APK is also [here](https://carryon-app.pages.dev/download/android?s=github)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/en-wide-dark.webp">
