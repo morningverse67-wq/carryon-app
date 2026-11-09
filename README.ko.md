@@ -5,14 +5,15 @@
 Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 세션마다 컨텍스트가 얼마나 찼는지 보여 주는 무료 메뉴 막대
 앱이에요. 거의 다 찬 세션은 버튼 하나로 백업하고 메모리를 정리해서, 하던 일을 그 자리에서 이어 갈 수 있어요.
 
-**새 소식:** Windows·Android 시험판이 나왔어요. Mac은 계속 무료예요.
+**새 소식:** iPhone 앱이 App Store에 나왔어요.
 
-**다운로드:** [Mac](https://carryon-app.pages.dev/download) · [Windows (시험판)](https://carryon-app.pages.dev/download/windows) · [Android (시험판)](https://carryon-app.pages.dev/download/android) · [iPhone (곧 출시)](https://apps.apple.com/app/id6831468074) · [웹사이트](https://carryon-app.pages.dev/?lang=ko)
-<!-- iPhone: 11-06부터 App Store 심사 중. 출시되면 "(곧 출시)"를 빼요 -->
+**다운로드:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (시험판)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (시험판 테스터 모집)](https://carryon-app.pages.dev/?lang=ko&s=github#android) · [웹사이트](https://carryon-app.pages.dev/?lang=ko&s=github)
 
 - Mac: macOS 14 이상, Apple 칩·인텔
 - Windows (시험판): Windows 10 1903 이상, x64. zip이라 압축을 풀고 `CarryOn.exe`를 실행해요
-- Android (시험판): Android 7 이상. 휴대폰 앱이라 컴퓨터에 CarryOn이 있어야 해요
+- iPhone: iOS 15 이상. 휴대폰 앱이라 컴퓨터에 CarryOn이 있어야 해요
+- Android (Google Play 비공개 테스트): Android 7 이상. 참여하려면 [X의 @carryon__app](https://x.com/carryon__app)에 DM으로 Gmail 주소를 보내 주세요.
+  목록에 들어간 뒤 [여기서 테스트에 참여](https://play.google.com/apps/testing/io.github.carryon.phone)하면 돼요. 시험판 APK는 [여기](https://carryon-app.pages.dev/download/android?s=github)에서도 받을 수 있어요
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/ko-wide-dark.webp">
