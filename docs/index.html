@@ -115,12 +115,12 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.1em
 .meta{margin:16px 0 0;font-size:14px;color:var(--faint)}
 /* the screens: list on the left, the session being tidied in front (the only orange edge), the phone app on the right */
 .stage{position:relative;display:flex;justify-content:center;align-items:center;margin:48px auto 0;padding-bottom:12px}
-.light{position:absolute;left:6%;right:6%;top:-10%;bottom:-4%;z-index:0;pointer-events:none;
-background:radial-gradient(55% 50% at 50% 58%,rgba(255,115,80,.38),rgba(255,115,80,0) 70%),radial-gradient(70% 70% at 50% 40%,rgba(47,148,221,.26),rgba(47,148,221,0) 70%);filter:blur(30px)}
+.light{position:absolute;left:-2%;right:-2%;top:-16%;bottom:-6%;z-index:0;pointer-events:none;
+background:radial-gradient(50% 30% at 50% 34%,rgba(255,115,80,.5),rgba(255,115,80,0) 75%),radial-gradient(70% 50% at 50% 18%,rgba(47,148,221,.4),rgba(47,148,221,0) 70%);filter:blur(30px)}
 .screen{position:relative;margin:0;border-radius:var(--r);overflow:hidden;background:var(--surface);border:1px solid var(--line2);box-shadow:var(--shadow)}
 .s-left{z-index:1;width:35%;margin-right:-4%;transform:translateY(26px) scale(.96);transform-origin:right center}
 .s-main{z-index:2;width:44%;border-radius:26px;background:#2C2C2E;border-color:rgba(255,115,80,.7)}
-.s-right{z-index:1;width:21%;margin-left:-2%;transform:translateY(26px) scale(.96);transform-origin:left center;border-radius:26px;padding:6px;background:#1E1E1E}
+.s-right{z-index:1;width:21%;margin-left:-2%;transform:translateY(26px) scale(.96);transform-origin:left center;border-radius:28px;padding:6px;background:#0F0F0F}
 .s-right .crop{border-radius:20px;overflow:hidden}
 .sample{margin:30px 0 0;font-size:13.5px;color:var(--faint);text-align:center}
 
@@ -129,10 +129,10 @@ background:radial-gradient(55% 50% at 50% 58%,rgba(255,115,80,.38),rgba(255,115,
 .crop img{position:absolute;max-width:none;width:calc(var(--W)/var(--w)*100%);left:calc(var(--x)/var(--w)*-100%);top:calc(var(--y)/var(--h)*-100%)}
 .c-list{--W:1640;--x:16;--y:128;--w:790;--h:705}
 .c-gauge{--W:1640;--x:855;--y:137;--w:752;--h:615}
-.c-ptop{--W:740;--x:20;--y:96;--w:700;--h:1000}
+.c-ptop{--W:786;--x:16;--y:0;--w:754;--h:1290}
 .c-tidy{--W:782;--x:0;--y:528;--w:782;--h:698}
-.c-phone{--W:740;--x:40;--y:790;--w:660;--h:590}
-:lang(ko) .c-phone{--y:735}  /* the Korean phone screenshot is laid out a little higher */
+.c-phone{--W:786;--x:20;--y:752;--w:746;--h:550}
+:lang(ko) .c-phone{--y:728}  /* the Korean phone screenshot is laid out a little higher */
 
 /* three things it does: a picture and one line each */
 .feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-block:120px 88px;scroll-margin-top:var(--bar)}
@@ -269,12 +269,12 @@ h1{font-size:clamp(38px,11vw,52px)}
 </div>
 <p class="meta" data-i="meta" id="dl-meta"></p>
 </div>
-<!-- img/<lang>-<shot>.webp: screenshots of the app with made-up demo data; <lang>-phone.webp is the phone app's (ko, en) -->
+<!-- img/<lang>-<shot>.webp: screenshots of the app with made-up demo data; <lang>-phone-dark.webp is the phone app's (ko, en; drawn by app_flutter test/phone_shot_test.dart phone-home-dark) -->
 <div class="wrap stage">
 <div class="light" aria-hidden="true"></div>
 <figure class="screen s-left"><div class="crop c-list"><img data-s="wide-dark" alt="" data-a="listAlt" fetchpriority="high"></div></figure>
 <figure class="screen s-main"><div class="crop c-gauge"><img data-s="wide-dark" alt="" data-a="shotAlt" fetchpriority="high"></div></figure>
-<figure class="screen s-right"><div class="crop c-ptop"><img data-s="phone" alt="" data-a="phoneAlt"></div></figure>
+<figure class="screen s-right"><div class="crop c-ptop"><img data-s="phone-dark" alt="" data-a="phoneAlt"></div></figure>
 </div>
 <p class="sample" data-i="sample"></p>
 </section>
@@ -285,7 +285,7 @@ h1{font-size:clamp(38px,11vw,52px)}
 <h3 data-i="x1h"></h3><p data-i="x1p"></p></div>
 <div class="feat"><figure class="shot"><div class="crop c-tidy"><img data-s="tidy" alt="" data-a="tidyAlt" loading="lazy"></div><figcaption data-i="sample"></figcaption></figure>
 <h3 data-i="x2h"></h3><p data-i="x2p"></p></div>
-<div class="feat"><figure class="shot"><div class="crop c-phone"><img data-s="phone" alt="" data-a="phoneAlt" loading="lazy"></div><figcaption data-i="sample"></figcaption></figure>
+<div class="feat"><figure class="shot"><div class="crop c-phone"><img data-s="phone-dark" alt="" data-a="phoneAlt" loading="lazy"></div><figcaption data-i="sample"></figcaption></figure>
 <h3 data-i="x3h"></h3><p data-i="x3p"></p></div>
 </section>
 
@@ -394,7 +394,7 @@ $("[data-h]").forEach(e=>e.innerHTML=T(e.dataset.h));
 $("[data-a]").forEach(e=>e.setAttribute(e.tagName==="IMG"?"alt":"aria-label",T(e.dataset.a)));
 const t=TESTER[l]||TESTER.en;$("[data-t]").forEach(e=>e.textContent=t[e.dataset.t]);
 // de fr es it nl pt show the English screenshots until their own exist; the phone app's exist in ko and en only
-$("[data-s]").forEach(e=>{const s=e.dataset.s,has=s==="phone"?/^ko$/:/^(ko|ja|zh)$/;e[e.tagName==="SOURCE"?"srcset":"src"]="img/"+(has.test(l)?l:"en")+"-"+s+".webp"});
+$("[data-s]").forEach(e=>{const s=e.dataset.s,has=s.startsWith("phone")?/^ko$/:/^(ko|ja|zh)$/;e[e.tagName==="SOURCE"?"srcset":"src"]="img/"+(has.test(l)?l:"en")+"-"+s+".webp"});
 $(".copy").forEach(b=>b.textContent=T("copy"));
 $("#copy-status")[0].textContent="";
 $("#lang")[0].value=l;
