@@ -1,4 +1,4 @@
-import { WINZIP, sendOn } from "../../lib/stats.js";
+import { WINSTORE, sendOn } from "../../lib/stats.js";
 
-// /download/windows: the same as /download, for the Windows beta's zip; its row says os = "windows".
-export const onRequest = c => sendOn(c, WINZIP, "windows");
+// /download/windows: Microsoft Store page (11-11 게시); its row says os = "windows". The beta zip is /download/windows-zip.
+export const onRequest = c => sendOn(c, WINSTORE, "windows");
