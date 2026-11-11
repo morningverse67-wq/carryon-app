@@ -31,7 +31,8 @@ export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   if (!keyOk(url.searchParams.get("k"), env.ADMIN_KEY)) return new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
   const now = Date.now();
-  const [gh, s] = await Promise.all([releases(), numbers(env.DB, now)]);
+  const [live, s] = await Promise.all([releases(), numbers(env.DB, now)]);
+  const gh = typeof live === "string" ? fromSnaps(s.ghSnaps) || live : live;  // GitHub의 한도(403)에 걸리면 가장 최근 매일 기록으로
   const days = Array.from({ length: 30 }, (_, i) => kstDay(now - (29 - i) * 864e5));
   const v = Object.fromEntries(s.visitDays.map(r => [r.day, r.n])), yt = Object.fromEntries(s.visitDays.map(r => [r.day, r.yt]));
   const d = Object.fromEntries(s.downloadDays.map(r => [r.day, r.n]));
@@ -118,6 +119,20 @@ ${s.reports.length ? s.reports.map(report).join("") : '<p class="note">아직 �
 
 // The releases as rows {tag, date, pre, files: {mac, windows, android, other}, assets: [{tag, name, count, made}]}
 // (days in Korean time), or a sentence when there are none to show.
+// The newest daily copy as release rows, for when GitHub's API says no: the same shape, `stale` = the day it was copied.
+function fromSnaps(snaps) {
+  const day = snaps.reduce((m, r) => r.day > m ? r.day : m, "");
+  if (!day) return null;
+  const by = new Map();
+  for (const r of snaps) if (r.day === day && fileKind(r.name) !== "other") {
+    const x = by.get(r.tag) || { tag: r.tag, date: "", pre: /beta|alpha|rc/i.test(r.tag), files: { mac: 0, windows: 0, android: 0, other: 0 }, assets: [] };
+    x.files[fileKind(r.name)] += r.count; x.assets.push({ tag: r.tag, name: r.name, count: r.count, made: "" }); by.set(r.tag, x);
+  }
+  const rows = [...by.values()].sort((a, b) => a.tag < b.tag ? 1 : -1);
+  rows.stale = day;
+  return rows.length ? rows : null;
+}
+
 async function releases() {
   try {
     const r = await fetch(RELEASES, { headers: { "User-Agent": "carryon-stats", Accept: "application/vnd.github+json" } });
@@ -141,7 +156,7 @@ function ghSection(gh, s, days) {
   const sum = k => gh.reduce((n, x) => n + x.files[k], 0);
   const row = x => `<tr><td>${esc(x.tag)}${x.pre ? " <small>베타</small>" : ""}</td><td class="d">${esc(md(x.date))}</td>${["mac", "windows", "android"].map(k => `<td class="n">${x.files[k] ? num(x.files[k]) : "–"}</td>`).join("")}</tr>`;
   return `${typeof gh === "string" ? `<div class="tiles">${tile("릴리스 받기", gh)}</div>` : `<div class="tiles">
-${tile("앱 파일 · 누적", num(sum("mac") + sum("windows") + sum("android")), "", lost ? `다시 올려 빠진 ${num(lost)}회는 아래 표` : "GitHub의 지금 숫자")}
+${tile("앱 파일 · 누적", num(sum("mac") + sum("windows") + sum("android")), "", gh.stale ? `${md(gh.stale)} 오전에 적어 둔 숫자` : lost ? `다시 올려 빠진 ${num(lost)}회는 아래 표` : "GitHub의 지금 숫자")}
 ${tile("Mac DMG", num(sum("mac")))}${tile("Windows ZIP", num(sum("windows")))}${tile("Android APK", num(sum("android")))}</div>`}
 <div class="grid two">
 <section class="card"><h3>일별 GitHub 파일 받기 <small>매일 오전 10시에 잰 숫자의 하루 증가분</small></h3>${Object.keys(s.ghDays).length ? plot(days, [{ by: s.ghDays }], x => x in s.ghDays ? `<b>${num(s.ghDays[x])}</b> 받기 · ${md(x)}` : `기록 전 · ${md(x)}`) : '<p class="note">내일 오전 10시 기록부터 쌓여요</p>'}</section>
