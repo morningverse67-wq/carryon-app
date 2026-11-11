@@ -31,6 +31,8 @@ EOF
   exit 0
 fi
 
+# launchd runs this on wake too, sometimes before the network is back (11-08 and 11-09 were lost that way): wait up to 5 minutes for GitHub.
+for try in 1 2 3 4 5 6 7 8 9 10; do gh api rate_limit >/dev/null 2>&1 && break; sleep 30; done
 views=$(gh api "repos/$REPO/traffic/views")
 clones=$(gh api "repos/$REPO/traffic/clones")
 refs=$(gh api "repos/$REPO/traffic/popular/referrers")
