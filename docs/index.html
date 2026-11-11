@@ -318,8 +318,9 @@ h1{font-size:clamp(38px,11vw,52px)}
 <nav class="nav"><a href="#features" data-i="navF"></a><a href="#get" data-i="dlShort"></a><a href="#android" data-i="navA"></a><a href="#report-row" data-i="rpH"></a></nav>
 <div class="bar-end">
 <select id="lang" data-a="langLabel"><option value="en" lang="en">English</option><option value="ko" lang="ko">한국어</option><option value="ja" lang="ja">日本語</option><option value="zh" lang="zh">中文</option><option value="de" lang="de">Deutsch</option><option value="fr" lang="fr">Français</option><option value="es" lang="es">Español</option><option value="it" lang="it">Italiano</option><option value="nl" lang="nl">Nederlands</option><option value="pt" lang="pt-BR">Português</option></select>
-<!-- /download counts the download, then sends it on to the newest GitHub release; its dmg asset must be named CarryOn.dmg.
-     /download/windows and /download/android do the same for the betas. The script below points data-dl at the visitor's own device. -->
+<!-- /download counts the click, then sends it on to the newest GitHub release; its dmg asset must be named CarryOn.dmg.
+     /download/windows (Microsoft Store), /download/windows-zip, /download/android and /download/ios (App Store) do the same.
+     The script below points data-dl at the visitor's own device. -->
 <a class="btn-o btn-s" href="/download" data-dl id="dl-bar"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9.5M6 9l4 4 4-4M4 16.5h12"/></svg><span data-i="dlShort"></span></a>
 </div>
 </div></header>
@@ -472,7 +473,7 @@ es:{h:"Beta de Android: buscamos testers",p:"La app de Android está en prueba c
 it:{h:"Beta Android: cerchiamo tester",p:"L’app Android è in test chiuso su Google Play. Mandaci il tuo indirizzo Gmail in DM su X e ti aggiungiamo come tester. Usala per 14 giorni e dicci cosa ne pensi: è così che arriva al rilascio ufficiale.",btn:"Scrivi a @carryon__app su X",joinL:"Sei già nella lista? Partecipa al test qui"},
 nl:{h:"Android-bèta: testers gezocht",p:"De Android-app zit in een gesloten test op Google Play. Stuur ons je Gmail-adres in een DM op X, dan zetten we je op de testerslijst. Gebruik hem 14 dagen en laat weten wat je ervan vindt: zo komt hij officieel uit.",btn:"DM @carryon__app op X",joinL:"Al op de lijst? Doe hier mee aan de test"},
 pt:{h:"Beta do Android: procuramos testadores",p:"O app para Android está em teste fechado no Google Play. Mande seu endereço do Gmail por DM no X e adicionamos você como testador. Use por 14 dias e conte o que achou: é assim que ele chega à versão oficial.",btn:"Mandar DM para @carryon__app no X",joinL:"Já está na lista? Participe do teste aqui"}};
-const IOS_URL="https://apps.apple.com/kr/app/carryon-ai-sessions/id6831468074?ct=site";  // CarryOn on the App Store (live since 11-07); ct= is the App Store's own source tag
+const IOS_URL="/download/ios";  // counts the click, then goes on to CarryOn on the App Store (live since 11-07, ?ct=site: lib/stats.js APPSTORE)
 const own=(o,k)=>typeof k==="string"&&Object.prototype.hasOwnProperty.call(o,k);  // no Object.hasOwn: Safari < 15.4
 const $=(s,r=document)=>[...r.querySelectorAll(s)];
 let cur="en";
