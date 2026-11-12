@@ -23,7 +23,7 @@ const md = d => String(d).slice(5);  // 2026-11-10 -> 11-10
 let regions;
 try { regions = new Intl.DisplayNames(["ko"], { type: "region" }); } catch {}
 const country = c => { try { return c ? regions?.of(c) || c : "알 수 없음"; } catch { return c; } };
-const ref = k => k === HOME ? "이 사이트의 버튼" : k || "직접·알 수 없음";
+const ref = k => k === HOME ? "이 사이트의 버튼" : SRC[k] || k || "직접·알 수 없음";  // a link's ?s= tag on a download link reads as its name
 // The top of a chart's scale: a clean number at or above the largest value.
 const nice = n => { const p = 10 ** Math.floor(Math.log10(Math.max(1, n))); return [1, 1.5, 2, 3, 4, 5, 6, 8, 10].map(m => m * p).find(v => v >= n && Number.isInteger(v)) || n; };
 
