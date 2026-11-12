@@ -1,4 +1,4 @@
-# CarryOn for Windows (beta) installer:  irm https://carryon-app.pages.dev/install.ps1 | iex
+# CarryOn for Windows installer (the zip; the app is also on the Microsoft Store):  irm https://carryon-app.pages.dev/install.ps1 | iex
 # Downloads the release zip from GitHub, checks its SHA-256, installs to %LOCALAPPDATA%\CarryOn,
 # adds a Start menu shortcut and starts CarryOn in the tray. A file PowerShell downloads has no
 # "from the internet" mark, so Windows does not show the SmartScreen prompt for it.
@@ -6,9 +6,9 @@
   $ErrorActionPreference = 'Stop'
   $ProgressPreference = 'SilentlyContinue'
   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072
-  $tag = 'v1.7.0-beta.1'
-  $zip = 'CarryOn-windows-x64.zip'
-  $sha = '0145578bee4e6a83335b8ec725f17b455d392f387eaa8d2346fdf728933c19e8'
+  $tag = 'v1.8.1'
+  $zip = 'CarryOn-windows-x64-1.8.1-beta.zip'
+  $sha = '64802f0a4a72d5cfa72e085aa9bddcf8badd6ccdc1b56b25afb55d6a9963312d'
   $url = "https://github.com/morningverse67-wq/carryon-app/releases/download/$tag/$zip"
   $dir = Join-Path $env:LOCALAPPDATA 'CarryOn'
   $tmp = Join-Path ([IO.Path]::GetTempPath()) ('carryon-' + [guid]::NewGuid())

@@ -2,18 +2,19 @@
 
 [English](README.md) | 한국어
 
-Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 세션마다 컨텍스트가 얼마나 찼는지 보여 주는 무료 메뉴 막대
+컴퓨터에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 세션마다 컨텍스트가 얼마나 찼는지 보여 주는 무료
 앱이에요. 거의 다 찬 세션은 버튼 하나로 백업하고 메모리를 정리해서, 하던 일을 그 자리에서 이어 갈 수 있어요.
+**맥·윈도우·아이폰·안드로이드 다 무료예요.**
 
 **새 소식:** iPhone 앱이 App Store에 나왔어요.
 
-**다운로드:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (시험판)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (시험판 테스터 모집)](https://carryon-app.pages.dev/?lang=ko&s=github#android) · [웹사이트](https://carryon-app.pages.dev/?lang=ko&s=github)
+**다운로드:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (Microsoft Store)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (시험판 테스터 모집)](https://carryon-app.pages.dev/?lang=ko&s=github#android) · [웹사이트](https://carryon-app.pages.dev/?lang=ko&s=github)
 
 - Mac: macOS 14 이상, Apple 칩·인텔
-- Windows (시험판): Windows 10 1903 이상, x64. zip이라 압축을 풀고 `CarryOn.exe`를 실행해요
+- Windows: Windows 10 1903 이상, x64. Microsoft Store에서 받아요
 - iPhone: iOS 15 이상. 휴대폰 앱이라 컴퓨터에 CarryOn이 있어야 해요
-- Android (Google Play 비공개 테스트): Android 7 이상. 참여하려면 [X의 @carryon__app](https://x.com/carryon__app)에 DM으로 Gmail 주소를 보내 주세요.
-  목록에 들어간 뒤 [여기서 테스트에 참여](https://play.google.com/apps/testing/io.github.carryon.phone)하면 돼요. 시험판 APK는 [여기](https://carryon-app.pages.dev/download/android?s=github)에서도 받을 수 있어요
+- Android (Google Play 비공개 테스트): Android 7 이상. 참여하려면 Gmail 계정으로 [Google 그룹에 가입](https://groups.google.com/g/carryon-android-testers)한 뒤
+  [여기서 테스트에 참여](https://play.google.com/apps/testing/io.github.carryon.phone)하면 돼요. 시험판 APK는 [여기](https://carryon-app.pages.dev/download/android?s=github)에서도 받을 수 있어요
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/ko-wide-dark.webp">
@@ -32,6 +33,12 @@ Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 
 
   <img src="docs/img/ko-tidy.webp" width="390" alt="92% ‘곧 대화가 꽉 차요’ 세션과 ‘백업하고 메모리 정리’ 패널, 92% → 18%로 끝남(데모 데이터)">
 
+- **버튼 한 번이면 그 자리에서.** 실행 중인 Claude Code 세션에서 **백업하고 메모리 정리**를 누르면 CarryOn이 그 터미널
+  (Terminal·tmux·WezTerm·원격 제어를 켠 kitty·Orca)에 `/compact`를 직접 넣어 정리해요. 세션은 그대로 열려 있고 기억을
+  이어 가요. 일하는 중에 눌러 두면 세션이 멈추는 순간 바로 정리해요.
+- **기억 지킴.** 켜 두면 Claude Code가 스스로 압축할 때도 직전 대화를 14일 보관하고, 역할·남은 할 일·‘꼭 기억할 것’을
+  압축 뒤에 다시 넣어 줘요.
+- **폰에서는 한 번 탭.** 폰 알림의 [메모리 정리]를 누르면 컴퓨터가 바로 정리해요.
 - **Orca 안에서 새 세션으로.** Orca 칸에서 실행 중인 Claude Code(또는 Codex)에서 **백업하고 새 세션으로**를 누르면
   백업한 뒤 그 칸에 `/clear`(Codex는 `/new`)와 이어 가기 글을 넣어 같은 칸에서 새 세션으로 이어 가요. 실행 중인 세션에
   입력하는 건 이때뿐이에요. 버튼을 눌렀을 때, 세션이 쉬고 있고 입력줄이 비어 있을 때만요.
@@ -48,17 +55,16 @@ Mac에 있는 모든 AI 코딩 세션(Claude Code, Codex, Aside, Gemini CLI)과 
 ## 설치
 
 가장 빠른 방법은 터미널 한 줄이에요. 최신 릴리스를 받아 SHA-256을 릴리스와 대조하고, 실행 중인 CarryOn은 끈 뒤
-응용 프로그램 폴더에 넣어요. ‘그래도 열기’ 단계도 없어요([먼저 읽어 보기](https://carryon-app.pages.dev/install.sh)).
+응용 프로그램 폴더에 넣어요([먼저 읽어 보기](https://carryon-app.pages.dev/install.sh)).
 
 ```sh
 curl -fsSL https://carryon-app.pages.dev/install.sh | sh
 ```
 
-`.dmg`로 받아도 돼요. CarryOn은 Apple 공증을 받지 않아서, 처음 열 때 macOS가 한 번 확인해요.
+`.dmg`로 받아도 돼요. CarryOn은 Apple 공증을 받은 앱이에요.
 
 1. `.dmg`를 열고 **CarryOn**을 **응용 프로그램** 폴더로 끌어다 놓으세요.
-2. 앱을 열면 macOS가 확인할 수 없다고 안내해요. 정상이니 **완료**를 누르세요.
-3. **시스템 설정 → 개인정보 보호 및 보안**에서 아래로 스크롤해 **그래도 열기**를 누르고 확인하세요.
+2. 앱을 열면 처음 한 번만 macOS가 물어요. **열기**를 누르면 돼요.
 
 Dock 아이콘은 없어요. 메뉴 막대에서 찾으세요.
 
