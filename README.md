@@ -7,10 +7,10 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 
 **New:** CarryOn for iPhone is on the App Store.
 
-**Download:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (beta)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (beta testers wanted)](https://carryon-app.pages.dev/?lang=en&s=github#android) · [Website](https://carryon-app.pages.dev/?lang=en&s=github)
+**Download:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (Microsoft Store)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (beta testers wanted)](https://carryon-app.pages.dev/?lang=en&s=github#android) · [Website](https://carryon-app.pages.dev/?lang=en&s=github)
 
 - Mac: macOS 14 or later, Apple silicon and Intel
-- Windows (beta): Windows 10 1903 or later, x64. A zip: unzip it, then run `CarryOn.exe`
+- Windows: Windows 10 1903 or later, x64. From the Microsoft Store
 - iPhone: iOS 15 or later. The phone app needs CarryOn on your computer
 - Android (closed beta on Google Play): Android 7 or later. To join, DM your Gmail address to [@carryon__app on X](https://x.com/carryon__app);
   once you are on the list, [join the test here](https://play.google.com/apps/testing/io.github.carryon.phone). The beta APK is also [here](https://carryon-app.pages.dev/download/android?s=github)
