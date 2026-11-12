@@ -2,8 +2,9 @@
 
 English | [한국어](README.ko.md)
 
-A free menu-bar app that shows every AI coding session on your Mac (Claude Code, Codex, Aside and Gemini CLI) and how full each one's
+A free app that shows every AI coding session on your computer (Claude Code, Codex, Aside and Gemini CLI) and how full each one's
 context is. When one is almost full, one button backs it up and compacts it, so you keep working where you left off.
+**Free on Mac, Windows, iPhone and Android.**
 
 **New:** CarryOn for iPhone is on the App Store.
 
@@ -12,8 +13,8 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 - Mac: macOS 14 or later, Apple silicon and Intel
 - Windows: Windows 10 1903 or later, x64. From the Microsoft Store
 - iPhone: iOS 15 or later. The phone app needs CarryOn on your computer
-- Android (closed beta on Google Play): Android 7 or later. To join, DM your Gmail address to [@carryon__app on X](https://x.com/carryon__app);
-  once you are on the list, [join the test here](https://play.google.com/apps/testing/io.github.carryon.phone). The beta APK is also [here](https://carryon-app.pages.dev/download/android?s=github)
+- Android (closed beta on Google Play): Android 7 or later. To join, [join the Google Group](https://groups.google.com/g/carryon-android-testers) with your Gmail account,
+  then [join the test here](https://play.google.com/apps/testing/io.github.carryon.phone). The beta APK is also [here](https://carryon-app.pages.dev/download/android?s=github)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/en-wide-dark.webp">
@@ -33,6 +34,12 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 
   <img src="docs/img/demo.gif" width="560" alt="Back up &amp; compact on a session at 92%: the backup, the compaction steps, and the ring down to 18% (demo data)">
 
+- **One press, right where it runs.** On a running Claude Code session, **Back up & compact** types `/compact` into its
+  terminal (Terminal, tmux, WezTerm, kitty with remote control on, Orca). The session stays open and keeps its memory.
+  Press it while the session is at work and it is compacted the moment it stops.
+- **Memory Guard.** Turn it on and, also when Claude Code compacts by itself, the conversation from just before is kept
+  for 14 days, and your role, open to-dos and “Keep in mind” notes are put back right after.
+- **One tap on the phone.** [Compact] in the phone's alert has your computer compact that session right away.
 - **Start fresh in Orca.** On Claude Code (or Codex) running in an Orca pane, **Back up & start fresh** backs it up and
   types `/clear` (Codex: `/new`) and then the go-on message there, so it goes on in a fresh session in the same pane.
   CarryOn types into a running session only then: when you press it, while the session is idle with an empty input line.
@@ -50,18 +57,17 @@ context is. When one is almost full, one button backs it up and compacts it, so 
 ## Install
 
 The quickest way is one line in Terminal. It downloads the newest release, checks its SHA-256 against the release,
-quits a running CarryOn and puts the app into Applications, with no Open Anyway step
+quits a running CarryOn and puts the app into Applications
 ([read it first](https://carryon-app.pages.dev/install.sh)):
 
 ```sh
 curl -fsSL https://carryon-app.pages.dev/install.sh | sh
 ```
 
-Or download the `.dmg`. CarryOn is not notarized by Apple, so macOS asks once before it opens:
+Or download the `.dmg`. CarryOn is notarized by Apple:
 
 1. Open the `.dmg` and drag **CarryOn** into **Applications**.
-2. Open the app. macOS says it can't verify it; that is expected. Click **Done**.
-3. Go to **System Settings → Privacy & Security**, scroll down, click **Open Anyway** and confirm.
+2. Open the app. The first time, macOS asks once: click **Open**.
 
 There is no Dock icon: CarryOn lives in the menu bar.
 

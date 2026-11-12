@@ -1,8 +1,8 @@
 #!/bin/sh
 # CarryOn installer: curl -fsSL https://carryon-app.pages.dev/install.sh | sh
 # Downloads the newest release's CarryOn.dmg, checks its SHA-256 against the release's SHA256SUMS.txt, quits a running
-# CarryOn and puts CarryOn.app into /Applications. A file curl downloads carries no quarantine flag, so macOS opens the
-# app without the "Open Anyway" step (CarryOn is not notarized). CARRYON_DEST=<folder> installs there instead and
+# CarryOn and puts CarryOn.app into /Applications. CarryOn is notarized by Apple, and a file curl downloads carries no
+# quarantine flag, so macOS opens the app right away. CARRYON_DEST=<folder> installs there instead and
 # neither quits nor opens CarryOn. All of it is in main, called by the last line: a download cut short runs nothing.
 set -eu
 
