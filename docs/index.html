@@ -530,7 +530,9 @@ if(now)els.forEach(e=>e.classList.add("in"));else{const io=new IntersectionObser
 // count this visit (/api/hit on this site): the path, where it came from (the host only, never this site), the language shown and the link's ?s= tag (ytch, igdm ...); no cookies
 {let r="",t;try{r=new URL(document.referrer).hostname}catch(e){}
 try{t=new URLSearchParams(location.search).get("s");if(!/^[A-Za-z0-9-]{1,32}$/.test(t||""))t=undefined}catch(e){}
-try{navigator.sendBeacon("/api/hit",JSON.stringify({p:location.pathname,r:r===location.hostname?"":r,l:cur,s:t}))}catch(e){}}
+try{navigator.sendBeacon("/api/hit",JSON.stringify({p:location.pathname,r:r===location.hostname?"":r,l:cur,s:t}))}catch(e){}
+// carry that tag onto the download and store buttons (/download?s=yt-261120 …): /download counts the click under the ?s= it is given (lib/stats.js sendOn), so a download is counted under the link that brought the visit
+if(t)document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest('a[href^="/download"]'),h=a&&a.getAttribute("href");if(h&&!/[?&]s=/.test(h))a.setAttribute("href",h+(h.includes("?")?"&":"?")+"s="+t)},true)}
 </script>
 </body>
 </html>
