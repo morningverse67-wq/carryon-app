@@ -2,7 +2,7 @@
 -- /admin shows Korean days: a downloads row keeps its UTC day and time and is converted when read; a hits row is
 -- stored under the Korean day since 2026-11-12 (UTC days before that; lib/stats.js SINCE).
 
--- GET /download, /download/windows, /download/windows-zip, /download/android, /download/ios: one row per click
+-- GET /download, /download/windows, /download/windows-zip, /download/android (Google Play), /download/android-apk, /download/ios: one row per click
 CREATE TABLE IF NOT EXISTS downloads (
   day TEXT NOT NULL DEFAULT (date('now')),
   time TEXT NOT NULL DEFAULT (strftime('%H:%M', 'now')),

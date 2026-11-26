@@ -1,4 +1,4 @@
-import { APK, sendOn } from "../../lib/stats.js";
+import { PLAY, sendOn } from "../../lib/stats.js";
 
-// /download/android: the same as /download, for the Android beta's APK; its row says os = "android".
-export const onRequest = c => sendOn(c, APK, "android");
+// /download/android: CarryOn on Google Play, counted like the other buttons; its row says os = "play@<device>". The APK is /download/android-apk.
+export const onRequest = c => sendOn(c, PLAY, "play");

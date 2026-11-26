@@ -6,10 +6,10 @@ import { keyOk, fileKind, ghReuploads, numbers, kstDay, rowTime, BURST_MIN, HOME
 // ponytail: per_page=100 sums the newest 100 releases only; page through them if there are ever more.
 const RELEASES = "https://api.github.com/repos/morningverse67-wq/carryon-app/releases?per_page=100";
 const LANG = { en: "영어", ko: "한국어", ja: "일본어", zh: "중국어", de: "독일어", fr: "프랑스어", es: "스페인어", it: "이탈리아어", nl: "네덜란드어", pt: "포르투갈어" };
-const KIND = { mac: "Mac DMG", winzip: "Windows ZIP", android: "Android APK", winstore: "Windows · Microsoft Store", ios: "iPhone · App Store" };
-const SHORT = { mac: "Mac", winzip: "Win ZIP", android: "APK", winstore: "MS Store", ios: "App Store" };  // table headers
-const FILES = ["mac", "winzip", "android"], STORES = ["winstore", "ios"];  // a file to keep | a trip to a store page
-const BEGAN = { winstore: "2026-11-11", ios: SINCE };  // the day a button began to be counted, shown until its first click
+const KIND = { mac: "Mac DMG", winzip: "Windows ZIP", android: "Android APK", winstore: "Windows · Microsoft Store", ios: "iPhone · App Store", play: "Android · Google Play" };
+const SHORT = { mac: "Mac", winzip: "Win ZIP", android: "APK", winstore: "MS Store", ios: "App Store", play: "Google Play" };  // table headers
+const FILES = ["mac", "winzip", "android"], STORES = ["winstore", "ios", "play"];  // a file to keep | a trip to a store page
+const BEGAN = { winstore: "2026-11-11", ios: SINCE, play: "2026-11-27" };  // the day a button began to be counted, shown until its first click
 const DEV = { mac: "Mac", windows: "윈도우 PC", android: "안드로이드 폰", iphone: "아이폰", ipad: "아이패드", linux: "리눅스", chromeos: "크롬북", unknown: "알 수 없는 기기", other: "Mac 아닌 기기", "?": "기기 기록 전" };
 const on = d => d === "?" ? DEV[d] : (DEV[d] || d) + "에서";
 // The links' ?s= tags, as people read them. A tag that is not here shows as it is.
