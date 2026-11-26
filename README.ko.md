@@ -8,13 +8,12 @@
 
 **새 소식:** iPhone 앱이 App Store에 나왔어요.
 
-**다운로드:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (Microsoft Store)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (시험판 테스터 모집)](https://carryon-app.pages.dev/?lang=ko&s=github#android) · [웹사이트](https://carryon-app.pages.dev/?lang=ko&s=github)
+**다운로드:** [Mac](https://carryon-app.pages.dev/download?s=github) · [Windows (Microsoft Store)](https://carryon-app.pages.dev/download/windows?s=github) · [iPhone (App Store)](https://apps.apple.com/app/id6831468074?ct=github) · [Android (Google Play)](https://play.google.com/store/apps/details?id=io.github.carryon.phone) · [웹사이트](https://carryon-app.pages.dev/?lang=ko&s=github)
 
 - Mac: macOS 14 이상, Apple 칩·인텔
 - Windows: Windows 10 1903 이상, x64. Microsoft Store에서 받아요
 - iPhone: iOS 15 이상. 휴대폰 앱이라 컴퓨터에 CarryOn이 있어야 해요
-- Android (Google Play 비공개 테스트): Android 7 이상. 참여하려면 Gmail 계정으로 [Google 그룹에 가입](https://groups.google.com/g/carryon-android-testers)한 뒤
-  [여기서 테스트에 참여](https://play.google.com/apps/testing/io.github.carryon.phone)하면 돼요. 시험판 APK는 [여기](https://carryon-app.pages.dev/download/android?s=github)에서도 받을 수 있어요
+- Android: Android 7 이상. [Google Play에서 받기](https://play.google.com/store/apps/details?id=io.github.carryon.phone). 휴대폰 앱이라 컴퓨터에 CarryOn이 있어야 해요
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/ko-wide-dark.webp">
