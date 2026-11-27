@@ -1,6 +1,7 @@
-import { keyOk, fileKind, ghReuploads, numbers, kstDay, rowTime, BURST_MIN, HOME, ME_COOKIE, SINCE } from "../lib/stats.js";
+import { keyOk, adminPass, adminCookie, cookiePass, fileKind, ghReuploads, numbers, kstDay, rowTime, BURST_MIN, HOME, ME_COOKIE, SINCE } from "../lib/stats.js";
 
 // GET /admin?k=<ADMIN_KEY>: the website's numbers, in Korean. Without the right key it is a plain 404.
+// Opening it once with the key leaves a co_admin cookie (a hash of the key, Path=/admin), so a bookmark of plain /admin opens it after.
 // The page holds no key, no link back to itself and no script; only this Function talks to GitHub's API.
 // Opening it with the key marks this browser (the co_me cookie) so its own visits and clicks are not counted.
 // ponytail: per_page=100 sums the newest 100 releases only; page through them if there are ever more.
@@ -29,7 +30,9 @@ const nice = n => { const p = 10 ** Math.floor(Math.log10(Math.max(1, n))); retu
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
-  if (!keyOk(url.searchParams.get("k"), env.ADMIN_KEY)) return new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
+  const viaKey = keyOk(url.searchParams.get("k"), env.ADMIN_KEY);
+  const pass = typeof env.ADMIN_KEY === "string" && env.ADMIN_KEY.length >= 32 ? await adminPass(env.ADMIN_KEY) : "";
+  if (!viaKey && !(pass && keyOk(cookiePass(request), pass))) return new Response("Not found", { status: 404, headers: { "Cache-Control": "no-store" } });
   const now = Date.now();
   const [live, s] = await Promise.all([releases(), numbers(env.DB, now)]);
   const gh = typeof live === "string" ? fromSnaps(s.ghSnaps) || live : live;  // GitHub의 한도(403)에 걸리면 가장 최근 매일 기록으로
@@ -111,10 +114,12 @@ ${ghSection(gh, s, days)}
 <h2 id="reports">버그 제보 <small>최근 30개 · 사이트의 제보 폼</small></h2>
 ${s.reports.length ? s.reports.map(report).join("") : '<p class="note">아직 없어요</p>'}
 </main></body></html>`;
-  return new Response(html, { headers: {
+  const headers = new Headers({
     "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "Referrer-Policy": "no-referrer", "X-Robots-Tag": "noindex", "Set-Cookie": ME_COOKIE,
     "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
-  } });
+  });
+  if (viaKey) headers.append("Set-Cookie", adminCookie(pass));
+  return new Response(html, { headers });
 }
 
 // The releases as rows {tag, date, pre, files: {mac, windows, android, other}, assets: [{tag, name, count, made}]}
